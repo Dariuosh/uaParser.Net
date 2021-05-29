@@ -27,7 +27,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =  Vendors.Samsung;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                       
                 }
@@ -42,7 +42,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Samsung;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                       
                 }
@@ -57,7 +57,7 @@ namespace uaParserLibrary.Expressions
                 Action =  (Match match, Device device) =>
                 {
                     device.Vendor =  Vendors.Apple;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                       
                 }
@@ -73,7 +73,7 @@ namespace uaParserLibrary.Expressions
                 Action =  (Match match, Device device) =>
                 {
                     device.Vendor =  Vendors.Apple;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -88,7 +88,7 @@ namespace uaParserLibrary.Expressions
                 Action =  (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Huawei;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -103,7 +103,7 @@ namespace uaParserLibrary.Expressions
                 Action =  (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Huawei;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -127,7 +127,7 @@ namespace uaParserLibrary.Expressions
                 Action =  (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Xiaomi;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -142,7 +142,7 @@ namespace uaParserLibrary.Expressions
                 Action =  (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Xiaomi;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -158,7 +158,7 @@ namespace uaParserLibrary.Expressions
                 Action =   (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.OPPO;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -174,7 +174,7 @@ namespace uaParserLibrary.Expressions
                 Action =  (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Vivo;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -189,7 +189,7 @@ namespace uaParserLibrary.Expressions
                 Action =  (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Realme;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -206,7 +206,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Motorola;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -220,7 +220,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Motorola;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -234,7 +234,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.LG;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -249,7 +249,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.LG;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -265,7 +265,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Lenovo;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -281,7 +281,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Nokia;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model =match.Groups[Keywords.Model].Value.Replace("_"," ");
                     
                 }
@@ -296,7 +296,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Google;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -310,7 +310,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Google;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -325,7 +325,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Sony;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -339,7 +339,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Sony;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model ="Xperia Tablet";
                     
                 }
@@ -356,7 +356,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.OnePlus;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -376,7 +376,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Amazon;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -392,7 +392,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Amazon;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = "Fire Phone $1";
                     
                 }
@@ -408,7 +408,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.BlackBerry;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -424,7 +424,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.BlackBerry;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -440,7 +440,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.ASUS;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -454,7 +454,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.ASUS;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -470,7 +470,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.HTC;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -490,7 +490,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =match.Groups[Keywords.Vendor].Value;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model =match.Groups[Keywords.Model].Value.Replace("_"," ");
                     
                 }
@@ -505,7 +505,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.Acer;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -521,7 +521,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.Meizu;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model =match.Groups[Keywords.Model].Value;
                     
                 }
@@ -548,7 +548,7 @@ namespace uaParserLibrary.Expressions
                 Action =  (Match match, Device device) =>
                 {
                     device.Vendor = match.Groups[Keywords.Vendor].Value;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -579,7 +579,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = match.Groups[Keywords.Vendor].Value;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -594,7 +594,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Microsoft;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -609,7 +609,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "Fairphone";
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -624,7 +624,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.AT_T;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -639,7 +639,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Siemens;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -654,7 +654,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "RCA";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -669,7 +669,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Dell;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -684,7 +684,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Verizon;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -699,7 +699,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "Barnes & Noble";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -712,7 +712,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "NuVision";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -728,7 +728,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.ZTE;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -743,7 +743,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.ZTE;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -759,7 +759,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Swiss;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -774,7 +774,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Swiss;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -789,7 +789,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "Zeki";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -806,7 +806,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "Dragon Touch";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -822,7 +822,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "Insignia";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -838,7 +838,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "NextBook";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -854,7 +854,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "Voice";
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -870,7 +870,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "LvTel";
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -886,7 +886,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "Essential";
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -902,7 +902,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "Envizen";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -918,7 +918,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "MachSpeed";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -933,7 +933,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "Rotor";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -948,7 +948,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = "Nvidia";
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -963,7 +963,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = match.Groups[Keywords.Vendor].Value;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -978,7 +978,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Microsoft;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value.Replace("."," ");
                     
                 }
@@ -993,7 +993,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Zebra;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1006,7 +1006,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Zebra;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1029,7 +1029,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = match.Groups[Keywords.Vendor].Value;
-                    device.Type = Keywords.Console;
+                    device.Type = DeviceType.Console;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1044,7 +1044,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Nvidia;
-                    device.Type = Keywords.Console;
+                    device.Type = DeviceType.Console;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1059,7 +1059,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Sony;
-                    device.Type = Keywords.Console;
+                    device.Type = DeviceType.Console;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1074,7 +1074,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.Microsoft;
-                    device.Type = Keywords.Console;
+                    device.Type = DeviceType.Console;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1093,7 +1093,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =match.Groups[Keywords.Vendor].Value;
-                    device.Type = Keywords.SmartTV;
+                    device.Type = DeviceType.SmartTV;
                     device.Model = Keywords.Undefined;
                     
                 }
@@ -1106,7 +1106,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Samsung;
-                    device.Type = Keywords.SmartTV;
+                    device.Type = DeviceType.SmartTV;
                     device.Model =   string.Concat("SmartTV",match.Groups[Keywords.Model].Value);
                     
                 }
@@ -1121,7 +1121,7 @@ namespace uaParserLibrary.Expressions
                 Action =  (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.LG;
-                    device.Type = Keywords.SmartTV;
+                    device.Type = DeviceType.SmartTV;
                     device.Model = Keywords.Undefined;
                     
                 }
@@ -1136,7 +1136,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =match.Groups[Keywords.Vendor].Value;
-                    device.Type = Keywords.SmartTV;
+                    device.Type = DeviceType.SmartTV;
                     device.Model =   "Apple TV";
                     
                 }
@@ -1151,7 +1151,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.Google;
-                    device.Type = Keywords.SmartTV;
+                    device.Type = DeviceType.SmartTV;
                     device.Model = "Chromecast";
                     
                 }
@@ -1166,7 +1166,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Amazon;
-                    device.Type = Keywords.SmartTV;
+                    device.Type = DeviceType.SmartTV;
                     device.Model = match.Groups[Keywords.Model].Value ;
                     
                 }
@@ -1181,7 +1181,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Sharp;
-                    device.Type = Keywords.SmartTV;
+                    device.Type = DeviceType.SmartTV;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1199,7 +1199,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = match.Groups[Keywords.Vendor].Value.Trim();
-                    device.Type = Keywords.SmartTV;
+                    device.Type = DeviceType.SmartTV;
                     device.Model = match.Groups[Keywords.Model].Value.Trim();
                     
                 }
@@ -1214,7 +1214,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Keywords.Undefined;
-                    device.Type = Keywords.SmartTV;
+                    device.Type = DeviceType.SmartTV;
                     device.Model = Keywords.Undefined;
                     
                 }
@@ -1233,7 +1233,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = match.Groups[Keywords.Vendor].Value;
-                    device.Type = Keywords.Wearable;
+                    device.Type = DeviceType.Wearable;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1248,7 +1248,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor =Vendors.Google;
-                    device.Type = Keywords.Wearable;
+                    device.Type = DeviceType.Wearable;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1261,7 +1261,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Vendors.Zebra;
-                    device.Type = Keywords.Wearable;
+                    device.Type = DeviceType.Wearable;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1281,7 +1281,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = match.Groups[Keywords.Vendor].Value;
-                    device.Type = Keywords.Embedded;
+                    device.Type = DeviceType.Embedded;
                     device.Model = Keywords.Undefined ;
                     
                 }
@@ -1301,7 +1301,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Keywords.Undefined;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1316,7 +1316,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Keywords.Undefined;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = match.Groups[Keywords.Model].Value;
                     
                 }
@@ -1331,7 +1331,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Keywords.Undefined;
-                    device.Type = Keywords.Tablet;
+                    device.Type = DeviceType.Tablet;
                     device.Model = Keywords.Undefined;
                     
                 }
@@ -1346,7 +1346,7 @@ namespace uaParserLibrary.Expressions
                 Action = (Match match, Device device) =>
                 {
                     device.Vendor = Keywords.Undefined;
-                    device.Type = Keywords.Mobile;
+                    device.Type = DeviceType.Mobile;
                     device.Model = Keywords.Undefined;
                     
                 }

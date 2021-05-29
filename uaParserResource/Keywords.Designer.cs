@@ -61,24 +61,6 @@ namespace uaParserResource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to console.
-        /// </summary>
-        public static string Console {
-            get {
-                return ResourceManager.GetString("Console", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to embedded.
-        /// </summary>
-        public static string Embedded {
-            get {
-                return ResourceManager.GetString("Embedded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Generic.
         /// </summary>
         public static string Generic {
@@ -88,38 +70,11 @@ namespace uaParserResource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to mobile.
-        /// </summary>
-        public static string Mobile {
-            get {
-                return ResourceManager.GetString("Mobile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Model.
         /// </summary>
         public static string Model {
             get {
                 return ResourceManager.GetString("Model", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to smarttv.
-        /// </summary>
-        public static string SmartTV {
-            get {
-                return ResourceManager.GetString("SmartTV", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to tablet.
-        /// </summary>
-        public static string Tablet {
-            get {
-                return ResourceManager.GetString("Tablet", resourceCulture);
             }
         }
         
@@ -147,15 +102,6 @@ namespace uaParserResource {
         public static string Vendor {
             get {
                 return ResourceManager.GetString("Vendor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to wearable.
-        /// </summary>
-        public static string Wearable {
-            get {
-                return ResourceManager.GetString("Wearable", resourceCulture);
             }
         }
     }

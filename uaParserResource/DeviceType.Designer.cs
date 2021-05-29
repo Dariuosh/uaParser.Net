@@ -22,14 +22,14 @@ namespace uaParserResource {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Keywords {
+    public class DeviceType {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Keywords() {
+        internal DeviceType() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace uaParserResource {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uaParserResource.Keywords", typeof(Keywords).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uaParserResource.DeviceType", typeof(DeviceType).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,29 @@ namespace uaParserResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to console.
+        /// </summary>
+        public static string Console {
+            get {
+                return ResourceManager.GetString("Console", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to embedded.
+        /// </summary>
+        public static string Embedded {
+            get {
+                return ResourceManager.GetString("Embedded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to mobile.
         /// </summary>
         public static string Mobile {
             get {
                 return ResourceManager.GetString("Mobile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Model.
-        /// </summary>
-        public static string Model {
-            get {
-                return ResourceManager.GetString("Model", resourceCulture);
             }
         }
         
@@ -97,29 +106,11 @@ namespace uaParserResource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type.
+        ///   Looks up a localized string similar to wearable.
         /// </summary>
-        public static string Type {
+        public static string Wearable {
             get {
-                return ResourceManager.GetString("Type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to undefined.
-        /// </summary>
-        public static string Undefined {
-            get {
-                return ResourceManager.GetString("Undefined", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Vendor.
-        /// </summary>
-        public static string Vendor {
-            get {
-                return ResourceManager.GetString("Vendor", resourceCulture);
+                return ResourceManager.GetString("Wearable", resourceCulture);
             }
         }
     }

@@ -117,19 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Generic" xml:space="preserve">
-    <value>Generic</value>
+  <data name="Console" xml:space="preserve">
+    <value>console</value>
   </data>
-  <data name="Model" xml:space="preserve">
-    <value>Model</value>
+  <data name="Embedded" xml:space="preserve">
+    <value>embedded</value>
   </data>
-  <data name="Type" xml:space="preserve">
-    <value>Type</value>
+  <data name="Mobile" xml:space="preserve">
+    <value>mobile</value>
   </data>
-  <data name="Undefined" xml:space="preserve">
-    <value>undefined</value>
+  <data name="SmartTV" xml:space="preserve">
+    <value>smarttv</value>
   </data>
-  <data name="Vendor" xml:space="preserve">
-    <value>Vendor</value>
+  <data name="Tablet" xml:space="preserve">
+    <value>tablet</value>
+  </data>
+  <data name="Wearable" xml:space="preserve">
+    <value>wearable</value>
   </data>
 </root>
