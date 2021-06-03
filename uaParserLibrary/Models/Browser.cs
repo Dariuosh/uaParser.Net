@@ -8,7 +8,7 @@
 
         public string Version { get; set; }
 
-        public override string ToString() => $"{{Name: \"{Name}\", Version: \"{Version}\"}}";
+        public override string ToString() => $"{"Browser",-7}: {Name} {Version}";
 
         public Browser Empty
         {

@@ -167,6 +167,22 @@ namespace uaParserLibrary
             return clientInfo;
         }
 
+        public static ClientInfo GetClientInfo(string UserAgent,string Renderer)
+        {
+            clientInfo ??= new ClientInfo();
+
+            clientInfo.Browser = GetBrowser(UserAgent);
+            clientInfo.CPU = GetCPU(UserAgent);
+            clientInfo.Engine = GetEngine(UserAgent);
+            clientInfo.OS = GetOS(UserAgent);
+            clientInfo.Device = GetDevice(UserAgent);
+            clientInfo.GPU = GetGPU(Renderer);
+            return clientInfo;
+        }
+
+
+
+
         private static string ReadQuotedValue(string value)
         {
             if (value.StartsWith("'") && value.EndsWith("'") || (value.StartsWith("\"") && value.EndsWith("\"")))

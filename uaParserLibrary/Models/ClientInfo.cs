@@ -2,10 +2,12 @@
 {
     public  class ClientInfo
     {
-        public Browser Browser { get; internal set; }
-        public CPU CPU { get; internal set; }
-        public Engine Engine { get; internal set; }
-        public OS OS { get; internal set; }
-        public Device Device { get; internal set; }
+        public Browser Browser { get;  set; }
+        public CPU CPU { get;  set; }
+        public Engine Engine { get;  set; }
+        public OS OS { get;  set; }
+        public Device Device { get;  set; }
+        public GPU GPU { get; set; }
+       
     }
 }

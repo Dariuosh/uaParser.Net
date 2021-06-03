@@ -32,24 +32,30 @@ namespace uaParserLibrary.Expressions
             os.Version = match.Groups["Version"].Value;
         }
 
-        public static IReadOnlyList<OSMatch> Matches = new List<OSMatch> {
+        public static IReadOnlyList<OSMatch> Matches = new List<OSMatch> 
+        {
             // Windows-based
-            new OSMatch{
-                Regexes = new List<Regex>{
+            new OSMatch
+            {
+                Regexes = new List<Regex>
+                {
                     Util.CreateRegex(@"microsoft\s(?<Name>windows)\s(?<Version>vista|xp)")
                 },
                 Action = NameVersionAction
             },
             // Windows based
-            new OSMatch{
-                Regexes = new List<Regex>{
+            new OSMatch
+            {
+                Regexes = new List<Regex>
+                {
                     // Windows RT
                     Util.CreateRegex(@"(?<Name>windows) nt 6\.2; (?<Version>arm)"),
                     // Windows Phone
                     Util.CreateRegex(@"(?<Name>windows (?:phone(?: os)?|mobile))[\/ ]?(?<Version>[\d\.\w ]*)"),
                     Util.CreateRegex(@"(?<Name>windows)[\/ ]?(?<Version>[ntce\d\. ]+\w)(?!.+xbox)"),
                 },
-                Action = (Match match,OS os) =>{
+                Action = (Match match,OS os) =>
+                {
                     os.Name = match.Groups["Name"].Value;
 
                     os.Version= WindowsVersion.FirstOrDefault(
@@ -58,8 +64,10 @@ namespace uaParserLibrary.Expressions
                 }
             },
             // Windows based
-            new OSMatch{
-                Regexes = new List<Regex>{
+            new OSMatch
+            {
+                Regexes = new List<Regex>
+                {
                     // Windows RT
                     Util.CreateRegex(@"(?<Name>win(?=3|9|n)|win 9x )(?<Version>[nt\d\.]+)")
                 },
@@ -72,7 +80,8 @@ namespace uaParserLibrary.Expressions
             },
             // iOS/macOS
             new OSMatch{
-                Regexes = new List<Regex>{
+                Regexes = new List<Regex>
+                {
                     // Opera mini on iphone >= 8.0
                     Util.CreateRegex(@"ip[honead]{2,4}\b(?:.*os (?<Version>[\w]+) like mac|; opera)"),
                     Util.CreateRegex(@"cfnetwork\/.+darwin")
@@ -85,7 +94,8 @@ namespace uaParserLibrary.Expressions
             },
             // Mac OS
             new OSMatch{
-                Regexes = new List<Regex>{
+                Regexes = new List<Regex>
+                {
                     // Opera mini on iphone >= 8.0
                     Util.CreateRegex(@"(mac os x) ?(?<Version>[\w\. ]*)"),
                     Util.CreateRegex(@"(macintosh|mac_powerpc\b)(?!.+haiku)")
@@ -98,7 +108,8 @@ namespace uaParserLibrary.Expressions
             } ,
             // Mobile OSes - Android-x86
             new OSMatch{
-                Regexes = new List<Regex>{
+                Regexes = new List<Regex>
+                {
                     Util.CreateRegex(@"droid (?<Version>[\w\.]+)\b.+(?<Name>android[- ]x86)")
                 },
                 Action = NameVersionAction

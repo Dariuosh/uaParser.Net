@@ -8,14 +8,14 @@
         public GPU Empty
         {
             get
-            {
-                Model = "Other";
+            {   
                 Vendor = "Other";
+                Model = string.Empty;                
                 return this;
             }
         }
 
-        public override string ToString() => $"{{Vendor: \"{Vendor}\", Model: \"{Model}\"}}";
+        public override string ToString() => $"{"GPU",-7}: {Vendor} {Model}";
     }
 }
 

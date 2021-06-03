@@ -15,6 +15,6 @@
             }
         }
 
-        public override string ToString() => $"{{Name: \"{Name}\", Version: \"{Version}\"}}";
+        public override string ToString() => $"{"OS",-7}: {Name} {Version}";
     }
 }

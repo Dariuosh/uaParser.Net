@@ -7,7 +7,7 @@ namespace uaParserLibrary.Models
         public string Architecture { get; set; }
 
 
-        public override string ToString() => $"{{Architecture: \"{Architecture}\"}}";
+        public override string ToString() => $"{"CPU",-7}: {Architecture}";
 
         public CPU Empty
         {

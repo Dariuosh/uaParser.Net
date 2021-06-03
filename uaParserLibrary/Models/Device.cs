@@ -10,13 +10,13 @@
         {
             get
             {
-                Vendor = "Other";
-                Type = "Other";
-                Model = "Other";
+                Vendor = "UnKnown";
+                Type = string.Empty;
+                Model =string.Empty;
                 return this;
             }
         }
 
-        public override string ToString() => $"{{Vendor: \"{Vendor}\", Type: \"{Type}\", Model: \"{Model}\"}}";
+        public override string ToString() => $"{"Device",-7}: {Vendor} {Type} {Model}";
     }
 }
