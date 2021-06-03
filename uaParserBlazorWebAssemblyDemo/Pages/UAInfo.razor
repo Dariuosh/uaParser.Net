@@ -1,0 +1,32 @@
+﻿@page "/ua"
+@using uaParserLibrary
+@inject IJSRuntime JSRuntime
+
+
+
+<h2>UserAgent</h2>
+
+<select 
+	class="form-select form-select-lg mb-3" 
+	@onchange="(e)=>{uaString=e.Value.ToString();}">
+	<option selected>Open this select menu</option>
+	@foreach (var ua in UserAgentSampleList.UserAgent)
+	{
+	 <option>@ua</option>
+	}
+</select>
+<div>
+	<input style="width: 100%;" type="text" @bind="uaString" />
+</div>
+<br />
+<button @onclick="ParseUA">Parse UserAgent</button>
+<br />
+<ul>
+	<li><h3><pre>@result.Browser</pre></h3></li>
+	<li><h3><pre>@result.Engine</pre></h3></li>
+	<li><h3><pre>@result.CPU</pre></h3></li>
+	<li><h3><pre>@result.OS</pre></h3></li>
+	<li><h3><pre>@result.Device</pre></h3></li>
+	<li><h3><pre>@result.GPU</pre></h3></li>
+</ul>
+

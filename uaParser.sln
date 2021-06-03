@@ -9,7 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uaParserLibrary", "uaParser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uaParserTest", "uaParserTest\uaParserTest.csproj", "{2A1AA0B4-0DEA-4EE2-898F-6E3CB0130AE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uaParserResource", "uaParserResource\uaParserResource.csproj", "{315BD678-A7EF-4197-A3A7-1AC907EE8820}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uaParserResource", "uaParserResource\uaParserResource.csproj", "{315BD678-A7EF-4197-A3A7-1AC907EE8820}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uaParserMiddleware", "uaParserMiddleware\uaParserMiddleware.csproj", "{F5D3F4EE-1E9E-4510-81AB-BCCCA0C5E392}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uaParserBlazorServerDemo", "uaParserBlazorServerDemo\uaParserBlazorServerDemo.csproj", "{A38670DE-17B0-40B3-99E7-63CC8AC2F671}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uaParserBlazorWebAssemblyDemo", "uaParserBlazorWebAssemblyDemo\uaParserBlazorWebAssemblyDemo.csproj", "{AFCEC6BB-99B2-4269-8648-D17801B3E801}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{315BD678-A7EF-4197-A3A7-1AC907EE8820}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{315BD678-A7EF-4197-A3A7-1AC907EE8820}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{315BD678-A7EF-4197-A3A7-1AC907EE8820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5D3F4EE-1E9E-4510-81AB-BCCCA0C5E392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5D3F4EE-1E9E-4510-81AB-BCCCA0C5E392}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5D3F4EE-1E9E-4510-81AB-BCCCA0C5E392}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5D3F4EE-1E9E-4510-81AB-BCCCA0C5E392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A38670DE-17B0-40B3-99E7-63CC8AC2F671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A38670DE-17B0-40B3-99E7-63CC8AC2F671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A38670DE-17B0-40B3-99E7-63CC8AC2F671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A38670DE-17B0-40B3-99E7-63CC8AC2F671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFCEC6BB-99B2-4269-8648-D17801B3E801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCEC6BB-99B2-4269-8648-D17801B3E801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCEC6BB-99B2-4269-8648-D17801B3E801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCEC6BB-99B2-4269-8648-D17801B3E801}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
