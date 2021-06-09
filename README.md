@@ -35,7 +35,8 @@
   - returns `ClientInfo`
 
 ## Examples
-### Console App
+### Console Application
+###### Program.cs
 ```C#
 using System;
 
