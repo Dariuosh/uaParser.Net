@@ -35,7 +35,7 @@
   - returns `ClientInfo`
 
 ## Examples
-### Sample 1
+### Console App
 ```C#
 using System;
 
@@ -44,7 +44,7 @@ using uaParserLibrary.Models;
 
 namespace uaParserConsole
 {
-    internal static class SampleProgram
+    internal static class Program
 
     {
         private static void Main(string[] args)
@@ -56,20 +56,25 @@ namespace uaParserConsole
             Console.WriteLine(browser.Name);     // Edge 
 
             CPU cpu = UAParser.GetCPU(uaString);
-            
             Console.WriteLine(cpu);              // CPU    : amd64
             Console.WriteLine(cpu.Architecture); // amd64
 
             Engine engine = UAParser.GetEngine(uaString);
             Console.WriteLine(engine);           // Engine : Blink 92.0.4501.0
-            Console.WriteLine(engine.Name);      // Engine
+            Console.WriteLine(engine.Name);      // Blink
 
             OS os = UAParser.GetOS(uaString);
-            Console.WriteLine(os);               // OS: Windows 10
+            Console.WriteLine(os);               // OS     : Windows 10
             Console.WriteLine(os.Name);          // Windows
 
             Device device = UAParser.GetDevice(uaString);
-            Console.WriteLine(device);           // Device: UnKnown
+            Console.WriteLine(device);           // Device : UnKnown
+
+            ClientInfo clientInfo = UAParser.GetClientInfo(uaString);
+            Console.WriteLine(clientInfo.Browser);           // Browser: Edge 92.0.891.0
+            Console.WriteLine(clientInfo.CPU.Architecture);  // amd64
+            Console.WriteLine(clientInfo.OS);                // OS     : Windows 10
+            Console.WriteLine(clientInfo.Engine.Name);       // Blink
         }
     }
 }
