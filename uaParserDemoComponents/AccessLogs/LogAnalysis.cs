@@ -99,6 +99,7 @@ public sealed class LogAnalysis
             Overflow,
             rows.Count,
             rows.Where(r => r.Info.Browser.Name is not null).Sum(r => r.Count),
+            rows.Where(r => r.Info.Bot.IsBot).Sum(r => r.Count),
             _parseTime,
             Browsers: By(i => i.Browser.Name),
             BrowserVersions: By(i => Words.Browser(i.Browser)),
@@ -109,7 +110,9 @@ public sealed class LogAnalysis
             Models: By(i => Words.DeviceName(i.Device)),
             Engines: By(i => i.Engine.Name),
             Cpus: By(i => i.CPU.Architecture),
-            Unrecognized: [.. rows.Where(r => r.Info.Browser.Name is null).Take(12)],
+            Bots: [.. By(i => i.Bot.Name).Where(s => s.Label is not null)],
+            BotKinds: [.. By(i => i.Bot.IsBot ? Words.BotKind(i.Bot.Category) : null).Where(s => s.Label is not null)],
+            Unrecognized: [.. rows.Where(r => r.Info.Browser.Name is null && !r.Info.Bot.IsBot).Take(12)],
             Rows: rows);
     }
 }
@@ -118,6 +121,7 @@ public sealed class LogAnalysis
 public sealed record LogRow(string UserAgent, long Count, ClientInfo Info);
 
 /// <param name="Recognized">Requests whose browser was recognised.</param>
+/// <param name="BotRequests">Requests from bots.</param>
 /// <param name="ParseTime">Time spent parsing the distinct user agents.</param>
 public sealed record LogReport(
     string Format,
@@ -126,6 +130,7 @@ public sealed record LogReport(
     long Overflow,
     int Distinct,
     long Recognized,
+    long BotRequests,
     TimeSpan ParseTime,
     IReadOnlyList<Slice> Browsers,
     IReadOnlyList<Slice> BrowserVersions,
@@ -136,5 +141,7 @@ public sealed record LogReport(
     IReadOnlyList<Slice> Models,
     IReadOnlyList<Slice> Engines,
     IReadOnlyList<Slice> Cpus,
+    IReadOnlyList<Slice> Bots,
+    IReadOnlyList<Slice> BotKinds,
     IReadOnlyList<LogRow> Unrecognized,
     IReadOnlyList<LogRow> Rows);

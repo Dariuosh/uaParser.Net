@@ -70,7 +70,12 @@
             <div class="stat">
                 <span class="stat-value">@Percent(report.Recognized, report.Requests)</span>
                 <span class="stat-label">browser recognised</span>
-                <span class="stat-note">the rest are mostly bots and tools</span>
+                <span class="stat-note">bots and tools often name none</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">@Percent(report.BotRequests, report.Requests)</span>
+                <span class="stat-label">from bots</span>
+                <span class="stat-note">crawlers, previews, monitors, tools</span>
             </div>
             <div class="stat">
                 <span class="stat-value">@Speed(report)</span>
@@ -111,13 +116,18 @@
             <BarList Title="Device models" Icon="mobile" Part="device" Items="report.Models" Total="report.Requests" />
             <BarList Title="Engines" Icon="engine" Part="engine" Items="report.Engines" Total="report.Requests" />
             <BarList Title="CPU" Icon="cpu" Part="cpu" Items="report.Cpus" Total="report.Requests" />
+            @if (report.Bots.Count > 0)
+            {
+                <BarList Title="Bots" Icon="bot" Part="bot" Items="report.Bots" Total="report.Requests" />
+                <BarList Title="Kinds of bots" Icon="bot" Part="bot" Items="report.BotKinds" Total="report.Requests" />
+            }
         </div>
 
         @if (report.Unrecognized.Count > 0)
         {
             <section class="card">
-                <h3 class="chart-title"><span class="part-icon"><Icon Name="alert" Size="18" /></span> Most frequent user agents without a recognised browser</h3>
-                <p class="muted small">ua-parser-js 1.0.41 has no rules for most bots and tools; they show up here.</p>
+                <h3 class="chart-title"><span class="part-icon"><Icon Name="alert" Size="18" /></span> Most frequent user agents without a recognised browser or bot</h3>
+                <p class="muted small">Scripts, apps and rare clients often send user agents no rule knows.</p>
                 <ol class="ua-list">
                     @foreach (var row in report.Unrecognized)
                     {
@@ -237,14 +247,14 @@
         if (_report is null)
             return;
 
-        var csv = new StringBuilder("requests,user_agent,browser,browser_version,engine,engine_version,os,os_version,device_vendor,device_model,device_type,cpu\n");
+        var csv = new StringBuilder("requests,user_agent,browser,browser_version,engine,engine_version,os,os_version,device_vendor,device_model,device_type,cpu,bot,bot_category\n");
         foreach (var row in _report.Rows)
         {
             var i = row.Info;
             csv.AppendJoin(',', row.Count.ToString(CultureInfo.InvariantCulture), Csv(row.UserAgent),
                 Csv(i.Browser.Name), Csv(i.Browser.Version), Csv(i.Engine.Name), Csv(i.Engine.Version),
                 Csv(i.OS.Name), Csv(i.OS.Version), Csv(i.Device.Vendor), Csv(i.Device.Model), Csv(i.Device.Type),
-                Csv(i.CPU.Architecture)).Append('\n');
+                Csv(i.CPU.Architecture), Csv(i.Bot.Name), Csv(i.Bot.Category)).Append('\n');
         }
 
         await using var stream = new MemoryStream(Encoding.UTF8.GetBytes(csv.ToString()));

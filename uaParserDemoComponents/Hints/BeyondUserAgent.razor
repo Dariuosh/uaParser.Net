@@ -37,25 +37,29 @@ else
         {
             <p class="muted">
                 Chromium-based browsers now send a reduced, “frozen” User-Agent string: some values in it are
-                fixed, whatever the real ones are. The real values are only available through Client Hints.
-                Here is what each says.
+                fixed, whatever the real ones are. The real values come as Client Hints, and uaParser.Net reads
+                them too: <code>UAParser.GetClientInfo(userAgent, hints)</code>.
             </p>
             <div class="table-wrap">
                 <table class="compare-table">
                     <thead>
-                        <tr><th scope="col"></th><th scope="col">User-Agent string (uaParser.Net)</th><th scope="col">Client Hints</th><th scope="col"></th></tr>
+                        <tr><th scope="col"></th><th scope="col">User-Agent string only</th><th scope="col">With Client Hints</th><th scope="col"></th></tr>
                     </thead>
                     <tbody>
-                        @foreach (var row in Rows(_hints))
+                        @foreach (var row in Rows())
                         {
                             <tr>
                                 <th scope="row">@row.Label</th>
                                 <td><Value Text="@row.FromUserAgent" /></td>
-                                <td><Value Text="@row.FromHints" Empty="not sent" /></td>
+                                <td><Value Text="@row.WithHints" /></td>
                                 <td>
-                                    @if (row.Verdict is { } verdict)
+                                    @if (row.FromUserAgent != row.WithHints)
                                     {
-                                        <span class="verdict v-@verdict.Kind">@verdict.Text</span>
+                                        <span class="verdict v-more">more precise</span>
+                                    }
+                                    else if (row.FromUserAgent is not null)
+                                    {
+                                        <span class="verdict v-same">same</span>
                                     }
                                 </td>
                             </tr>
@@ -63,9 +67,13 @@ else
                     </tbody>
                 </table>
             </div>
+            <p class="muted small">What your browser sent:</p>
+            <code class="block">@_hints.ToString()</code>
             <p class="muted small">
-                uaParser.Net 2.0 reads the User-Agent string only, like ua-parser-js 1.x. Servers can ask for Client
-                Hints with the <code>Accept-CH</code> header; the Blazor Server demo shows them.
+                Without being asked, browsers only send the brands, “mobile” and the platform. A server asks for
+                the rest with an <code>Accept-CH</code> header (<code>UAParserOptions.RequestClientHints</code>
+                in ASP.NET Core); in the browser, <code>navigator.userAgentData.getHighEntropyValues</code> gives
+                them, as on this page.
             </p>
         }
     </section>
@@ -99,100 +107,44 @@ else
     [Parameter, EditorRequired] public ClientInfo Info { get; set; } = default!;
 
     private bool _loaded;
-    private JsClientHints? _hints;
+    private ClientHints? _hints;
+    private ClientInfo? _withHints;
+    private ClientInfo? _withoutHints;
     private string? _renderer;
     private GPU? _gpu;
     private int _touchPoints;
     private bool _iPadLike;
 
-    private sealed record Row(string Label, string? FromUserAgent, string? FromHints, Verdict? Verdict);
-
-    private sealed record Verdict(string Kind, string Text);
+    private sealed record Row(string Label, string? FromUserAgent, string? WithHints);
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)
             return;
 
-        _hints = await Js.ClientHintsAsync();
+        _hints = (await Js.ClientHintsAsync())?.ToClientHints();
+        _withoutHints = UAParser.GetClientInfo(Info.UserAgent);
+        _withHints = _hints is null ? null : UAParser.GetClientInfo(Info.UserAgent, _hints);
         _renderer = await Js.WebGLRendererAsync();
         _gpu = _renderer is null ? null : UAParser.GetGPU(_renderer);
         _touchPoints = await Js.MaxTouchPointsAsync();
-        _iPadLike = Info.OS.Name == "Mac OS" && _touchPoints > 1;
+        _iPadLike = Info.OS.Name == "Mac OS" && _touchPoints > 1 && _hints is null;
         _loaded = true;
         StateHasChanged();
     }
 
-    private IEnumerable<Row> Rows(JsClientHints hints)
+    private IEnumerable<Row> Rows()
     {
-        var browsers = (hints.FullVersionList ?? hints.Brands).Where(b => !IsGrease(b.Brand)).ToList();
-        var browser = browsers.FirstOrDefault(b => b.Brand != "Chromium") ?? browsers.FirstOrDefault();
-        var fromHints = browser is null ? null : $"{browser.Brand} {browser.Version}";
-        var uaBrowser = Words.Join(Info.Browser.Name, Info.Browser.Version);
-        yield return new Row("Browser", uaBrowser, fromHints,
-            Info.Browser.Version is { } v && v.EndsWith(".0.0.0") && hints.FullVersionList is not null
-                ? new Verdict("more", "full version only in hints")
-                : null);
+        if (_withoutHints is not { } ua || _withHints is not { } hints)
+            yield break;
 
-        var system = SystemFromHints(hints);
-        yield return new Row("Operating system", Words.OS(Info.OS), system, CompareSystems(hints, system));
-
-        var model = hints.Model is null ? null : hints.Model.Length == 0 ? "(none)" : hints.Model;
-        yield return new Row("Device model", Info.Device.Model, model,
-            Info.Device.Model == "K" && !string.IsNullOrEmpty(hints.Model)
-                ? new Verdict("differ", "“K” is a placeholder")
-                : null);
-
-        var architecture = hints.Architecture is { Length: > 0 } a
-            ? Words.Join(a, hints.Bitness is { Length: > 0 } b ? $"({b}-bit)" : null)
-            : null;
-        yield return new Row("CPU", Info.CPU.Architecture, architecture, null);
-
-        yield return new Row("Mobile", Words.DeviceKind(Info.Device.Type) ?? "no device type",
-            (hints.Mobile ? "mobile" : "not mobile") + (hints.FormFactors is { Count: > 0 } f ? $" · {string.Join(", ", f)}" : ""),
-            null);
+        yield return new Row("Browser", Words.Join(ua.Browser.Name, ua.Browser.Version), Words.Join(hints.Browser.Name, hints.Browser.Version));
+        yield return new Row("Engine", Words.Engine(ua.Engine), Words.Engine(hints.Engine));
+        yield return new Row("Operating system", Words.OS(ua.OS), Words.OS(hints.OS));
+        yield return new Row("Device", Device(ua.Device), Device(hints.Device));
+        yield return new Row("CPU", ua.CPU.Architecture, hints.CPU.Architecture);
     }
 
-    // Brands such as "Not)A;Brand" are deliberately meaningless (GREASE).
-    private static bool IsGrease(string brand) =>
-        brand.Contains("Not", StringComparison.Ordinal) && brand.Contains("Brand", StringComparison.Ordinal);
-
-    // Windows: platformVersion 13 or more is Windows 11, 1-10 is Windows 10, 0 is Windows 7, 8 or 8.1.
-    // https://learn.microsoft.com/microsoft-edge/web-platform/how-to-detect-win11
-    private static string? SystemFromHints(JsClientHints hints)
-    {
-        if (string.IsNullOrEmpty(hints.Platform))
-            return null;
-
-        if (hints.PlatformVersion is not { Length: > 0 } version)
-            return hints.Platform;
-
-        if (hints.Platform == "Windows" && int.TryParse(version.Split('.')[0], out var major))
-            return major >= 13 ? "Windows 11" : major > 0 ? "Windows 10" : "Windows 7, 8 or 8.1";
-
-        return $"{hints.Platform} {version}";
-    }
-
-    private Verdict? CompareSystems(JsClientHints hints, string? fromHints)
-    {
-        if (fromHints is null || Info.OS.Name is null)
-            return null;
-
-        var frozen = new Verdict("differ", "the user agent is frozen");
-        if (hints.Platform == "Windows")
-        {
-            var same = fromHints == Words.OS(Info.OS)
-                       || (fromHints.StartsWith("Windows 7,", StringComparison.Ordinal) && Info.OS.Version is "7" or "8" or "8.1");
-            return same ? new Verdict("same", "same") : frozen;
-        }
-
-        // Elsewhere compare the versions: "15" in the user agent and "15.0.0" in the hints agree.
-        if (Info.OS.Version is not { } fromUserAgent || hints.PlatformVersion is not { Length: > 0 } fromHint)
-            return null;
-
-        return fromHint == fromUserAgent || fromHint.StartsWith(fromUserAgent + ".", StringComparison.Ordinal)
-               || fromUserAgent.StartsWith(fromHint + ".", StringComparison.Ordinal)
-            ? new Verdict("same", "same")
-            : frozen;
-    }
+    private static string? Device(Device device) =>
+        Words.Join(Words.DeviceName(device), Words.DeviceKind(device.Type) is { } kind ? $"({kind})" : null);
 }

@@ -5,6 +5,6 @@ namespace uaParserLibrary.Models;
 /// <param name="Version">Version, or <see langword="null"/>.</param>
 public sealed record OS(string? Name, string? Version)
 {
-    /// <summary>A one-line description, for example "Browser: Chrome 140.0.0.0".</summary>
+    /// <summary>A one-line description, for example "OS     : Android 15".</summary>
     public override string ToString() => Describe.Line("OS", Name, Version);
 }

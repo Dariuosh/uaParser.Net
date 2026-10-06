@@ -1,5 +1,24 @@
 @* One card per part of a ClientInfo. With a ParseTrace, each card also says which rule matched. *@
 <div class="result-grid">
+    @if (Info.Bot.IsBot)
+    {
+        <article class="card part-card part-bot">
+            <PartHeader Icon="bot" Title="Bot" />
+            <div class="part-main">
+                <Monogram Name="@Info.Bot.Name" />
+                <Value Text="@Info.Bot.Name" Class="part-name" />
+            </div>
+            <dl class="kv">
+                <dt>Kind</dt><dd>@Words.BotKind(Info.Bot.Category)</dd>
+                <dt>Category</dt><dd><Value Text="@Info.Bot.Category" Empty="none (found by its name)" /></dd>
+                @if (Info.Bot.Url is { } url && Uri.TryCreate(url, UriKind.Absolute, out var link) && link.Scheme is "http" or "https")
+                {
+                    <dt>About</dt><dd><a href="@link" target="_blank" rel="noopener noreferrer nofollow">@link.Host</a></dd>
+                }
+            </dl>
+        </article>
+    }
+
     <article class="card part-card part-browser">
         <PartHeader Icon="browser" Title="Browser" Hit="@Hit("Browser")" />
         <div class="part-main">

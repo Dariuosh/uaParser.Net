@@ -15,6 +15,10 @@
             <span class="on"> on </span><span class="hl hl-os">@os</span>
         }
     </h1>
+    @if (Info.Bot.IsBot)
+    {
+        <p class="sub bot-line"><Icon Name="bot" Size="16" /> A bot: <strong>@Info.Bot.Name</strong>, @Words.WithArticle(Words.BotKind(Info.Bot.Category)).</p>
+    }
     <p class="sub">
         @if (Words.DeviceName(Info.Device) is { } device)
         {

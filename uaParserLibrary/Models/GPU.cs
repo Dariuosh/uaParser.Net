@@ -8,6 +8,6 @@ namespace uaParserLibrary.Models;
 /// <param name="Model">For example "GeForce GT 650M", or <see langword="null"/>.</param>
 public sealed record GPU(string? Vendor, string? Model)
 {
-    /// <summary>A one-line description, for example "Browser: Chrome 140.0.0.0".</summary>
+    /// <summary>A one-line description, for example "GPU    : NVIDIA GeForce GT 650M".</summary>
     public override string ToString() => Describe.Line("GPU", Vendor, Model);
 }

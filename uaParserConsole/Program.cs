@@ -46,6 +46,8 @@ namespace uaParserConsole
             Console.WriteLine($"  {info.OS}");
             Console.WriteLine($"  {info.Device}");
             Console.WriteLine($"  {info.CPU}");
+            if (info.Bot.IsBot)
+                Console.WriteLine($"  {info.Bot}");
             Console.WriteLine($"  ({stopwatch.Elapsed.TotalMilliseconds:F3} ms)");
             Console.WriteLine();
         }

@@ -28,6 +28,7 @@
     --c-device: #ea580c;
     --c-cpu: #0891b2;
     --c-gpu: #db2777;
+    --c-bot: #b45309;
     --mark: 20%;
 
     --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);
@@ -64,6 +65,8 @@
         --c-device: #fb923c;
         --c-cpu: #22d3ee;
         --c-gpu: #f472b6;
+    --c-bot: #fbbf24;
+        --c-bot: #fbbf24;
         --mark: 30%;
         --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
         --shadow: 0 1px 2px rgb(0 0 0 / 0.35), 0 12px 32px -14px rgb(0 0 0 / 0.7);
@@ -269,6 +272,7 @@ main { flex: 1; padding: 28px 0 56px; }
 .part-device { --part: var(--c-device); }
 .part-cpu { --part: var(--c-cpu); }
 .part-gpu { --part: var(--c-gpu); }
+.part-bot { --part: var(--c-bot); }
 
 .part-icon {
     display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; flex: none;

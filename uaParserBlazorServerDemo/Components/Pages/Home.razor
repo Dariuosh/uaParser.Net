@@ -18,7 +18,7 @@
 
 <div class="section-head">
     <h2><Icon Name="globe" Size="22" /> What your browser sent</h2>
-    <p class="muted">The request headers about the browser: the User-Agent, which uaParser.Net reads, and the Client Hints Chromium-based browsers add.</p>
+    <p class="muted">The request headers about the browser: the User-Agent and the Client Hints Chromium-based browsers add. uaParser.Net reads both.</p>
 </div>
 
 <div class="card">
@@ -29,7 +29,7 @@
                     <th scope="row">User-Agent</th>
                     <td>@Shorten(Header("User-Agent")) <span class="badge">read by uaParser.Net</span></td>
                 </tr>
-                @foreach (var name in ClientHintHeaders.LowEntropy.Concat(ClientHintHeaders.HighEntropy))
+                @foreach (var name in ClientHints.LowEntropyHeaders.Concat(ClientHints.HighEntropyHeaders))
                 {
                     <tr>
                         <th scope="row">@name</th>
@@ -47,17 +47,17 @@
         </table>
     </div>
 
-    @if (!SentAny(ClientHintHeaders.LowEntropy))
+    @if (!SentAny(ClientHints.LowEntropyHeaders))
     {
         <p class="hint"><Icon Name="info" Size="16" /> Your browser sends no Client Hints (Firefox and Safari do not, and browsers send them only to secure sites: https, or localhost). The User-Agent is all it tells servers.</p>
     }
-    else if (!SentAny(ClientHintHeaders.HighEntropy))
+    else if (!SentAny(ClientHints.HighEntropyHeaders))
     {
         <p class="hint"><Icon Name="info" Size="16" /> This server asks for more hints with the <code>Accept-CH</code> response header. Your browser sends them from the next request on: <a href="">reload the page</a>.</p>
     }
     else
     {
-        <p class="hint"><Icon Name="info" Size="16" /> The hints carry what the frozen User-Agent string no longer does, such as the full browser version and, on Windows, whether it is Windows 11 (platform version 13 or more). uaParser.Net 2.0 reads the User-Agent only.</p>
+        <p class="hint"><Icon Name="info" Size="16" /> The hints carry what the frozen User-Agent string no longer does, such as the full browser version and, on Windows, whether it is Windows 11 (platform version 13 or more). The result above uses them: <code>AddUAParser()</code> reads them from the request.</p>
     }
 </div>
 

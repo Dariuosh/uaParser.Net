@@ -31,6 +31,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         _myUa = await Js.UserAgentAsync();
-        _mine = UAParser.GetClientInfo(_myUa);
+        // Chromium-based browsers also give client hints: the full version, Windows 11, the CPU...
+        _mine = UAParser.GetClientInfo(_myUa, (await Js.ClientHintsAsync())?.ToClientHints());
     }
 }
