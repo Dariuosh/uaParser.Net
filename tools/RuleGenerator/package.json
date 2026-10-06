@@ -8,6 +8,7 @@
     "node": ">=18"
   },
   "scripts": {
+    "rules": "node src/main.js rules",
     "golden": "node src/main.js golden",
     "coverage": "node src/main.js coverage",
     "all": "node src/main.js all"

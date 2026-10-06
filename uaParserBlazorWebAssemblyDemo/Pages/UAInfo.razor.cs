@@ -1,4 +1,4 @@
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 
 using System.Threading.Tasks;
 
@@ -12,7 +12,8 @@ namespace uaParserBlazorWebAssemblyDemo.Pages
         private string uaString;
         private string renderer;
 
-        ClientInfo result= new ClientInfo();
+        // Null until the first user agent is parsed.
+        ClientInfo result;
         protected override async Task OnInitializedAsync()
         {
             uaString = await JSRuntime.InvokeAsync<string>("getUserAgent");

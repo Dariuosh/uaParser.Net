@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -14,28 +16,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\uaParserLibrary\uaParserLibrary.csproj" />
-    <ProjectReference Include="..\uaParserResource\uaParserResource.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="StaticFile\browser-test.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="StaticFile\cpu-test.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="StaticFile\device-test.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="StaticFile\engine-test.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="StaticFile\gpu-test.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="StaticFile\os-test.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <!-- Answer key produced by tools/RuleGenerator -->
+    <None Update="TestData\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <!-- ua-parser-js's own test data, read from the generator's corpus -->
+    <None Include="..\tools\RuleGenerator\corpus\ua-parser-js-1.0.41\*-test.json"
+          Link="TestData\ua-parser-js\%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

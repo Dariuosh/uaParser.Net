@@ -1,22 +1,10 @@
-﻿namespace uaParserLibrary.Models
+namespace uaParserLibrary.Models;
+
+/// <summary>The device the user agent comes from.</summary>
+/// <param name="Vendor">For example "Apple" or "Samsung", or <see langword="null"/>.</param>
+/// <param name="Model">For example "iPhone" or "SM-S931B", or <see langword="null"/>.</param>
+/// <param name="Type">One of the <see cref="DeviceTypes"/> values, or <see langword="null"/> (usually a desktop).</param>
+public sealed record Device(string? Vendor, string? Model, string? Type)
 {
-    public sealed class Device
-    {
-        public string Vendor { get; set; }
-        public string Type { get; set; }
-        public string Model { get; set; }
-
-        public Device Empty
-        {
-            get
-            {
-                Vendor = "UnKnown";
-                Type = string.Empty;
-                Model =string.Empty;
-                return this;
-            }
-        }
-
-        public override string ToString() => $"{"Device",-7}: {Vendor} {Type} {Model}";
-    }
+    public override string ToString() => Describe.Line("Device", Vendor, Model, Type);
 }

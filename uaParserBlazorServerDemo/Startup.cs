@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,11 +25,7 @@ namespace uaParserBlazorServerDemo
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddUAParser(options =>
-           {
-               options.BrowserParser = true;
-               options.DeviceParser = false;
-           });
+            services.AddUAParser();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +48,8 @@ namespace uaParserBlazorServerDemo
 
             app.UseEndpoints(endpoints =>
             {
+                // The parsed User-Agent of this request, as JSON.
+                endpoints.MapGet("/api/client", (HttpContext context) => context.GetClientInfo());
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });

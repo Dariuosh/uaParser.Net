@@ -1,14 +1,17 @@
 'use strict';
 
-// Usage: node src/main.js <golden|coverage|all>
+// Usage: node src/main.js <rules|golden|coverage|all>
 
 const fs = require('fs');
 const path = require('path');
 const upstream = require('./upstream');
+const rules = require('./rules');
 const golden = require('./golden');
 const coverage = require('./coverage');
+const { userAgents } = require('./corpus');
 
 const REPO_ROOT = path.join(__dirname, '..', '..', '..');
+const RULES_FILE = path.join(REPO_ROOT, 'uaParserLibrary', 'Rules', 'UserAgentRules.g.cs');
 const GOLDEN_FILE = path.join(REPO_ROOT, 'uaParserTest', 'TestData', 'ua-parser-js.golden.json');
 const COVERAGE_FILE = path.join(__dirname, '..', 'reports', 'coverage.md');
 
@@ -16,6 +19,17 @@ function write(file, content) {
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.writeFileSync(file, content.endsWith('\n') ? content : content + '\n');
     console.log(`wrote ${path.relative(REPO_ROOT, file)}`);
+}
+
+function runRules(up) {
+    const corpus = userAgents().map(c => c.ua);
+    const samples = corpus.map(ua => up.trim(ua, up.UA_MAX_LENGTH).toLowerCase());
+    const checks = rules.verifyPrefilters(up, corpus, samples);
+    console.log(`prefilters: sound on ${checks} regex/user-agent checks`);
+    const result = rules.generate(up, samples);
+    write(RULES_FILE, result.code);
+    console.log(`rules: ${result.ruleCount} rules, ${result.matchRegexCount} match regexes, ` +
+        `${result.regexCount} generated regexes in total, ${result.mapCount} string maps`);
 }
 
 function runGolden(up) {
@@ -46,9 +60,10 @@ const command = process.argv[2] || 'all';
 const up = upstream.load();
 console.log(`ua-parser-js ${up.version} (${up.license})`);
 
+if (command === 'rules' || command === 'all') runRules(up);
 if (command === 'golden' || command === 'all') runGolden(up);
 if (command === 'coverage' || command === 'all') runCoverage(up);
-if (!['golden', 'coverage', 'all'].includes(command)) {
-    console.error(`Unknown command "${command}". Use golden, coverage or all.`);
+if (!['rules', 'golden', 'coverage', 'all'].includes(command)) {
+    console.error(`Unknown command "${command}". Use rules, golden, coverage or all.`);
     process.exit(1);
 }

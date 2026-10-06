@@ -1,209 +1,77 @@
-﻿using uaParserLibrary.Expressions;
 using uaParserLibrary.Models;
+using uaParserLibrary.Parsing;
+using uaParserLibrary.Rules;
 
-namespace uaParserLibrary
+namespace uaParserLibrary;
+
+/// <summary>
+/// Reads the browser, engine, operating system, CPU and device from a user agent string, with
+/// the rules of ua-parser-js 1.0.41. Every call returns new immutable results and keeps no state,
+/// so the methods are safe to call from any number of threads.
+/// </summary>
+public static class UAParser
 {
-    public static class UAParser
+    /// <summary>The ua-parser-js version the rules come from.</summary>
+    public const string RulesVersion = UserAgentRules.UpstreamVersion;
+
+    public static Browser GetBrowser(string? userAgent) => ReadBrowser(Prepare(userAgent));
+
+    public static CPU GetCPU(string? userAgent) => ReadCpu(Prepare(userAgent));
+
+    public static Device GetDevice(string? userAgent) => ReadDevice(Prepare(userAgent));
+
+    public static Engine GetEngine(string? userAgent) => ReadEngine(Prepare(userAgent));
+
+    public static OS GetOS(string? userAgent) => ReadOs(Prepare(userAgent));
+
+    /// <summary>Reads the GPU from a WebGL renderer string (see <see cref="Models.GPU"/>).</summary>
+    public static GPU GetGPU(string? renderer)
     {
-        private static Browser browser { get; set; }
+        var values = Rule.Apply(GpuRules.All, new Input(renderer ?? string.Empty, []));
+        return new GPU(values[(int)Field.Vendor], values[(int)Field.Model]);
+    }
 
-        public static Browser GetBrowser(string UserAgent)
-        {
-            browser ??= new Browser();
+    public static ClientInfo GetClientInfo(string? userAgent) => Parse(userAgent, gpu: null);
 
-            foreach (var matchItem in BrowserExpressions.Matches)
-            {
-                foreach (var regexItem in matchItem.Regexes)
-                {
-                    if (regexItem.IsMatch(UserAgent))
-                    {
-                        var match = regexItem.Match(UserAgent);
+    /// <param name="userAgent">The user agent string.</param>
+    /// <param name="renderer">A WebGL renderer string, used for <see cref="ClientInfo.GPU"/>.</param>
+    public static ClientInfo GetClientInfo(string? userAgent, string? renderer) => Parse(userAgent, GetGPU(renderer));
 
-                        matchItem.Action(match, browser);
+    private static ClientInfo Parse(string? userAgent, GPU? gpu)
+    {
+        var input = Prepare(userAgent);
+        return new ClientInfo(input.Text, ReadBrowser(input), ReadCpu(input), ReadDevice(input), ReadEngine(input), ReadOs(input), gpu);
+    }
 
-                        browser.Major = Util.Majorize(browser.Version);
+    // One Input per parse: the five rule sets share its prefilter results.
+    private static Input Prepare(string? userAgent) =>
+        new(JsString.NormalizeUserAgent(userAgent), UserAgentRules.PrefilterWords);
 
-                        return browser;
-                    }
-                }
-            }
+    private static Browser ReadBrowser(Input ua)
+    {
+        var values = Rule.Apply(UserAgentRules.Browser, ua);
+        var version = values[(int)Field.Version];
+        return new Browser(values[(int)Field.Name], version, JsString.Majorize(version));
+    }
 
-            return browser.Empty;
-        }
+    private static CPU ReadCpu(Input ua) =>
+        new(Rule.Apply(UserAgentRules.Cpu, ua)[(int)Field.Architecture]);
 
-        private static CPU cpu { get; set; }
+    private static Device ReadDevice(Input ua)
+    {
+        var values = Rule.Apply(UserAgentRules.Device, ua);
+        return new Device(values[(int)Field.Vendor], values[(int)Field.Model], values[(int)Field.Type]);
+    }
 
-        public static CPU GetCPU(string UserAgent)
-        {
-            cpu ??= new CPU();
+    private static Engine ReadEngine(Input ua)
+    {
+        var values = Rule.Apply(UserAgentRules.Engine, ua);
+        return new Engine(values[(int)Field.Name], values[(int)Field.Version]);
+    }
 
-            foreach (var matchItem in CPUExpressions.Matches)
-            {
-                foreach (var regexItem in matchItem.Regexes)
-                {
-                    if (regexItem.IsMatch(UserAgent))
-                    {
-                        var match = regexItem.Match(UserAgent);
-                        matchItem.Action(match, cpu);
-                        return cpu;
-                    }
-                }
-            }
-
-            return cpu.Empty;
-        }
-
-        private static Engine engine { get; set; }
-
-        public static Engine GetEngine(string UserAgent)
-        {
-            engine ??= new Engine();
-
-            foreach (var matchItem in EngineExpressions.Matches)
-            {
-                foreach (var regexItem in matchItem.Regexes)
-                {
-                    if (regexItem.IsMatch(UserAgent))
-                    {
-                        var match = regexItem.Match(UserAgent);
-
-                        matchItem.Action(match, engine);
-
-                        return engine;
-                    }
-                }
-            }
-
-            return engine.Empty;
-        }
-
-        private static OS os { get; set; }
-
-        public static OS GetOS(string UserAgent)
-        {
-            os ??= new OS();
-
-            foreach (var matchItem in OSExpressions.Matches)
-            {
-                foreach (var regexItem in matchItem.Regexes)
-                {
-                    if (regexItem.IsMatch(UserAgent))
-                    {
-                        var match = regexItem.Match(UserAgent);
-
-                        matchItem.Action(match, os);
-
-                        return os;
-                    }
-                }
-            }
-
-            return os.Empty;
-        }
-
-        private static Device device { get; set; }
-
-        public static Device GetDevice(string UserAgent)
-        {
-            device ??= new Device();
-
-            foreach (var matchItem in DeviceExpressions.Matches)
-            {
-                foreach (var regexItem in matchItem.Regexes)
-                {
-                    if (regexItem.IsMatch(UserAgent))
-                    {
-                        var match = regexItem.Match(UserAgent);
-
-                        matchItem.Action(match, device);
-
-                        return device;
-                    }
-                }
-            }
-
-            return device.Empty;
-        }
-
-        private static GPU gpu { get; set; }
-
-        public static GPU GetGPU(string renderer)
-        {
-            gpu ??= new GPU();
-
-            foreach (var matchItem in GPUExpressions.Matches)
-            {
-                foreach (var regexItem in matchItem.Regexes)
-                {
-                    if (regexItem.IsMatch(renderer))
-                    {
-                        var match = regexItem.Match(renderer);
-
-                        matchItem.Action(match, gpu);
-
-                        return gpu;
-                    }
-                }
-            }
-
-            return gpu.Empty;
-        }
-
-        private static ClientInfo clientInfo { get; set; }
-
-        public static ClientInfo GetClientInfo(string UserAgent)
-        {
-            clientInfo ??= new ClientInfo();
-
-            clientInfo.Browser = GetBrowser(UserAgent);
-            clientInfo.CPU = GetCPU(UserAgent);
-            clientInfo.Engine = GetEngine(UserAgent);
-            clientInfo.OS = GetOS(UserAgent);
-            clientInfo.Device = GetDevice(UserAgent);
-            return clientInfo;
-        }
-
-        public static ClientInfo GetClientInfo(string UserAgent,string Renderer)
-        {
-            clientInfo ??= new ClientInfo();
-
-            clientInfo.Browser = GetBrowser(UserAgent);
-            clientInfo.CPU = GetCPU(UserAgent);
-            clientInfo.Engine = GetEngine(UserAgent);
-            clientInfo.OS = GetOS(UserAgent);
-            clientInfo.Device = GetDevice(UserAgent);
-            clientInfo.GPU = GetGPU(Renderer);
-            return clientInfo;
-        }
-
-
-
-
-        private static string ReadQuotedValue(string value)
-        {
-            if (value.StartsWith("'") && value.EndsWith("'") || (value.StartsWith("\"") && value.EndsWith("\"")))
-                return value.Substring(1, value.Length - 2);
-
-            return value;
-        }
+    private static OS ReadOs(Input ua)
+    {
+        var values = Rule.Apply(UserAgentRules.Os, ua);
+        return new OS(values[(int)Field.Name], values[(int)Field.Version]);
     }
 }
-
-//Methods
-//  getBrowser()
-//      returns { name: '', version: '' }
-//  getDevice()
-//      returns { model: '', type: '', vendor: '' }
-//  getEngine()
-//      returns { name: '', version: '' }
-//  getOS()
-//      returns { name: '', version: '' }
-//  getCPU()
-//      returns { architecture: '' }
-//  getResult()
-//      returns { ua: '', browser: { }, cpu: { }, device: { }, engine: { }, os: { } }
-//  getUA()
-//      returns UA string of current instance
-//  setUA(uastring)
-//      set UA string to be parsed
-//      returns current instance

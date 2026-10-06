@@ -1,6 +1,5 @@
 ﻿@page "/ua"
 @using uaParserLibrary.Models
- @inject ClientInfo  clientInfo
 
 
 <h2>ClientInfo</h2>
@@ -10,3 +9,8 @@
  <h3><pre>@clientInfo.Engine</pre></h3>
  <h3><pre>@clientInfo.OS</pre></h3>
  <h3><pre>@clientInfo.Device</pre></h3>
+
+@code {
+    [CascadingParameter]
+    public ClientInfo clientInfo { get; set; } = default!;
+}

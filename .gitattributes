@@ -68,3 +68,4 @@
 uaParserTest/TestData/*.golden.json linguist-generated=true
 tools/RuleGenerator/reports/** linguist-generated=true
 tools/RuleGenerator/package-lock.json linguist-generated=true
+uaParserLibrary/Rules/*.g.cs linguist-generated=true

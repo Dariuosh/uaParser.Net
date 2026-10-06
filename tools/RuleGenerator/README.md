@@ -26,11 +26,25 @@ published versions of ua-parser-js, 0.7.29, 0.8.0 and 1.0.0, were hijacked and c
 
 | Command | Output |
 |---|---|
+| `npm run rules` | `uaParserLibrary/Rules/UserAgentRules.g.cs`: the rules as C# |
 | `npm run golden` | `uaParserTest/TestData/ua-parser-js.golden.json`: what ua-parser-js returns for every user agent in the corpus (the answer key) |
 | `npm run coverage` | `reports/coverage.md`: which upstream regexes the corpus reaches |
-| `npm run all` | Both |
+| `npm run all` | All three |
 
 The output is deterministic: running it twice gives identical files.
+
+## How the rules are converted
+
+Every upstream rule is `[regexes, properties]`. `src/rules.js` turns each regex into a
+`[GeneratedRegex]` (compiled at build time, with `RegexOptions.ECMAScript` for JavaScript
+semantics and the invariant culture), and each property into one of the seven `Assignment`
+shapes in `uaParserLibrary/Parsing/Assignment.cs`. A shape, flag or syntax it does not know
+stops the generator instead of being converted approximately.
+
+`src/prefilter.js` also works out words that every match of a regex must contain (for
+example `"edg"` and `"/"` for Edge), so the parser can skip most regexes with a substring
+check. Before writing the rules, the generator checks on every corpus user agent that no
+prefilter ever rejects a regex that matches.
 
 ## Corpus
 
