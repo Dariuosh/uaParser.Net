@@ -37,7 +37,7 @@ dotnet run -c Release -- --filter *
 
 | Benchmark | What it measures |
 |---|---|
-| `ParseBenchmarks` | Steady-state time and memory per user agent for `GetClientInfo`, `GetBrowser`, `GetOS` and `GetDevice`, for each corpus |
+| `ParseBenchmarks` | Steady-state time and memory per user agent for `GetClientInfo`, `GetBrowser`, `GetOS` and `GetDevice`, and for `ClientInfoCache` when the user agent was seen before, for each corpus |
 | `ColdStartBenchmarks` | The first `GetClientInfo` call in a new process (10 processes) |
 
 Run one class with `--filter *ParseBenchmarks*` or `--filter *ColdStart*`.

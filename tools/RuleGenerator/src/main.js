@@ -1,11 +1,12 @@
 'use strict';
 
-// Usage: node src/main.js <rules|golden|coverage|all>
+// Usage: node src/main.js <rules|golden|coverage|samples|all>
 
 const fs = require('fs');
 const path = require('path');
 const upstream = require('./upstream');
 const rules = require('./rules');
+const samples = require('./samples');
 const golden = require('./golden');
 const coverage = require('./coverage');
 const { userAgents } = require('./corpus');
@@ -14,6 +15,7 @@ const REPO_ROOT = path.join(__dirname, '..', '..', '..');
 const RULES_FILE = path.join(REPO_ROOT, 'uaParserLibrary', 'Rules', 'UserAgentRules.g.cs');
 const GOLDEN_FILE = path.join(REPO_ROOT, 'uaParserTest', 'TestData', 'ua-parser-js.golden.json');
 const COVERAGE_FILE = path.join(__dirname, '..', 'reports', 'coverage.md');
+const SAMPLES_FILE = path.join(REPO_ROOT, 'Shared', 'SampleUserAgents.g.cs');
 
 function write(file, content) {
     fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -30,6 +32,12 @@ function runRules(up) {
     write(RULES_FILE, result.code);
     console.log(`rules: ${result.ruleCount} rules, ${result.matchRegexCount} match regexes, ` +
         `${result.regexCount} generated regexes in total, ${result.mapCount} string maps`);
+}
+
+function runSamples() {
+    const result = samples.generate(rules.csString);
+    write(SAMPLES_FILE, result.code);
+    console.log(`samples: ${result.count} user agents in ${result.groupCount} groups`);
 }
 
 function runGolden(up) {
@@ -63,7 +71,8 @@ console.log(`ua-parser-js ${up.version} (${up.license})`);
 if (command === 'rules' || command === 'all') runRules(up);
 if (command === 'golden' || command === 'all') runGolden(up);
 if (command === 'coverage' || command === 'all') runCoverage(up);
-if (!['rules', 'golden', 'coverage', 'all'].includes(command)) {
-    console.error(`Unknown command "${command}". Use rules, golden, coverage or all.`);
+if (command === 'samples' || command === 'all') runSamples();
+if (!['rules', 'golden', 'coverage', 'samples', 'all'].includes(command)) {
+    console.error(`Unknown command "${command}". Use rules, golden, coverage, samples or all.`);
     process.exit(1);
 }

@@ -240,4 +240,4 @@ function verifyPrefilters(up, userAgents, samples) {
     return checks;
 }
 
-module.exports = { generate, verifyPrefilters };
+module.exports = { generate, verifyPrefilters, csString };

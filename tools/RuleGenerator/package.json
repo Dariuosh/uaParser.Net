@@ -11,6 +11,7 @@
     "rules": "node src/main.js rules",
     "golden": "node src/main.js golden",
     "coverage": "node src/main.js coverage",
+    "samples": "node src/main.js samples",
     "all": "node src/main.js all",
     "bench": "node src/bench.js"
   },

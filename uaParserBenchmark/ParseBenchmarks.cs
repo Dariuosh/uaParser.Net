@@ -12,6 +12,7 @@ public class ParseBenchmarks
     private const int UserAgentsPerOperation = 500;
 
     private string[] _userAgents = [];
+    private ClientInfoCache _cache = new();
 
     [ParamsSource(nameof(Corpora))]
     public string Corpus { get; set; } = uaParserBenchmark.Corpus.Legacy;
@@ -19,7 +20,13 @@ public class ParseBenchmarks
     public static IEnumerable<string> Corpora => uaParserBenchmark.Corpus.Names;
 
     [GlobalSetup]
-    public void Setup() => _userAgents = uaParserBenchmark.Corpus.Sample(Corpus, UserAgentsPerOperation);
+    public void Setup()
+    {
+        _userAgents = uaParserBenchmark.Corpus.Sample(Corpus, UserAgentsPerOperation);
+        _cache = new ClientInfoCache(capacity: 4096);
+        foreach (var ua in _userAgents)
+            _cache.GetClientInfo(ua);
+    }
 
     [Benchmark(Baseline = true, OperationsPerInvoke = UserAgentsPerOperation)]
     public object? ClientInfo()
@@ -27,6 +34,16 @@ public class ParseBenchmarks
         object? last = null;
         foreach (var ua in _userAgents)
             last = UAParser.GetClientInfo(ua);
+        return last;
+    }
+
+    // Repeated user agents, as on a busy server: every one is already in the cache.
+    [Benchmark(OperationsPerInvoke = UserAgentsPerOperation)]
+    public object? CachedClientInfo()
+    {
+        object? last = null;
+        foreach (var ua in _userAgents)
+            last = _cache.GetClientInfo(ua);
         return last;
     }
 

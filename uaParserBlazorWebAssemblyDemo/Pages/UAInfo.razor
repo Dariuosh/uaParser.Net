@@ -1,5 +1,6 @@
 ﻿@page "/ua"
 @using uaParserLibrary
+@using uaParserSamples
 @inject IJSRuntime JSRuntime
 
 
@@ -10,9 +11,14 @@
 	class="form-select form-select-lg mb-3" 
 	@onchange="(e)=>{uaString=e.Value.ToString();}">
 	<option selected>Open this select menu</option>
-	@foreach (var ua in UserAgentSampleList.UserAgent)
+	@foreach (var group in SampleUserAgents.All.GroupBy(s => s.Group))
 	{
-	 <option>@ua</option>
+		<optgroup label="@group.Key">
+			@foreach (var sample in group)
+			{
+				<option>@sample.UserAgent</option>
+			}
+		</optgroup>
 	}
 </select>
 <div>

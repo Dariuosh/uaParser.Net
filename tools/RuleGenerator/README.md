@@ -29,7 +29,9 @@ published versions of ua-parser-js, 0.7.29, 0.8.0 and 1.0.0, were hijacked and c
 | `npm run rules` | `uaParserLibrary/Rules/UserAgentRules.g.cs`: the rules as C# |
 | `npm run golden` | `uaParserTest/TestData/ua-parser-js.golden.json`: what ua-parser-js returns for every user agent in the corpus (the answer key) |
 | `npm run coverage` | `reports/coverage.md`: which upstream regexes the corpus reaches |
-| `npm run all` | All three |
+| `npm run samples` | `Shared/SampleUserAgents.g.cs`: the example user agents the console sample and the demos use, grouped by the headings in `corpus/extra-user-agents.txt` |
+| `npm run all` | All four |
+| `npm run bench` | Speed of ua-parser-js on this machine (compare with `uaParserBenchmark`) |
 
 The output is deterministic: running it twice gives identical files.
 
@@ -52,7 +54,7 @@ prefilter ever rejects a regex that matches.
 |---|---|
 | ua-parser-js's own tests, with their expected values | `corpus/ua-parser-js-1.0.41/*.json` |
 | User agents from the uaParser.Net 1.x tests and samples | `corpus/legacy-port-user-agents.txt` |
-| Recent and rare user agents | `corpus/extra-user-agents.txt` |
+| Recent and rare user agents, grouped under `# Heading` lines (also the source of the example user agents) | `corpus/extra-user-agents.txt` |
 
 Expected values are never written by hand: the answer key comes from running ua-parser-js.
 Before writing it, the tool checks that ua-parser-js passes all of its own tests.
