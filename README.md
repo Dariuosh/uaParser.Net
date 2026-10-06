@@ -84,6 +84,9 @@ ClientInfo info = cache.GetClientInfo(userAgent);
 ## ASP.NET Core
 
 ```csharp
+using uaParserLibrary.Models;
+using uaParserMiddleware;
+
 builder.Services.AddUAParser();               // ClientInfo becomes injectable (scoped)
 // builder.Services.AddUAParser(o => o.CacheCapacity = 4096);  // 0 turns the cache off
 
