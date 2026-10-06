@@ -6,7 +6,16 @@
 
 # uaParser.Net
 
-.Net library to detect Browser, Engine, OS, CPU, and Device type/model from User-Agent data Based on https://github.com/faisalman/ua-parser-js which can be used in the .Net Core platform or as a middleware in ASP.Net Core
+.Net library to detect Browser, Engine, OS, CPU, and Device type/model from User-Agent data Based on https://github.com/faisalman/ua-parser-js which can be used in .NET 10 or as a middleware in ASP.NET Core
+
+# Requirements
+
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) (the SDK version is pinned in `global.json`)
+
+```
+dotnet build uaParser.sln
+dotnet test uaParserTest
+```
 
 # Documentation
 
