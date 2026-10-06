@@ -294,8 +294,11 @@ public class ClientHintsTests
     [Fact]
     public void A_null_second_argument_still_means_no_renderer()
     {
-        // Code written for 2.0 keeps compiling: (string?, string?) is chosen over (string?, ClientHints?, string? = null).
-        Assert.Null(UAParser.GetClientInfo(WindowsChrome, null).GPU);
+        // Code written for 2.0 keeps compiling and working: (string?, string?) is chosen over
+        // (string?, ClientHints?, string? = null), and gives an empty GPU as in 2.0.
+        var info = UAParser.GetClientInfo(WindowsChrome, null);
+        Assert.Equal(new GPU(null, null), info.GPU);
+        Assert.Null(info.Hints);
     }
 
     [Fact]
