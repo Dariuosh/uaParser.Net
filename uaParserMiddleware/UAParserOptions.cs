@@ -2,6 +2,7 @@ using uaParserLibrary;
 
 namespace uaParserMiddleware;
 
+/// <summary>Options for <see cref="uaParserServiceCollectionExtensions.AddUAParser"/>.</summary>
 public class UAParserOptions
 {
     /// <summary>

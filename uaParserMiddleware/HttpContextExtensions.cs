@@ -6,6 +6,7 @@ using uaParserLibrary.Models;
 
 namespace uaParserMiddleware;
 
+/// <summary>Reads the client information of a request.</summary>
 public static class HttpContextExtensions
 {
     private static readonly object ItemKey = new();
@@ -16,6 +17,7 @@ public static class HttpContextExtensions
     /// When <see cref="uaParserServiceCollectionExtensions.AddUAParser"/> registered a
     /// <see cref="ClientInfoCache"/>, a user agent seen before is not parsed again.
     /// </summary>
+    /// <param name="context">The request.</param>
     public static ClientInfo GetClientInfo(this HttpContext context)
     {
         ArgumentNullException.ThrowIfNull(context);

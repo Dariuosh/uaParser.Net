@@ -4,6 +4,11 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>uaParser.Net</PackageId>
+    <Description>Detects the browser, engine, operating system, CPU and device from a User-Agent string. A faithful, generated port of ua-parser-js 1.0.41 (every rule, identical results), with immutable thread-safe results, an optional cache, and GPU detection from WebGL renderer strings.</Description>
   </PropertyGroup>
 
 </Project>

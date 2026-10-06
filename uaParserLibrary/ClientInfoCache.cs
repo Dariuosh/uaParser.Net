@@ -29,6 +29,7 @@ public sealed class ClientInfoCache
         Capacity = capacity;
     }
 
+    /// <summary>How many user agents each generation holds.</summary>
     public int Capacity { get; }
 
     /// <summary>The number of user agents currently remembered.</summary>

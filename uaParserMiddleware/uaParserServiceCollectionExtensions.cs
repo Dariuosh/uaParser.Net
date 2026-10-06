@@ -6,6 +6,7 @@ using uaParserLibrary.Models;
 
 namespace uaParserMiddleware;
 
+/// <summary>Registers uaParser.Net with dependency injection.</summary>
 public static class uaParserServiceCollectionExtensions
 {
     /// <summary>
@@ -14,6 +15,8 @@ public static class uaParserServiceCollectionExtensions
     /// Repeated user agents are served from a shared <see cref="ClientInfoCache"/> unless
     /// <see cref="UAParserOptions.CacheCapacity"/> is 0.
     /// </summary>
+    /// <param name="services">The application's services.</param>
+    /// <param name="configure">Optional: changes the <see cref="UAParserOptions"/>.</param>
     public static IServiceCollection AddUAParser(this IServiceCollection services, Action<UAParserOptions>? configure = null)
     {
         var options = new UAParserOptions();

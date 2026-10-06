@@ -6,5 +6,6 @@ namespace uaParserLibrary.Models;
 /// <param name="Major">Major version (the digits before the first dot), or <see langword="null"/>.</param>
 public sealed record Browser(string? Name, string? Version, string? Major)
 {
+    /// <summary>A one-line description, for example "Browser: Chrome 140.0.0.0".</summary>
     public override string ToString() => Describe.Line("Browser", Name, Version);
 }

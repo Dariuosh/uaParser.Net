@@ -6,5 +6,6 @@ namespace uaParserLibrary.Models;
 /// <param name="Type">One of the <see cref="DeviceTypes"/> values, or <see langword="null"/> (usually a desktop).</param>
 public sealed record Device(string? Vendor, string? Model, string? Type)
 {
+    /// <summary>A one-line description, for example "Browser: Chrome 140.0.0.0".</summary>
     public override string ToString() => Describe.Line("Device", Vendor, Model, Type);
 }
