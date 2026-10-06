@@ -6,8 +6,9 @@ using static uaParserTest.TestData;
 
 namespace uaParserTest;
 
-// Every user agent in the answer key must give exactly what ua-parser-js 1.0.41 gives.
-// The answer key is uaParserTest/TestData/ua-parser-js.golden.json (tools/RuleGenerator).
+// Every corpus user agent must give exactly what the rules give when tools/RuleGenerator runs
+// them in JavaScript: uaParserTest/TestData/expected-results.json. This checks that the rules
+// were turned into .NET regexes and assignments without changing a single result.
 public class GoldenTests
 {
     public static TheoryData<string> UserAgents => new(Golden.Keys);

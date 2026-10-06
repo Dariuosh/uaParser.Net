@@ -65,7 +65,7 @@
 ###############################################################################
 # Files produced by tools/RuleGenerator: shown collapsed in GitHub diffs.
 ###############################################################################
-uaParserTest/TestData/*.golden.json linguist-generated=true
+uaParserTest/TestData/expected-results.json linguist-generated=true
 tools/RuleGenerator/reports/** linguist-generated=true
 tools/RuleGenerator/package-lock.json linguist-generated=true
 uaParserLibrary/Rules/*.g.cs linguist-generated=true

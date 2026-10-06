@@ -2,7 +2,7 @@
   "name": "uaparser-net-rule-generator",
   "version": "1.0.0",
   "private": true,
-  "description": "Generates uaParser.Net rules and test data from ua-parser-js 1.0.x (MIT).",
+  "description": "Generates uaParser.Net's C# rules and test data from rules/user-agent-rules.js (based on ua-parser-js 1.0.41, MIT).",
   "license": "MIT",
   "engines": {
     "node": ">=18"
@@ -11,6 +11,7 @@
     "rules": "node src/main.js rules",
     "golden": "node src/main.js golden",
     "coverage": "node src/main.js coverage",
+    "differences": "node src/main.js differences",
     "samples": "node src/main.js samples",
     "all": "node src/main.js all",
     "bench": "node src/bench.js"

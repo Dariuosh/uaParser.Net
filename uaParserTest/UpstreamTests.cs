@@ -7,7 +7,8 @@ using static uaParserTest.TestData;
 namespace uaParserTest;
 
 // ua-parser-js 1.0.41's own test cases, checked the way its test.js checks them:
-// an expected "undefined" or a missing key means no value (null).
+// an expected "undefined" or a missing key means no value (null). Where uaParser.Net changes a
+// result on purpose, tools/RuleGenerator/corpus/upstream-test-differences.json gives the new value.
 public class UpstreamTests
 {
     public static TheoryData<string, int, string> Cases()
@@ -26,37 +27,39 @@ public class UpstreamTests
     [MemberData(nameof(Cases))]
     public void Matches_upstream_expectation(string category, int index, string description)
     {
-        _ = description; // shown in the test name only
         var testCase = Upstream(category)[index];
         var ua = testCase.GetProperty("ua").GetString();
         var expect = testCase.GetProperty("expect");
+
+        string? Expected(string field) =>
+            UpstreamDifferences.TryGetValue((category, description, field), out var ours) ? ours : Value(expect, field);
 
         switch (category)
         {
             case "browser":
                 var browser = UAParser.GetBrowser(ua);
-                Assert.Equal(Value(expect, "name"), browser.Name);
-                Assert.Equal(Value(expect, "version"), browser.Version);
-                Assert.Equal(Value(expect, "major"), browser.Major);
+                Assert.Equal(Expected("name"), browser.Name);
+                Assert.Equal(Expected("version"), browser.Version);
+                Assert.Equal(Expected("major"), browser.Major);
                 break;
             case "cpu":
-                Assert.Equal(Value(expect, "architecture"), UAParser.GetCPU(ua).Architecture);
+                Assert.Equal(Expected("architecture"), UAParser.GetCPU(ua).Architecture);
                 break;
             case "device":
                 var device = UAParser.GetDevice(ua);
-                Assert.Equal(Value(expect, "vendor"), device.Vendor);
-                Assert.Equal(Value(expect, "model"), device.Model);
-                Assert.Equal(Value(expect, "type"), device.Type);
+                Assert.Equal(Expected("vendor"), device.Vendor);
+                Assert.Equal(Expected("model"), device.Model);
+                Assert.Equal(Expected("type"), device.Type);
                 break;
             case "engine":
                 var engine = UAParser.GetEngine(ua);
-                Assert.Equal(Value(expect, "name"), engine.Name);
-                Assert.Equal(Value(expect, "version"), engine.Version);
+                Assert.Equal(Expected("name"), engine.Name);
+                Assert.Equal(Expected("version"), engine.Version);
                 break;
             case "os":
                 var os = UAParser.GetOS(ua);
-                Assert.Equal(Value(expect, "name"), os.Name);
-                Assert.Equal(Value(expect, "version"), os.Version);
+                Assert.Equal(Expected("name"), os.Name);
+                Assert.Equal(Expected("version"), os.Version);
                 break;
             default:
                 Assert.Fail($"Unknown category {category}");

@@ -14,7 +14,7 @@ namespace uaParserConsole
         // Parses the user agents given on the command line, or the example user agents, by group.
         private static void Main(string[] args)
         {
-            Console.WriteLine($"uaParser.Net (rules from ua-parser-js {UAParser.RulesVersion})");
+            Console.WriteLine($"uaParser.Net (rules {UAParser.RulesVersion}, based on {UAParser.RulesBasedOn})");
 
             if (args.Length > 0)
             {

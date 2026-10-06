@@ -11,8 +11,11 @@ namespace uaParserLibrary;
 /// </summary>
 public static class UAParser
 {
-    /// <summary>The ua-parser-js version the rules come from.</summary>
-    public const string RulesVersion = UserAgentRules.UpstreamVersion;
+    /// <summary>The version of the rules, raised whenever a rule changes.</summary>
+    public const string RulesVersion = UserAgentRules.RulesVersion;
+
+    /// <summary>What the rules are based on: "ua-parser-js 1.0.41" (MIT), extended by uaParser.Net.</summary>
+    public const string RulesBasedOn = UserAgentRules.BasedOn;
 
     /// <summary>Reads the browser from a user agent string.</summary>
     /// <param name="userAgent">The User-Agent string; <see langword="null"/> is treated as empty.</param>
