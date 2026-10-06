@@ -36,15 +36,19 @@ internal static class JsString
         if (version is null)
             return null;
 
-        var major = new System.Text.StringBuilder();
-        foreach (var ch in version)
+        var end = version.IndexOf('.');
+        var head = end < 0 ? version.AsSpan() : version.AsSpan(0, end);
+        if (!head.ContainsAnyExceptInRange('0', '9'))
+            return head.Length == version.Length ? version : head.ToString();
+
+        Span<char> digits = stackalloc char[head.Length];
+        var count = 0;
+        foreach (var ch in head)
         {
-            if (ch == '.')
-                break;
             if (ch is >= '0' and <= '9')
-                major.Append(ch);
+                digits[count++] = ch;
         }
-        return major.ToString();
+        return digits[..count].ToString();
     }
 
     // JavaScript's \s: ASCII whitespace plus the Unicode space separators, line separators and BOM.

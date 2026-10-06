@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 
 using uaParserLibrary;
 
@@ -6,31 +7,61 @@ namespace uaParserBenchmark;
 
 // A quick measurement (about half a minute) without BenchmarkDotNet. Same method as
 // tools/RuleGenerator's `npm run bench`, so the numbers can be compared with ua-parser-js.
+// Prints the results and saves them as Markdown and JSON.
 public static class QuickRun
 {
-    public static void Run()
+    public static void Run(string[] args)
     {
         // Measured first, before anything else has used the parser.
         var cold = Stopwatch.StartNew();
         UAParser.GetClientInfo(Corpus.Load(Corpus.Legacy)[0]);
         cold.Stop();
 
-        Console.WriteLine($"uaParser.Net quick benchmark: rules from ua-parser-js {UAParser.RulesVersion}, {Environment.Version}, {Environment.ProcessorCount} CPUs");
-        Console.WriteLine($"First call (cold start): {cold.Elapsed.TotalMilliseconds:F0} ms");
-        Console.WriteLine();
-        Console.WriteLine("Per user agent, after warm-up (15 trials):");
-        Console.WriteLine($"{"Corpus",-20} {"User agents",11} {"min",9} {"median",9}");
-
-        foreach (var name in Corpus.Names)
+        var machine = Results.Machine();
+        var rows = Corpus.Names.Select(name =>
         {
             var userAgents = Corpus.Load(name);
             var (min, median) = Measure(userAgents);
-            Console.WriteLine($"{name,-20} {userAgents.Length,11} {min,6:F1} µs {median,6:F1} µs");
-        }
+            return new Row(name, userAgents.Length, Math.Round(min, 1), Math.Round(median, 1));
+        }).ToList();
 
+        var report = new StringBuilder()
+            .AppendLine($"# uaParser.Net quick benchmark")
+            .AppendLine()
+            .AppendLine($"- Date: {DateTimeOffset.Now:yyyy-MM-dd HH:mm zzz}")
+            .AppendLine($"- Library: uaParser.Net, rules from ua-parser-js {UAParser.RulesVersion}")
+            .AppendLine($"- Runtime: {machine["runtime"]}")
+            .AppendLine($"- Machine: {machine["cpu"]}, {machine["cpus"]} CPUs, {machine["os"]} ({machine["architecture"]})")
+            .AppendLine()
+            .AppendLine($"First call (cold start): **{cold.Elapsed.TotalMilliseconds:F0} ms**")
+            .AppendLine()
+            .AppendLine("Per user agent, after warm-up (15 trials):")
+            .AppendLine()
+            .AppendLine("| Corpus | User agents | min (µs) | median (µs) |")
+            .AppendLine("|---|---:|---:|---:|");
+        foreach (var row in rows)
+            report.AppendLine($"| {row.Corpus} | {row.UserAgents} | {row.MinMicroseconds:F1} | {row.MedianMicroseconds:F1} |");
+
+        Console.Write(report);
+
+        var folder = Results.Folder(args);
+        Directory.CreateDirectory(folder);
+        var stem = Path.Combine(folder, $"uaParser.Net-quick-{DateTime.Now:yyyyMMdd-HHmmss}");
+        File.WriteAllText(stem + ".md", report.ToString());
+        Results.WriteJson(stem + ".json", new
+        {
+            library = "uaParser.Net",
+            rules = $"ua-parser-js {UAParser.RulesVersion}",
+            date = DateTimeOffset.Now,
+            machine,
+            coldStartMilliseconds = Math.Round(cold.Elapsed.TotalMilliseconds, 1),
+            perUserAgent = rows,
+        });
         Console.WriteLine();
-        Console.WriteLine("Full benchmarks (BenchmarkDotNet): dotnet run -c Release");
+        Console.WriteLine($"Saved: {stem}.md and .json");
     }
+
+    private sealed record Row(string Corpus, int UserAgents, double MinMicroseconds, double MedianMicroseconds);
 
     private static (double Min, double Median) Measure(string[] userAgents)
     {

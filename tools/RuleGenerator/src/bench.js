@@ -1,8 +1,10 @@
 'use strict';
 
-// Usage: node src/bench.js
+// Usage: node src/bench.js [--out <folder>]
 // Measures ua-parser-js on the same user agents and in the same way as
 // `dotnet run -c Release -- --quick` in uaParserBenchmark, so the numbers can be compared.
+// Prints the results and saves them as Markdown and JSON in benchmark-results/ at the
+// repository root.
 
 const fs = require('fs');
 const path = require('path');
@@ -28,12 +30,7 @@ const cold = (now() - start) / 1000;
 
 const parse = uas => { for (const ua of uas) new UAParser(ua).getResult(); };
 
-console.log(`ua-parser-js ${UAParser.VERSION} quick benchmark: Node ${process.version}, ${require('os').cpus().length} CPUs`);
-console.log(`First call (cold start, including require): ${cold.toFixed(0)} ms`);
-console.log('');
-console.log('Per user agent, after warm-up (15 trials):');
-console.log(`${'Corpus'.padEnd(20)} ${'User agents'.padStart(11)} ${'min'.padStart(9)} ${'median'.padStart(9)}`);
-
+const rows = [];
 for (const [name, uas] of corpora) {
     for (let r = 0; r < 40; r++) parse(uas);
     sleep(500);
@@ -45,5 +42,53 @@ for (const [name, uas] of corpora) {
         trials.push((now() - start) / (3 * uas.length));
     }
     trials.sort((a, b) => a - b);
-    console.log(`${name.padEnd(20)} ${String(uas.length).padStart(11)} ${trials[0].toFixed(1).padStart(6)} µs ${trials[7].toFixed(1).padStart(6)} µs`);
+    rows.push({ corpus: name, userAgents: uas.length, minMicroseconds: +trials[0].toFixed(1), medianMicroseconds: +trials[7].toFixed(1) });
 }
+
+const os = require('os');
+const machine = {
+    cpu: (os.cpus()[0] || {}).model || os.arch(),
+    cpus: String(os.cpus().length),
+    os: `${os.type()} ${os.release()}`,
+    architecture: os.arch(),
+    runtime: `Node ${process.version}`,
+};
+const date = new Date();
+const report = [
+    '# ua-parser-js quick benchmark',
+    '',
+    `- Date: ${date.toISOString()}`,
+    `- Library: ua-parser-js ${UAParser.VERSION}`,
+    `- Runtime: ${machine.runtime}`,
+    `- Machine: ${machine.cpu}, ${machine.cpus} CPUs, ${machine.os} (${machine.architecture})`,
+    '',
+    `First call (cold start, including require): **${cold.toFixed(0)} ms**`,
+    '',
+    'Per user agent, after warm-up (15 trials):',
+    '',
+    '| Corpus | User agents | min (µs) | median (µs) |',
+    '|---|---:|---:|---:|',
+    ...rows.map(r => `| ${r.corpus} | ${r.userAgents} | ${r.minMicroseconds.toFixed(1)} | ${r.medianMicroseconds.toFixed(1)} |`),
+    '',
+].join('\n');
+console.log(report);
+
+function resultsFolder() {
+    const i = process.argv.indexOf('--out');
+    if (i >= 0 && process.argv[i + 1]) return path.resolve(process.argv[i + 1]);
+    for (let dir = process.cwd(); ; dir = path.dirname(dir)) {
+        if (fs.existsSync(path.join(dir, 'uaParser.sln'))) return path.join(dir, 'benchmark-results');
+        if (path.dirname(dir) === dir) return path.join(process.cwd(), 'benchmark-results');
+    }
+}
+const folder = resultsFolder();
+fs.mkdirSync(folder, { recursive: true });
+const pad = n => String(n).padStart(2, '0');
+const stamp = `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}-${pad(date.getHours())}${pad(date.getMinutes())}${pad(date.getSeconds())}`;
+const stem = path.join(folder, `ua-parser-js-quick-${stamp}`);
+fs.writeFileSync(`${stem}.md`, report);
+fs.writeFileSync(`${stem}.json`, JSON.stringify({
+    library: 'ua-parser-js', version: UAParser.VERSION, date: date.toISOString(), machine,
+    coldStartMilliseconds: +cold.toFixed(1), perUserAgent: rows,
+}, null, 2) + '\n');
+console.log(`Saved: ${stem}.md and .json`);

@@ -28,7 +28,7 @@ public static class UAParser
     public static GPU GetGPU(string? renderer)
     {
         var values = Rule.Apply(GpuRules.All, new Input(renderer ?? string.Empty, []));
-        return new GPU(values[(int)Field.Vendor], values[(int)Field.Model]);
+        return new GPU(values[Field.Vendor], values[Field.Model]);
     }
 
     public static ClientInfo GetClientInfo(string? userAgent) => Parse(userAgent, gpu: null);
@@ -50,28 +50,28 @@ public static class UAParser
     private static Browser ReadBrowser(Input ua)
     {
         var values = Rule.Apply(UserAgentRules.Browser, ua);
-        var version = values[(int)Field.Version];
-        return new Browser(values[(int)Field.Name], version, JsString.Majorize(version));
+        var version = values[Field.Version];
+        return new Browser(values[Field.Name], version, JsString.Majorize(version));
     }
 
     private static CPU ReadCpu(Input ua) =>
-        new(Rule.Apply(UserAgentRules.Cpu, ua)[(int)Field.Architecture]);
+        new(Rule.Apply(UserAgentRules.Cpu, ua)[Field.Architecture]);
 
     private static Device ReadDevice(Input ua)
     {
         var values = Rule.Apply(UserAgentRules.Device, ua);
-        return new Device(values[(int)Field.Vendor], values[(int)Field.Model], values[(int)Field.Type]);
+        return new Device(values[Field.Vendor], values[Field.Model], values[Field.Type]);
     }
 
     private static Engine ReadEngine(Input ua)
     {
         var values = Rule.Apply(UserAgentRules.Engine, ua);
-        return new Engine(values[(int)Field.Name], values[(int)Field.Version]);
+        return new Engine(values[Field.Name], values[Field.Version]);
     }
 
     private static OS ReadOs(Input ua)
     {
         var values = Rule.Apply(UserAgentRules.Os, ua);
-        return new OS(values[(int)Field.Name], values[(int)Field.Version]);
+        return new OS(values[Field.Name], values[Field.Version]);
     }
 }

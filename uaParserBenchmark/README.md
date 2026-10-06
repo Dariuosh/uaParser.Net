@@ -40,8 +40,21 @@ dotnet run -c Release -- --filter *
 | `ParseBenchmarks` | Steady-state time and memory per user agent for `GetClientInfo`, `GetBrowser`, `GetOS` and `GetDevice`, for each corpus |
 | `ColdStartBenchmarks` | The first `GetClientInfo` call in a new process (10 processes) |
 
-Run one class with `--filter *ParseBenchmarks*` or `--filter *ColdStart*`. Results are written
-to `BenchmarkDotNet.Artifacts/`.
+Run one class with `--filter *ParseBenchmarks*` or `--filter *ColdStart*`.
+
+## Result files
+
+Every run saves its results in `benchmark-results/` at the repository root (ignored by git),
+or in the folder given with `--out <folder>`:
+
+| Run | Files |
+|---|---|
+| `--quick` | `uaParser.Net-quick-<date>.md` and `.json` |
+| `npm run bench` | `ua-parser-js-quick-<date>.md` and `.json` (same layout) |
+| BenchmarkDotNet | `BenchmarkDotNet/results/`: Markdown, CSV, HTML and JSON reports |
+
+Each file records the processor, number of CPUs, operating system and runtime, but not the
+machine name, so results from different devices can be shared and compared.
 
 ## Reading the numbers
 

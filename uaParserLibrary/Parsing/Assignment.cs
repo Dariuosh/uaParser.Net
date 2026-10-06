@@ -9,11 +9,11 @@ internal sealed class Assignment
 {
     private readonly Kind _kind;
     private readonly string? _value;
-    private readonly Regex? _pattern;
+    private readonly Func<Regex>? _pattern;
     private readonly bool _replaceAll;
     private readonly StringMap? _map;
 
-    private Assignment(Field field, Kind kind, string? value = null, Regex? pattern = null, bool replaceAll = false, StringMap? map = null)
+    private Assignment(Field field, Kind kind, string? value = null, Func<Regex>? pattern = null, bool replaceAll = false, StringMap? map = null)
     {
         Field = field;
         _kind = kind;
@@ -49,11 +49,11 @@ internal sealed class Assignment
     public static Assignment TrimStart(Field field) => new(field, Kind.TrimStart);
 
     // [PROP, /regex/, 'replacement']
-    public static Assignment Replace(Field field, Regex pattern, string replacement, bool all) =>
+    public static Assignment Replace(Field field, Func<Regex> pattern, string replacement, bool all) =>
         new(field, Kind.Replace, replacement, pattern, all);
 
     // [PROP, /regex/, 'replacement', lowerize]
-    public static Assignment ReplaceThenLowercase(Field field, Regex pattern, string replacement, bool all) =>
+    public static Assignment ReplaceThenLowercase(Field field, Func<Regex> pattern, string replacement, bool all) =>
         new(field, Kind.ReplaceThenLowercase, replacement, pattern, all);
 
     // [PROP, strMapper, map]
@@ -79,5 +79,5 @@ internal sealed class Assignment
 
     // String.prototype.replace: every match for a /g regex, otherwise only the first.
     private string Replace(string input) =>
-        _pattern!.Replace(input, _value!, _replaceAll ? -1 : 1);
+        _pattern!().Replace(input, _value!, _replaceAll ? -1 : 1);
 }

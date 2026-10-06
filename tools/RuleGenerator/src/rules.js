@@ -96,7 +96,7 @@ function generate(up, samples) {
         regexMethods.push(
             `    [GeneratedRegex(${csPattern(regex.source)}, ${options}, TimeoutMilliseconds, "")]\n` +
             `    private static partial Regex ${name}();`);
-        return `${name}()`;
+        return name;   // a method group: the regex is created on first use
     }
 
     function stringMap(where, map) {

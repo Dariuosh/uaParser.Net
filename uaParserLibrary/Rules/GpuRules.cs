@@ -16,14 +16,14 @@ internal static partial class GpuRules
     public static readonly Rule[] All =
     [
         // Intel, NVIDIA, SiS
-        new([Intel(), Nvidia(), Sis()],
+        new([Intel, Nvidia, Sis],
             [Capture(Field.Vendor), Capture(Field.Model)]),
         // ATI
-        new([Radeon()],
+        new([Radeon],
             [Capture(Field.Model), Constant(Field.Vendor, "ATI")]),
         // Qualcomm
-        new([Adreno()],
-            [Replace(Field.Model, Trademark(), "", all: true), Constant(Field.Vendor, "Qualcomm")]),
+        new([Adreno],
+            [Replace(Field.Model, Trademark, "", all: true), Constant(Field.Vendor, "Qualcomm")]),
     ];
 
     [GeneratedRegex(@"(intel).*\b(hd\sgraphics\s\d{4}|iris(?:\spro)|gma\s\w+)", Options, TimeoutMilliseconds, "")]

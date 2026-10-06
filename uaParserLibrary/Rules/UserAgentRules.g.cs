@@ -1546,258 +1546,258 @@ internal static partial class UserAgentRules
     public static readonly Rule[] Browser =
     [
         // 0
-        new([Browser_0_0()],
+        new([Browser_0_0],
             [Capture(Field.Version), Constant(Field.Name, "Chrome")],
             // needs "crmo/"|"crios/"
             [Needs([0, 1])]),
         // 1
-        new([Browser_1_0()],
+        new([Browser_1_0],
             [Capture(Field.Version), Constant(Field.Name, "Edge")],
             // needs "edg/"|"edga/"|"edge/"|"edgios/"
             [Needs([2, 3, 4, 5])]),
         // 2
-        new([Browser_2_0(), Browser_2_1(), Browser_2_2()],
+        new([Browser_2_0, Browser_2_1, Browser_2_2],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "opera mini/"; "opera " & "version/" & "a"|"b"|"e"|"i"|"l"|"m"|"o"|"t"; "opera" & " "|"/"
             [Needs([6]), Needs([7], [8], [9, 10, 11, 12, 13, 14, 15, 16]), Needs([17], [18, 19])]),
         // 3
-        new([Browser_3_0()],
+        new([Browser_3_0],
             [Capture(Field.Version), Constant(Field.Name, "Opera Mini")],
             // needs "opios" & " "|"/"
             [Needs([20], [18, 19])]),
         // 4
-        new([Browser_4_0()],
+        new([Browser_4_0],
             [Capture(Field.Version), Constant(Field.Name, "Opera GX")],
             // needs "opx/"|"oprgx/"
             [Needs([21, 22])]),
         // 5
-        new([Browser_5_0()],
+        new([Browser_5_0],
             [Capture(Field.Version), Constant(Field.Name, "Opera")],
             // needs "opr/"
             [Needs([23])]),
         // 6
-        new([Browser_6_0()],
+        new([Browser_6_0],
             [Capture(Field.Version), Constant(Field.Name, "Baidu")],
             // needs "d" & "b" & "a"|"e"|"k"|"o"|"p"|"r"|"s"|"w"|"x"|"uhd"
             [Needs([24], [10], [9, 11, 25, 15, 26, 27, 28, 29, 30, 31])]),
         // 7
-        new([Browser_7_0()],
+        new([Browser_7_0],
             [Capture(Field.Version), Constant(Field.Name, "Maxthon")],
             // needs "mxios"|"myie2"|"mxbrowser"
             [Needs([32, 33, 34])]),
         // 8
-        new([Browser_8_0(), Browser_8_1(), Browser_8_2(), Browser_8_3(), Browser_8_4(), Browser_8_5(), Browser_8_6()],
+        new([Browser_8_0, Browser_8_1, Browser_8_2, Browser_8_3, Browser_8_4, Browser_8_5, Browser_8_6],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "kindle/"; "blazer"|"jasmine"|"maxthon"|"netfront"|"sleipnir"|"lunascape"; "avant"|"slimjet"|"iemobile"|"slimboat"|"slimbrowser"; "(ie "|"msie "; "bolt/"|"iron/"|"klar/"|"silk/"|"brave/"|"flock/"|"helio/"|"whale/"|"bowser/"|"dragon/"|"falkon/"|"midori/"|"puffin/"|"rekonq/"|"iridium/"|"skyfire/"|"vivaldi/"|"epiphany/"|"qupzilla/"|"rockmelt/"|"phantomjs/"|"duckduckgo/"|"ovibrowser/"|"qqbrowserlite/"; "115browser/"|"ovibrowser/"|"heytapbrowser/"; "weibo__"
             [Needs([35]), Needs([36, 37, 38, 39, 40, 41]), Needs([42, 43, 44, 45, 46]), Needs([47, 48]), Needs([49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]), Needs([73, 71, 74]), Needs([75])]),
         // 9
-        new([Browser_9_0()],
+        new([Browser_9_0],
             [Capture(Field.Version), Constant(Field.Name, "Quark")],
             // needs "quark/"|"quarkpc/"
             [Needs([76, 77])]),
         // 10
-        new([Browser_10_0()],
+        new([Browser_10_0],
             [Capture(Field.Version), Constant(Field.Name, "DuckDuckGo")],
             // needs "ddg/"
             [Needs([78])]),
         // 11
-        new([Browser_11_0()],
+        new([Browser_11_0],
             [Capture(Field.Version), Constant(Field.Name, "UCBrowser")],
             // needs "juc"|"ubrowser"|"u browser"|"ucbrowser"|"uc browser"
             [Needs([79, 80, 81, 82, 83])]),
         // 12
-        new([Browser_12_0(), Browser_12_1(), Browser_12_2()],
+        new([Browser_12_0, Browser_12_1, Browser_12_2],
             [Capture(Field.Version), Constant(Field.Name, "WeChat")],
             // needs "qbcore/" & "microm"; "qbcore/" & "microm"; "micromessenger/"
             [Needs([84], [85]), Needs([84], [85]), Needs([86])]),
         // 13
-        new([Browser_13_0()],
+        new([Browser_13_0],
             [Capture(Field.Version), Constant(Field.Name, "Konqueror")],
             // needs "konqueror/"
             [Needs([87])]),
         // 14
-        new([Browser_14_0()],
+        new([Browser_14_0],
             [Capture(Field.Version), Constant(Field.Name, "IE")],
             // needs "trident" & "rv "|"rv:" & "like gecko"
             [Needs([88], [89, 90], [91])]),
         // 15
-        new([Browser_15_0()],
+        new([Browser_15_0],
             [Capture(Field.Version), Constant(Field.Name, "Yandex")],
             // needs "yabrowser/"|"yasearchbrowser/"
             [Needs([92, 93])]),
         // 16
-        new([Browser_16_0()],
+        new([Browser_16_0],
             [Capture(Field.Version), Constant(Field.Name, "Smart Lenovo Browser")],
             // needs "slbrowser/"
             [Needs([94])]),
         // 17
-        new([Browser_17_0()],
-            [Replace(Field.Name, Browser_17_Replace0(), "${1} Secure Browser", all: false), Capture(Field.Version)],
+        new([Browser_17_0],
+            [Replace(Field.Name, Browser_17_Replace0, "${1} Secure Browser", all: false), Capture(Field.Version)],
             // needs "avg/"|"avast/"
             [Needs([95, 96])]),
         // 18
-        new([Browser_18_0()],
+        new([Browser_18_0],
             [Capture(Field.Version), Constant(Field.Name, "Firefox Focus")],
             // needs "focus/"
             [Needs([97])]),
         // 19
-        new([Browser_19_0()],
+        new([Browser_19_0],
             [Capture(Field.Version), Constant(Field.Name, "Opera Touch")],
             // needs "opt/"
             [Needs([98])]),
         // 20
-        new([Browser_20_0()],
+        new([Browser_20_0],
             [Capture(Field.Version), Constant(Field.Name, "Coc Coc")],
             // needs "coc_coc" & "/"
             [Needs([99], [19])]),
         // 21
-        new([Browser_21_0()],
+        new([Browser_21_0],
             [Capture(Field.Version), Constant(Field.Name, "Dolphin")],
             // needs "dolfin/"
             [Needs([100])]),
         // 22
-        new([Browser_22_0()],
+        new([Browser_22_0],
             [Capture(Field.Version), Constant(Field.Name, "Opera Coast")],
             // needs "coast/"
             [Needs([101])]),
         // 23
-        new([Browser_23_0()],
+        new([Browser_23_0],
             [Capture(Field.Version), Constant(Field.Name, "MIUI Browser")],
             // needs "miuibrowser/"
             [Needs([102])]),
         // 24
-        new([Browser_24_0()],
+        new([Browser_24_0],
             [Capture(Field.Version), Constant(Field.Name, "Firefox")],
             // needs "fxios/"
             [Needs([103])]),
         // 25
-        new([Browser_25_0()],
+        new([Browser_25_0],
             [Capture(Field.Version), Constant(Field.Name, "360")],
             // needs "qihoobrowser"
             [Needs([104])]),
         // 26
-        new([Browser_26_0()],
-            [Replace(Field.Name, Browser_26_Replace0(), "${1}Browser", all: false), Capture(Field.Version)],
+        new([Browser_26_0],
+            [Replace(Field.Name, Browser_26_Replace0, "${1}Browser", all: false), Capture(Field.Version)],
             // needs "qq/"
             [Needs([105])]),
         // 27
-        new([Browser_27_0()],
-            [Replace(Field.Name, Browser_27_Replace0(), "${1} Browser", all: false), Capture(Field.Version)],
+        new([Browser_27_0],
+            [Replace(Field.Name, Browser_27_Replace0, "${1} Browser", all: false), Capture(Field.Version)],
             // needs "picobrowser/"|"vivobrowser/"|"huaweibrowser/"|"oculusbrowser/"|"sailfishbrowser/"
             [Needs([106, 107, 108, 109, 110])]),
         // 28
-        new([Browser_28_0()],
+        new([Browser_28_0],
             [Capture(Field.Version), Constant(Field.Name, "Samsung Internet")],
             // needs "samsungbrowser/"
             [Needs([111])]),
         // 29
-        new([Browser_29_0()],
+        new([Browser_29_0],
             [Capture(Field.Version), Constant(Field.Name, "Sogou Explorer")],
             // needs "metasr"
             [Needs([112])]),
         // 30
-        new([Browser_30_0()],
+        new([Browser_30_0],
             [Constant(Field.Name, "Sogou Mobile"), Capture(Field.Version)],
             // needs "sogoumo" & "/"
             [Needs([113], [19])]),
         // 31
-        new([Browser_31_0(), Browser_31_1(), Browser_31_2()],
+        new([Browser_31_0, Browser_31_1, Browser_31_2],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "electron/" & " safari"; "tesla" & "200"|"201"|"202"|"203"|"204"|"205"|"206"|"207"|"208"|"209"|" qtcarbrowser"; "2345"|"qqbrowser"
             [Needs([114], [115]), Needs([116], [117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]), Needs([128, 129])]),
         // 32
-        new([Browser_32_0(), Browser_32_1()],
+        new([Browser_32_0, Browser_32_1],
             [Capture(Field.Name)],
             // needs "rekonq"|"lbbrowser"; "[linkedinapp]"
             [Needs([130, 131]), Needs([132])]),
         // 33
-        new([Browser_33_0(), Browser_33_1()],
+        new([Browser_33_0, Browser_33_1],
             [Capture(Field.Version), Capture(Field.Name)],
             // needs "iron saf" & "ome/" & " "; "qihu 360ee"|"qihu 360se" & "ome/"
             [Needs([133], [134], [18]), Needs([135, 136], [134])]),
         // 34
-        new([Browser_34_0()],
+        new([Browser_34_0],
             [Constant(Field.Name, "Facebook"), Capture(Field.Version)],
             // needs ";fbav/"|"fban/fbios"|"fb_iab/fb4a"
             [Needs([137, 138, 139])]),
         // 35
-        new([Browser_35_0(), Browser_35_1(), Browser_35_2(), Browser_35_3(), Browser_35_4(), Browser_35_5(), Browser_35_6(), Browser_35_7(), Browser_35_8()],
+        new([Browser_35_0, Browser_35_1, Browser_35_2, Browser_35_3, Browser_35_4, Browser_35_5, Browser_35_6, Browser_35_7, Browser_35_8],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "klarna/"; "kakaotalk "|"kakaotalk/"|"kakaostory "|"kakaostory/"; "naver(" & ")" & "." & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"; "daumapps "|"daumapps/"; "safari line/"; "/iab" & "line/"; "alipayclient/"; "twitter" & " f"|"and"; "chromium "|"chromium/"|"snapchat "|"snapchat/"|"instagram "|"instagram/"
             [Needs([140]), Needs([141, 142, 143, 144]), Needs([145], [146], [147], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157]), Needs([158, 159]), Needs([160]), Needs([161], [162]), Needs([163]), Needs([164], [165, 166]), Needs([167, 168, 169, 170, 171, 172])]),
         // 36
-        new([Browser_36_0()],
+        new([Browser_36_0],
             [Capture(Field.Version), Constant(Field.Name, "GSA")],
             // needs "gsa/" & "safari/" & " "
             [Needs([173], [174], [18])]),
         // 37
-        new([Browser_37_0()],
+        new([Browser_37_0],
             [Capture(Field.Version), Constant(Field.Name, "TikTok")],
             // needs "musical_ly" & "_"|"appversion/"
             [Needs([175], [176, 177])]),
         // 38
-        new([Browser_38_0()],
+        new([Browser_38_0],
             [Capture(Field.Version), Constant(Field.Name, "Chrome Headless")],
             // needs "headlesschrome" & " "|"/"
             [Needs([178], [18, 19])]),
         // 39
-        new([Browser_39_0()],
+        new([Browser_39_0],
             [Constant(Field.Name, "Chrome WebView"), Capture(Field.Version)],
             // needs " wv)" & "chrome/"
             [Needs([179], [180])]),
         // 40
-        new([Browser_40_0()],
+        new([Browser_40_0],
             [Capture(Field.Version), Constant(Field.Name, "Android Browser")],
             // needs " version/" & "droid" & "safari"
             [Needs([181], [182], [183])]),
         // 41
-        new([Browser_41_0()],
+        new([Browser_41_0],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "arora"|"chrome"|"browser"|"omniweb" & "/"
             [Needs([184, 185, 186, 187], [19])]),
         // 42
-        new([Browser_42_0()],
+        new([Browser_42_0],
             [Capture(Field.Version), Constant(Field.Name, "Mobile Safari")],
             // needs "mobile/" & "version/" & " safari" & " "
             [Needs([188], [8], [115], [18])]),
         // 43
-        new([Browser_43_0()],
+        new([Browser_43_0],
             [Capture(Field.Version), Capture(Field.Name)],
             // needs "version/" & "safari" & " "
             [Needs([8], [183], [18])]),
         // 44
-        new([Browser_44_0()],
+        new([Browser_44_0],
             [Capture(Field.Name), Map(Field.Version, OldSafariMap)],
             // needs "safari" & "webkit" & "/"
             [Needs([183], [189], [19])]),
         // 45
-        new([Browser_45_0()],
+        new([Browser_45_0],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "khtml/"|"webkit/"
             [Needs([190, 191])]),
         // 46
-        new([Browser_46_0()],
+        new([Browser_46_0],
             [Constant(Field.Name, "Netscape"), Capture(Field.Version)],
             // needs "netscape/"|"navigator/"|"netscape0/"|"netscape1/"|"netscape2/"|"netscape3/"|"netscape4/"|"netscape5/"|"netscape6/"|"netscape7/"|"netscape8/"|"netscape9/"
             [Needs([192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203])]),
         // 47
-        new([Browser_47_0()],
+        new([Browser_47_0],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "wolvic/"|"librewolf/"
             [Needs([204, 205])]),
         // 48
-        new([Browser_48_0()],
+        new([Browser_48_0],
             [Capture(Field.Version), Constant(Field.Name, "Firefox Reality")],
             // needs "mobile vr; rv:" & "firefox" & ")"
             [Needs([206], [207], [146])]),
         // 49
-        new([Browser_49_0(), Browser_49_1(), Browser_49_2(), Browser_49_3(), Browser_49_4(), Browser_49_5(), Browser_49_6(), Browser_49_7()],
-            [Capture(Field.Name), Replace(Field.Version, Browser_49_Replace1(), ".", all: true)],
+        new([Browser_49_0, Browser_49_1, Browser_49_2, Browser_49_3, Browser_49_4, Browser_49_5, Browser_49_6, Browser_49_7],
+            [Capture(Field.Name), Replace(Field.Version, Browser_49_Replace1, ".", all: true)],
             // needs "ekiohf" & "flow/"; "swiftfox"; "camino"|"fennec"|"minimo"|"chimera"|"conkeror"|"icedragon"|"iceweasel"|"maemo browser"; "iceape/"|"icecat/"|"phoenix/"|"basilisk/"|"firebird/"|"k-meleon/"|"palemoon/"|"waterfox/"|"seamonkey/"; "firefox/"; "gecko/" & "rv:" & "mozilla/" & " "; "w3m"|"icab"|"lynx"|"amaya"|"dillo"|"doris"|"obigo"|"mosaic"|"netsurf"|"polaris"|"ladybird"|"gobrowser"|"upbrowser"|"go browser"|"go.browser"|"icebrowser"|"up browser"|"up.browser"|"ice browser"|"ice.browser"; "links ("
             [Needs([208], [209]), Needs([210]), Needs([211, 212, 213, 214, 215, 216, 217, 218]), Needs([219, 220, 221, 222, 223, 224, 225, 226, 227]), Needs([228]), Needs([229], [90], [230], [18]), Needs([231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250]), Needs([251])]),
         // 50
-        new([Browser_50_0()],
-            [Capture(Field.Name), Replace(Field.Version, Browser_50_Replace1(), "", all: false)],
+        new([Browser_50_0],
+            [Capture(Field.Name), Replace(Field.Version, Browser_50_Replace1, "", all: false)],
             // needs "cobalt/"
             [Needs([252])]),
     ];
@@ -1805,42 +1805,42 @@ internal static partial class UserAgentRules
     public static readonly Rule[] Cpu =
     [
         // 0
-        new([Cpu_0_0()],
+        new([Cpu_0_0],
             [Constant(Field.Architecture, "amd64")],
             // needs "x64"|"amd64"|"win64"|"wow64"|"x8664"|"x86-64"|"x86_64"
             [Needs([253, 254, 255, 256, 257, 258, 259])]),
         // 1
-        new([Cpu_1_0(), Cpu_1_1()],
+        new([Cpu_1_0, Cpu_1_1],
             [Constant(Field.Architecture, "ia32")],
             // needs "ia32"; "x86"|"i386"|"i486"|"i686"
             [Needs([260]), Needs([261, 262, 263, 264])]),
         // 2
-        new([Cpu_2_0()],
+        new([Cpu_2_0],
             [Constant(Field.Architecture, "arm64")],
             // needs "arm8"|"arm9"|"arm64"|"armv8"|"armv9"|"arm_64"|"aarch64"
             [Needs([265, 266, 267, 268, 269, 270, 271])]),
         // 3
-        new([Cpu_3_0()],
+        new([Cpu_3_0],
             [Constant(Field.Architecture, "armhf")],
             // needs "armhf"|"armhl"|"armhnf"|"armhnl"|"armhtf"|"armhtl"|"armhtnf"|"armhtnl"|"armv6hf"|"armv6hl"|"armv7hf"|"armv7hl"|"armv6hnf"|"armv6hnl"|"armv6htf"|"armv6htl"|"armv7hnf"|"armv7hnl"|"armv7htf"|"armv7htl"|"armv6htnf"|"armv6htnl"|"armv7htnf"|"armv7htnl"
             [Needs([272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295])]),
         // 4
-        new([Cpu_4_0()],
+        new([Cpu_4_0],
             [Constant(Field.Architecture, "arm")],
             // needs "arm"|" ce; ppc;"|" mobile; ppc;"
             [Needs([296, 297, 298])]),
         // 5
-        new([Cpu_5_0()],
-            [ReplaceThenLowercase(Field.Architecture, Cpu_5_Replace0(), "", all: false)],
+        new([Cpu_5_0],
+            [ReplaceThenLowercase(Field.Architecture, Cpu_5_Replace0, "", all: false)],
             // needs "ppc)"|"ppc;"|"ppc64)"|"ppc64;"|"ppc mac"|"powerpc)"|"powerpc;"|"ppc64 mac"|"powerpc64)"|"powerpc64;"|"powerpc mac"|"powerpc64 mac"
             [Needs([299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310])]),
         // 6
-        new([Cpu_6_0()],
+        new([Cpu_6_0],
             [Constant(Field.Architecture, "sparc")],
             // needs " sun4" & ")"|";"
             [Needs([311], [146, 312])]),
         // 7
-        new([Cpu_7_0()],
+        new([Cpu_7_0],
             [Lowercase(Field.Architecture)],
             // needs "68k"|"arm"|"ia64"|"irix"|"mips"|"avr32"|"sparc"|"pa-risc"
             [Needs([313, 296, 314, 315, 316, 317, 318, 319])]),
@@ -1849,587 +1849,587 @@ internal static partial class UserAgentRules
     public static readonly Rule[] Device =
     [
         // 0
-        new([Device_0_0()],
+        new([Device_0_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Samsung"), Constant(Field.Type, "tablet")],
             // needs "gt-n"|"gt-p"|"sm-p"|"sm-t"|"sm-x"|"nexus 10"|"sch-i800"|"sch-i801"|"sch-i802"|"sch-i803"|"sch-i804"|"sch-i805"|"sch-i806"|"sch-i807"|"sch-i808"|"sch-i809"|"sch-i900"|"sch-i901"|"sch-i902"|"sch-i903"|"sch-i904"|"sch-i905"|"sch-i906"|"sch-i907"|"sch-i908"|"sch-i909"|"sgh-t859"|"sgh-t869"|"shw-m380s"
             [Needs([320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348])]),
         // 1
-        new([Device_1_0(), Device_1_1(), Device_1_2()],
+        new([Device_1_0, Device_1_1, Device_1_2],
             [Capture(Field.Model), Constant(Field.Vendor, "Samsung"), Constant(Field.Type, "mobile")],
             // needs "sc"|"gt-"|"sm-"|"sgh-"|"sph-"|"galaxy nexus"; "samsung "|"samsung-"; "sec-" & "sgh"
             [Needs([349, 350, 351, 352, 353, 354]), Needs([355, 356]), Needs([357], [358])]),
         // 2
-        new([Device_2_0()],
+        new([Device_2_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Apple"), Constant(Field.Type, "mobile")],
             // needs "ipod"|"iphone" & "/"|";" & "("|"/"
             [Needs([359, 360], [19, 312], [361, 19])]),
         // 3
-        new([Device_3_0(), Device_3_1(), Device_3_2()],
+        new([Device_3_0, Device_3_1, Device_3_2],
             [Capture(Field.Model), Constant(Field.Vendor, "Apple"), Constant(Field.Type, "tablet")],
             // needs "(ipad;" & "apple"; "applecoremedia/" & " (ipad"; "ipad0"|"ipad1"|"ipad2"|"ipad3"|"ipad4"|"ipad5"|"ipad6"|"ipad7"|"ipad8"|"ipad9" & "ios" & "," & ";"|"]"
             [Needs([362], [363]), Needs([364], [365]), Needs([366, 367, 368, 369, 370, 371, 372, 373, 374, 375], [376], [377], [312, 378])]),
         // 4
-        new([Device_4_0()],
+        new([Device_4_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Apple")],
             // needs "macintosh;"
             [Needs([379])]),
         // 5
-        new([Device_5_0()],
+        new([Device_5_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Sharp"), Constant(Field.Type, "mobile")],
             // needs "sh" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([380], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 6
-        new([Device_6_0()],
+        new([Device_6_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Honor"), Constant(Field.Type, "tablet")],
             // needs "brt-l09"|"brt-n09"|"brt-w09"|"eln-l09"|"eln-n09"|"eln-w09"|"gdi-l09"|"gdi-n09"|"gdi-w09"|"hey-l09"|"hey-n09"|"hey-w09"|"jdn-l09"|"jdn-n09"|"jdn-w09"|"brt-al09"|"brt-an09"|"brt-aw09"|"eln-al09"|"eln-an09"|"eln-aw09"|"gdi-al09"|"gdi-an09"|"gdi-aw09"|"hey-al09"|"hey-an09"|"hey-aw09"|"hey2-l09"|"hey2-n09"|"hey2-w09"|"jdn-al09"|"jdn-an09"|"jdn-aw09"|"agm-l00hn"|"agm-l09hn"|"agm-w00hn"|"agm-w09hn"|"agr-l00hn"|"agr-l09hn"|"agr-w00hn"|"agr-w09hn"|"hey2-al09"|"hey2-an09"|"hey2-aw09"|"agm-al00hn"|"agm-al09hn"|"agm-aw00hn"|"agm-aw09hn"|"agm3-l00hn"|"agm3-l09hn"|"agm3-w00hn"|"agm3-w09hn"|"agr-al00hn"|"agr-al09hn"|"agr-aw00hn"|"agr-aw09hn"|"agr3-l00hn"|"agr3-l09hn"|"agr3-w00hn"|"agr3-w09hn"|"jdn2-l00hn"|"jdn2-l09hn"|"jdn2-w00hn"|"jdn2-w09hn"|"kob2-l00hn"|"kob2-l09hn"|"kob2-w00hn"|"kob2-w09hn"|"agm3-al00hn"|"agm3-al09hn"|"agm3-aw00hn"|"agm3-aw09hn"|"agr3-al00hn"|"agr3-al09hn"|"agr3-aw00hn"|"agr3-aw09hn"|"jdn2-al00hn"|"jdn2-al09hn"|"jdn2-aw00hn"|"jdn2-aw09hn"|"kob2-al00hn"|"kob2-al09hn"|"kob2-aw00hn"|"kob2-aw09hn" & ")"|";"|" bui"
             [Needs([381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464], [146, 312, 465])]),
         // 7
-        new([Device_7_0()],
+        new([Device_7_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Honor"), Constant(Field.Type, "mobile")],
             // needs "honor" & ")"|";"
             [Needs([466], [146, 312])]),
         // 8
-        new([Device_8_0()],
+        new([Device_8_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Huawei"), Constant(Field.Type, "tablet")],
             // needs "sh-"|"agr-"|"ags-"|"bah-"|"bg2-"|"bgo-"|"btk-"|"btv-"|"cmr-"|"cpn-"|"dbr-"|"dby-"|"got-"|"kob-"|"mon-"|"pce-"|"scm-"|"sht-"|"tgr-"|"vrd-"|"wgr-"|"605hw"|"agr2-"|"agr3-"|"agr5-"|"agr6-"|"agrk-"|"ags2-"|"ags3-"|"ags5-"|"ags6-"|"agsk-"|"bah2-"|"bah3-"|"bah4-"|"dbr2-"|"dby2-"|"jdn2-"|"kob2-"|"kobk-"|"agr2k-"|"agr3k-"|"agr5k-"|"agr6k-"|"ags2k-"|"ags3k-"|"ags5k-"|"ags6k-"|"kob2k-"|"m2-701"|"m2-702"|"m2-703"|"m2-704"|"m2-a01"|"m2-a02"|"m2-a03"|"m2-a04"|"t1-701"|"t1-702"|"t1-703"|"t1-704"|"t1-a01"|"t1-a02"|"t1-a03"|"t1-a04"|"fdr-701"|"fdr-702"|"fdr-703"|"fdr-704"|"fdr-a01"|"fdr-a02"|"fdr-a03"|"fdr-a04"|"gem-701"|"gem-702"|"gem-703"|"gem-704"|"gem-a01"|"gem-a02"|"gem-a03"|"gem-a04"|"ple-701"|"ple-702"|"ple-703"|"ple-704"|"ple-a01"|"ple-a02"|"ple-a03"|"ple-a04"|"t1-a21l"|"t1-a21w"|"t1-a23l"|"t1-a23w"|"mediapad"
             [Needs([467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560])]),
         // 9
-        new([Device_9_0(), Device_9_1()],
+        new([Device_9_0, Device_9_1],
             [Capture(Field.Model), Constant(Field.Vendor, "Huawei"), Constant(Field.Type, "mobile")],
             // needs "huawei" & ")"|";"; "-l"|"-n"|"-al"|"-an"|"-tl"|"-tn"|"-ul"|"-un"|"nexus 6p"
             [Needs([561], [146, 312]), Needs([562, 563, 564, 565, 566, 567, 568, 569, 570])]),
         // 10
-        new([Device_10_0(), Device_10_1()],
-            [Replace(Field.Model, Device_10_Replace0(), " ", all: true), Constant(Field.Vendor, "Xiaomi"), Constant(Field.Type, "tablet")],
+        new([Device_10_0, Device_10_1],
+            [Replace(Field.Model, Device_10_Replace0, " ", all: true), Constant(Field.Vendor, "Xiaomi"), Constant(Field.Type, "tablet")],
             // needs "rp"|"182"|"283"|"m2105k81c"|"m2105k81ac" & "oid" & "; " & ")"|" bui"; "mipad"|"mi pad"|"mi-pad"|"mi_pad" & ")"|" bui"
             [Needs([571, 572, 573, 574, 575], [576], [577], [146, 465]), Needs([578, 579, 580, 581], [146, 465])]),
         // 11
-        new([Device_11_0(), Device_11_1(), Device_11_2(), Device_11_3(), Device_11_4(), Device_11_5(), Device_11_6()],
-            [Replace(Field.Model, Device_11_Replace0(), " ", all: true), Constant(Field.Vendor, "Xiaomi"), Constant(Field.Type, "mobile")],
+        new([Device_11_0, Device_11_1, Device_11_2, Device_11_3, Device_11_4, Device_11_5, Device_11_6],
+            [Replace(Field.Model, Device_11_Replace0, " ", all: true), Constant(Field.Vendor, "Xiaomi"), Constant(Field.Type, "mobile")],
             // needs "m2"|"poco" & ")"|" bui"; " build/hm" & "; "; "hmnot"|"hm not"|"hm-not"|"hm_not" & " bui"; "redmi" & ")"|" bui"; "100"|"101"|"110"|"111"|"120"|"121"|"130"|"131"|"180"|"181"|"190"|"191"|"200"|"201"|"210"|"211"|"220"|"221"|"230"|"231"|"280"|"281"|"290"|"291" & "oid" & "; " & ")"|" bui"|"; wv"; "mi" & ")"|" bui"; " miui/0"|" miui/1"|" miui/2"|" miui/3"|" miui/4"|" miui/5"|" miui/6"|" miui/7"|" miui/8"|" miui/9"|" miui/v0"|" miui/v1"|" miui/v2"|" miui/v3"|" miui/v4"|" miui/v5"|" miui/v6"|" miui/v7"|" miui/v8"|" miui/v9" & " "
             [Needs([582, 583], [146, 465]), Needs([584], [577]), Needs([585, 586, 587, 588], [465]), Needs([589], [146, 465]), Needs([590, 591, 592, 593, 594, 595, 596, 597, 598, 599, 600, 601, 117, 118, 602, 603, 604, 605, 606, 607, 608, 609, 610, 611], [576], [577], [146, 465, 612]), Needs([613], [146, 465]), Needs([614, 615, 616, 617, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633], [18])]),
         // 12
-        new([Device_12_0(), Device_12_1()],
+        new([Device_12_0, Device_12_1],
             [Capture(Field.Model), Constant(Field.Vendor, "OPPO"), Constant(Field.Type, "mobile")],
             // needs " oppo" & " bui" & "; "; "m00"|"m10"|"m20"|"m30"|"m40"|"m50"|"m60"|"m70"|"m80"|"m90"|"t00"|"t10"|"t20"|"t30"|"t40"|"t50"|"t60"|"t70"|"t80"|"t90"|"cph1"|"cph2"|"x9007"|"a101op"
             [Needs([634], [465], [577]), Needs([635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658])]),
         // 13
-        new([Device_13_0()],
+        new([Device_13_0],
             [Capture(Field.Model), Map(Field.Vendor, Device_13_prop1_Map), Constant(Field.Type, "tablet")],
             // needs "opd2" & ")"|" bui" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([659], [146, 465], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 14
-        new([Device_14_0(), Device_14_1()],
+        new([Device_14_0, Device_14_1],
             [Capture(Field.Model), Constant(Field.Vendor, "Vivo"), Constant(Field.Type, "mobile")],
             // needs "vivo " & ")"|" bui"; "v1"|"v2" & ";"|" bui" & "a"|"t" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([660], [146, 465]), Needs([661, 662], [312, 465], [9, 16], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 15
-        new([Device_15_0()],
+        new([Device_15_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Realme"), Constant(Field.Type, "mobile")],
             // needs "rmx1"|"rmx2"|"rmx3" & ")"|";"|" bui" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([663, 664, 665], [146, 312, 465], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 16
-        new([Device_16_0(), Device_16_1(), Device_16_2()],
+        new([Device_16_0, Device_16_1, Device_16_2],
             [Capture(Field.Model), Constant(Field.Vendor, "Motorola"), Constant(Field.Type, "mobile")],
             // needs "build/" & "droid"|"milestone"; "mot "|"mot-"|"motorola "|"motorola-"; "xt"|"moto"|"nexus 6"
             [Needs([666], [182, 667]), Needs([668, 669, 670, 671]), Needs([672, 673, 674])]),
         // 17
-        new([Device_17_0()],
+        new([Device_17_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Motorola"), Constant(Field.Type, "tablet")],
             // needs "xoom"|"mz600"|"mz601"|"mz602"|"mz603"|"mz604"|"mz605"|"mz606"|"mz607"|"mz608"|"mz609" & " build/"
             [Needs([675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685], [686])]),
         // 18
-        new([Device_18_0()],
+        new([Device_18_0],
             [Capture(Field.Model), Constant(Field.Vendor, "LG"), Constant(Field.Type, "tablet")],
             // needs "lk"|"vk"|" 3."
             [Needs([687, 688, 689])]),
         // 19
-        new([Device_19_0(), Device_19_1(), Device_19_2()],
+        new([Device_19_0, Device_19_1, Device_19_2],
             [Capture(Field.Model), Constant(Field.Vendor, "LG"), Constant(Field.Type, "mobile")],
             // needs "lm"|"nexus 4"|"nexus 5"; "lg" & " "|"-"|"/"|";"|"e"; "lg" & " bui"
             [Needs([690, 691, 692]), Needs([693], [18, 694, 19, 312, 11]), Needs([693], [465])]),
         // 20
-        new([Device_20_0(), Device_20_1()],
+        new([Device_20_0, Device_20_1],
             [Capture(Field.Model), Constant(Field.Vendor, "Lenovo"), Constant(Field.Type, "tablet")],
             // needs "tb"|"yt-"|"yt0-"|"yt1-"|"yt2-"|"yt3-"|"yt4-"|"yt5-"|"yt6-"|"yt7-"|"yt8-"|"yt9-"|"602lv"|"d-42a"|"s5000"|"s6000"|"a101lv"|"a2109a"|"ideatab"|"a3500-hv"|"pb-6505m"|"pb-6505y" & ")"|"/"|";"|" bui"; "lenovo" & "tb"|"tab"|"b6000"|"b6080"|"b8000"|"b8080" & ")"|"/"|";"|" bui"
             [Needs([695, 696, 697, 698, 699, 700, 701, 702, 703, 704, 705, 706, 707, 708, 709, 710, 711, 712, 713, 714, 715, 716], [146, 19, 312, 465]), Needs([717], [695, 718, 719, 720, 721, 722], [146, 19, 312, 465])]),
         // 21
-        new([Device_21_0()],
+        new([Device_21_0],
             [Capture(Field.Vendor), Capture(Field.Model), Constant(Field.Type, "tablet")],
             // needs "nokia t10"|"nokia t11"|"nokia t20"|"nokia t21"
             [Needs([723, 724, 725, 726])]),
         // 22
-        new([Device_22_0(), Device_22_1()],
-            [Replace(Field.Model, Device_22_Replace0(), " ", all: true), Constant(Field.Type, "mobile"), Constant(Field.Vendor, "Nokia")],
+        new([Device_22_0, Device_22_1],
+            [Replace(Field.Model, Device_22_Replace0, " ", all: true), Constant(Field.Type, "mobile"), Constant(Field.Vendor, "Nokia")],
             // needs "rm-"|"n900"|"lumia " & "maemo"|"nokia"; "nokia"
             [Needs([727, 728, 729], [730, 731]), Needs([731])]),
         // 23
-        new([Device_23_0()],
+        new([Device_23_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Google"), Constant(Field.Type, "tablet")],
             // needs "pixel c"|"pixel tablet"
             [Needs([732, 733])]),
         // 24
-        new([Device_24_0()],
+        new([Device_24_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Google"), Constant(Field.Type, "mobile")],
             // needs "pixel" & "droid" & "; " & ")"|" bui"
             [Needs([734], [182], [577], [146, 465])]),
         // 25
-        new([Device_25_0()],
+        new([Device_25_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Sony"), Constant(Field.Type, "mobile")],
             // needs "droid" & "; " & "c"|"d"|"e"|"f"|"g"|"so-"|"sol"|"00so"|"01so"|"02so"|"10so"|"11so"|"12so"|"20so"|"21so"|"22so"|"xq-a"
             [Needs([182], [577], [735, 24, 11, 736, 737, 738, 739, 740, 741, 742, 743, 744, 745, 746, 747, 748, 749])]),
         // 26
-        new([Device_26_0(), Device_26_1()],
+        new([Device_26_0, Device_26_1],
             [Constant(Field.Model, "Xperia Tablet"), Constant(Field.Vendor, "Sony"), Constant(Field.Type, "tablet")],
             // needs "sony tablet p"|"sony tablet s"; "sgp" & ")"|" bui"
             [Needs([750, 751]), Needs([752], [146, 465])]),
         // 27
-        new([Device_27_0(), Device_27_1()],
+        new([Device_27_0, Device_27_1],
             [Capture(Field.Model), Constant(Field.Vendor, "OnePlus"), Constant(Field.Type, "mobile")],
             // needs " be2015"|" be2019"|" be2025"|" be2029"|" in2015"|" in2025"|" kb2005"; "a00"|"a10"|"a20"|"a30"|"a40"|"a50"|"a60"|"a70"|"a80"|"a90" & " " & ")"|" b" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([753, 754, 755, 756, 757, 758, 759]), Needs([760, 761, 762, 763, 764, 765, 766, 767, 768, 769], [18], [146, 770], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 28
-        new([Device_28_0(), Device_28_1(), Device_28_2()],
+        new([Device_28_0, Device_28_1, Device_28_2],
             [Capture(Field.Model), Constant(Field.Vendor, "Amazon"), Constant(Field.Type, "tablet")],
             // needs "alexawebm"; "kf"|"aeo" & ")"|" bui"; "kf" & "silk/" & ")"|" bui"
             [Needs([771]), Needs([772, 773], [146, 465]), Needs([772], [52], [146, 465])]),
         // 29
-        new([Device_29_0()],
-            [Replace(Field.Model, Device_29_Replace0(), "Fire Phone ${1}", all: true), Constant(Field.Vendor, "Amazon"), Constant(Field.Type, "mobile")],
+        new([Device_29_0],
+            [Replace(Field.Model, Device_29_Replace0, "Fire Phone ${1}", all: true), Constant(Field.Vendor, "Amazon"), Constant(Field.Type, "mobile")],
             // needs "silk/" & "kf"|"sd" & ")"|" bui"
             [Needs([52], [772, 774], [146, 465])]),
         // 30
-        new([Device_30_0()],
+        new([Device_30_0],
             [Capture(Field.Model), Capture(Field.Vendor), Constant(Field.Type, "tablet")],
             // needs "playbook;" & "rim"
             [Needs([775], [776])]),
         // 31
-        new([Device_31_0(), Device_31_1()],
+        new([Device_31_0, Device_31_1],
             [Capture(Field.Model), Constant(Field.Vendor, "BlackBerry"), Constant(Field.Type, "mobile")],
             // needs "bba100-"|"bbb100-"|"bbc100-"|"bbd100-"|"bbe100-"|"bbf100-"|"sth100-"|"stv100-" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"; "(bb10; "
             [Needs([777, 778, 779, 780, 781, 782, 783, 784], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157]), Needs([785])]),
         // 32
-        new([Device_32_0()],
+        new([Device_32_0],
             [Capture(Field.Model), Constant(Field.Vendor, "ASUS"), Constant(Field.Type, "tablet")],
             // needs "p00c"|"p00j"|"eeepc"|"nexus 7"|"padfone"|"slider "|"transfo"
             [Needs([786, 787, 788, 789, 790, 791, 792])]),
         // 33
-        new([Device_33_0()],
+        new([Device_33_0],
             [Capture(Field.Model), Constant(Field.Vendor, "ASUS"), Constant(Field.Type, "mobile")],
             // needs "zb600k"|"zb600m"|"zb601k"|"zb601m"|"zb602k"|"zb602m"|"zb620k"|"zb620m"|"zb621k"|"zb621m"|"zb622k"|"zb622m"|"zb670k"|"zb670m"|"zb671k"|"zb671m"|"zb672k"|"zb672m"|"ze600k"|"ze600m"|"ze601k"|"ze601m"|"ze602k"|"ze602m"|"ze620k"|"ze620m"|"ze621k"|"ze621m"|"ze622k"|"ze622m"|"ze670k"|"ze670m"|"ze671k"|"ze671m"|"ze672k"|"ze672m"|"zs600k"|"zs600m"|"zs601k"|"zs601m"|"zs602k"|"zs602m"|"zs620k"|"zs620m"|"zs621k"|"zs621m"|"zs622k"|"zs622m"|"zs670k"|"zs670m"|"zs671k"|"zs671m"|"zs672k"|"zs672m"|"zenfone 0"|"zenfone 1"|"zenfone 2"|"zenfone 3"|"zenfone 4"|"zenfone 5"|"zenfone 6"|"zenfone 7"|"zenfone 8"|"zenfone 9" & " "
             [Needs([793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 851, 852, 853, 854, 855, 856], [18])]),
         // 34
-        new([Device_34_0()],
+        new([Device_34_0],
             [Capture(Field.Model), Constant(Field.Vendor, "HTC"), Constant(Field.Type, "tablet")],
             // needs "nexus 9"
             [Needs([857])]),
         // 35
-        new([Device_35_0(), Device_35_1(), Device_35_2()],
-            [Capture(Field.Vendor), Replace(Field.Model, Device_35_Replace1(), " ", all: true), Constant(Field.Type, "mobile")],
+        new([Device_35_0, Device_35_1, Device_35_2],
+            [Capture(Field.Vendor), Replace(Field.Model, Device_35_Replace1, " ", all: true), Constant(Field.Type, "mobile")],
             // needs "htc" & " "|"-"|";"|"_"; "zte "|"zte-" & ")"|"/"|" bui"; "sony"|"nexian"|"alcatel"|"panasonic"|"geeksphone"
             [Needs([858], [18, 694, 312, 176]), Needs([859, 860], [146, 19, 465]), Needs([861, 862, 863, 864, 865])]),
         // 36
-        new([Device_36_0()],
+        new([Device_36_0],
             [Capture(Field.Model), Constant(Field.Vendor, "TCL"), Constant(Field.Type, "tablet")],
             // needs "8191"|"8196"|"8491"|"8496"|"9048"|"9060"|"9080"|"9081"|"9132"|"9137"|"9166"|"9266"|"9269"|"9295"|"9296"|"9466" & "droid " & "; " & ")"|" bui"
             [Needs([866, 867, 868, 869, 870, 871, 872, 873, 874, 875, 876, 877, 878, 879, 880, 881], [882], [577], [146, 465])]),
         // 37
-        new([Device_37_0()],
+        new([Device_37_0],
             [Lowercase(Field.Vendor), Capture(Field.Model), Map(Field.Type, Device_37_prop2_Map)],
             // needs "itel "
             [Needs([883])]),
         // 38
-        new([Device_38_0()],
+        new([Device_38_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Acer"), Constant(Field.Type, "tablet")],
             // needs "a1"|"a2"|"a3"|"a4"|"a5"|"a6"|"a7"|"b1"|"b2"|"b3"|"b4"|"b5"|"b6"|"b7" & "droid" & "; " & "00"|"01"|"02"|"03"|"04"|"05"|"06"|"07"|"08"|"09"|"10"|"11"|"12"|"13"|"14"|"15"|"16"|"17"|"18"|"19"|"70"|"71"|"72"|"73"|"74"|"75"|"76"|"77"|"78"|"79"|"80"|"81"|"82"|"83"|"84"|"85"|"86"|"87"|"88"|"89"|"a0"|"a1"|"a2"|"a3"|"a4"|"a5"|"a6"|"a7"|"a8"|"a9"
             [Needs([884, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 897], [182], [577], [898, 899, 900, 901, 902, 903, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 884, 885, 886, 887, 888, 889, 890, 939, 940])]),
         // 39
-        new([Device_39_0(), Device_39_1()],
+        new([Device_39_0, Device_39_1],
             [Capture(Field.Model), Constant(Field.Vendor, "Meizu"), Constant(Field.Type, "mobile")],
             // needs "; m1 note bui"|"; m2 note bui"|"; m3 note bui"|"; m4 note bui"|"; m5 note bui" & "droid"; "mz-"
             [Needs([941, 942, 943, 944, 945], [182]), Needs([946])]),
         // 40
-        new([Device_40_0()],
+        new([Device_40_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Ulefone"), Constant(Field.Type, "mobile")],
             // needs "armor" & "; " & ")"|" bui"
             [Needs([947], [577], [146, 465])]),
         // 41
-        new([Device_41_0(), Device_41_1()],
+        new([Device_41_0, Device_41_1],
             [Capture(Field.Model), Constant(Field.Vendor, "Energizer"), Constant(Field.Type, "mobile")],
             // needs "energy" & "; " & ")"|" bui"; "; energizer " & ")"|" bui"
             [Needs([948], [577], [146, 465]), Needs([949], [146, 465])]),
         // 42
-        new([Device_42_0(), Device_42_1()],
+        new([Device_42_0, Device_42_1],
             [Capture(Field.Model), Constant(Field.Vendor, "Cat"), Constant(Field.Type, "mobile")],
             // needs "; cat b35;"; "; b15)"|"; b15q)"|"; s48c)"|"; b15 bui"|"; b15q bui"|"; s48c bui"|"; s62 pro)"|"; s22 flip)"|"; s62 pro bui"|"; s22 flip bui"
             [Needs([950]), Needs([951, 952, 953, 954, 955, 956, 957, 958, 959, 960])]),
         // 43
-        new([Device_43_0()],
+        new([Device_43_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Smartfren"), Constant(Field.Type, "mobile")],
             // needs "andromax" & ")"|" bui"
             [Needs([961], [146, 465])]),
         // 44
-        new([Device_44_0()],
+        new([Device_44_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Nothing"), Constant(Field.Type, "mobile")],
             // needs "; a015"|"; a063"|"; a065"|"; a142" & "droid"
             [Needs([962, 963, 964, 965], [182])]),
         // 45
-        new([Device_45_0(), Device_45_1()],
+        new([Device_45_0, Device_45_1],
             [Capture(Field.Model), Constant(Field.Vendor, "Archos"), Constant(Field.Type, "tablet")],
             // needs "ac10"|"ac11"|"ac12"|"ac13"|"ac14"|"ac15"|"ac16"|"ac17"|"ac18"|"ac19"|"ac70"|"ac71"|"ac72"|"ac73"|"ac74"|"ac75"|"ac76"|"ac77"|"ac78"|"ac79"|"ac80"|"ac81"|"ac82"|"ac83"|"ac84"|"ac85"|"ac86"|"ac87"|"ac88"|"ac89"|"ac90"|"ac91"|"ac92"|"ac93"|"ac94"|"ac95"|"ac96"|"ac97"|"ac98"|"ac99"|"x67 5g"|"tikeasy " & "; " & ")"|" b"; "archos" & ")"|" b" & "1"|"5"|"7"|"8"|"9"|"t"|"hello"|"gamepad"
             [Needs([966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007], [577], [146, 770]), Needs([1008], [146, 770], [149, 153, 155, 156, 157, 16, 1009, 1010])]),
         // 46
-        new([Device_46_0(), Device_46_1()],
+        new([Device_46_0, Device_46_1],
             [Capture(Field.Model), Constant(Field.Vendor, "Archos"), Constant(Field.Type, "mobile")],
             // needs "archos " & ")"|" b"; "ac30"|"ac31"|"ac32"|"ac33"|"ac34"|"ac35"|"ac36"|"ac37"|"ac38"|"ac39"|"ac40"|"ac41"|"ac42"|"ac43"|"ac44"|"ac45"|"ac46"|"ac47"|"ac48"|"ac49"|"ac50"|"ac51"|"ac52"|"ac53"|"ac54"|"ac55"|"ac56"|"ac57"|"ac58"|"ac59"|"ac60"|"ac61"|"ac62"|"ac63"|"ac64"|"ac65"|"ac66"|"ac67"|"ac68"|"ac69" & "; " & ")"|" b"
             [Needs([1011], [146, 770]), Needs([1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050, 1051], [577], [146, 770])]),
         // 47
-        new([Device_47_0(), Device_47_1()],
+        new([Device_47_0, Device_47_1],
             [Capture(Field.Vendor), Capture(Field.Model), Constant(Field.Type, "tablet")],
             // needs "imo " & "tab "; "infinix x1101"
             [Needs([1052], [1053]), Needs([1054])]),
         // 48
-        new([Device_48_0(), Device_48_1(), Device_48_2(), Device_48_3(), Device_48_4(), Device_48_5()],
+        new([Device_48_0, Device_48_1, Device_48_2, Device_48_3, Device_48_4, Device_48_5],
             [Capture(Field.Vendor), Capture(Field.Model), Constant(Field.Type, "mobile")],
             // needs "acer"|"asus"|"benq"|"dell"|"palm"|"advan"|"jolla"|"meizu"|"tecno"|"infinix"|"micromax"|"motorola"|"polytron"|"blackberry"|"sonyericsson"; "; hmd "|"; imo " & ")"|" bui"; "hp "; "microsoft; " & "lumia"; "lenovo" & ")"|"/"|" bui"; "oppo" & " bui"
             [Needs([1055, 1056, 1057, 1058, 1059, 1060, 1061, 1062, 1063, 1064, 1065, 1066, 1067, 1068, 1069]), Needs([1070, 1071], [146, 465]), Needs([1072]), Needs([1073], [1074]), Needs([717], [146, 19, 465]), Needs([1075], [465])]),
         // 49
-        new([Device_49_0(), Device_49_1(), Device_49_2(), Device_49_3(), Device_49_4(), Device_49_5(), Device_49_6(), Device_49_7(), Device_49_8()],
+        new([Device_49_0, Device_49_1, Device_49_2, Device_49_3, Device_49_4, Device_49_5, Device_49_6, Device_49_7, Device_49_8],
             [Capture(Field.Vendor), Capture(Field.Model), Constant(Field.Type, "tablet")],
             // needs "kobo" & "touch"|"ereader"; "hp" & "tablet"|"touchpad"; "kindle/"; "nook" & "build/"; "dell " & "strea"; "pan" & " bui" & "le" & " "|"-"; "trinity" & " bui" & "t" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"; "gigaset" & "q" & " bui" & " "|"-"; "vodafone " & ")"|" bui"
             [Needs([1076], [1077, 1078]), Needs([1079], [1080, 1081]), Needs([35]), Needs([1082], [666]), Needs([1083], [1084]), Needs([1085], [465], [1086], [18, 694]), Needs([1087], [465], [16], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157]), Needs([1088], [1089], [465], [18, 694]), Needs([1090], [146, 465])]),
         // 50
-        new([Device_50_0()],
+        new([Device_50_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Microsoft"), Constant(Field.Type, "tablet")],
             // needs "surface duo"
             [Needs([1091])]),
         // 51
-        new([Device_51_0()],
+        new([Device_51_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Fairphone"), Constant(Field.Type, "mobile")],
             // needs "; fp0)"|"; fp1)"|"; fp2)"|"; fp3)"|"; fp4)"|"; fp5)"|"; fp6)"|"; fp7)"|"; fp8)"|"; fp9)"|"; fp0 b"|"; fp0u)"|"; fp1 b"|"; fp1u)"|"; fp2 b"|"; fp2u)"|"; fp3 b"|"; fp3u)"|"; fp4 b"|"; fp4u)"|"; fp5 b"|"; fp5u)"|"; fp6 b"|"; fp6u)"|"; fp7 b"|"; fp7u)"|"; fp8 b"|"; fp8u)"|"; fp9 b"|"; fp9u)"|"; fp0u b"|"; fp1u b"|"; fp2u b"|"; fp3u b"|"; fp4u b"|"; fp5u b"|"; fp6u b"|"; fp7u b"|"; fp8u b"|"; fp9u b" & "droid "
             [Needs([1092, 1093, 1094, 1095, 1096, 1097, 1098, 1099, 1100, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 1108, 1109, 1110, 1111, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 1128, 1129, 1130, 1131], [882])]),
         // 52
-        new([Device_52_0()],
+        new([Device_52_0],
             [Capture(Field.Model), Constant(Field.Vendor, "AT&T"), Constant(Field.Type, "mobile")],
             // needs "u304aa"
             [Needs([1132])]),
         // 53
-        new([Device_53_0()],
+        new([Device_53_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Siemens"), Constant(Field.Type, "mobile")],
             // needs "sie-"
             [Needs([1133])]),
         // 54
-        new([Device_54_0()],
+        new([Device_54_0],
             [Capture(Field.Model), Constant(Field.Vendor, "RCA"), Constant(Field.Type, "tablet")],
             // needs "rct" & " b"
             [Needs([1134], [770])]),
         // 55
-        new([Device_55_0()],
+        new([Device_55_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Dell"), Constant(Field.Type, "tablet")],
             // needs "venue" & " b"
             [Needs([1135], [770])]),
         // 56
-        new([Device_56_0()],
+        new([Device_56_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Verizon"), Constant(Field.Type, "tablet")],
             // needs "qmv"|"qta" & " b"
             [Needs([1136, 1137], [770])]),
         // 57
-        new([Device_57_0()],
+        new([Device_57_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Barnes & Noble"), Constant(Field.Type, "tablet")],
             // needs "bnr"|"bnt"|"barnes" & " b"
             [Needs([1138, 1139, 1140], [770])]),
         // 58
-        new([Device_58_0()],
+        new([Device_58_0],
             [Capture(Field.Model), Constant(Field.Vendor, "NuVision"), Constant(Field.Type, "tablet")],
             // needs " b" & "tm" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([770], [1141], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 59
-        new([Device_59_0()],
+        new([Device_59_0],
             [Capture(Field.Model), Constant(Field.Vendor, "ZTE"), Constant(Field.Type, "tablet")],
             // needs "k88 b"
             [Needs([1142])]),
         // 60
-        new([Device_60_0()],
+        new([Device_60_0],
             [Capture(Field.Model), Constant(Field.Vendor, "ZTE"), Constant(Field.Type, "mobile")],
             // needs "nx" & "j" & " b" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([1143], [1144], [770], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 61
-        new([Device_61_0()],
+        new([Device_61_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Swiss"), Constant(Field.Type, "mobile")],
             // needs "gen" & "49h" & " b" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([1145], [1146], [770], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 62
-        new([Device_62_0()],
+        new([Device_62_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Swiss"), Constant(Field.Type, "tablet")],
             // needs "zur" & " b" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([1147], [770], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 63
-        new([Device_63_0()],
+        new([Device_63_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Zeki"), Constant(Field.Type, "tablet")],
             // needs "tb" & " b"
             [Needs([695], [770])]),
         // 64
-        new([Device_64_0(), Device_64_1()],
+        new([Device_64_0, Device_64_1],
             [Constant(Field.Vendor, "Dragon Touch"), Capture(Field.Model), Constant(Field.Type, "tablet")],
             // needs " b" & "r"|"y" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"; "dt"|"touch " & " b"
             [Needs([770], [27, 1148], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157]), Needs([1149, 1150], [770])]),
         // 65
-        new([Device_65_0()],
+        new([Device_65_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Insignia"), Constant(Field.Type, "tablet")],
             // needs "ns" & " b"
             [Needs([1151], [770])]),
         // 66
-        new([Device_66_0()],
+        new([Device_66_0],
             [Capture(Field.Model), Constant(Field.Vendor, "NextBook"), Constant(Field.Type, "tablet")],
             // needs "nxa"|"next" & " b"
             [Needs([1152, 1153], [770])]),
         // 67
-        new([Device_67_0()],
+        new([Device_67_0],
             [Constant(Field.Vendor, "Voice"), Capture(Field.Model), Constant(Field.Type, "mobile")],
             // needs "v10 b"|"v14 b"|"v15 b"|"v20 b"|"v21 b"|"v25 b"|"v30 b"|"v40 b"|"v60 b"|"v70 b"|"v75 b"|"v90 b"
             [Needs([1154, 1155, 1156, 1157, 1158, 1159, 1160, 1161, 1162, 1163, 1164, 1165])]),
         // 68
-        new([Device_68_0()],
+        new([Device_68_0],
             [Constant(Field.Vendor, "LvTel"), Capture(Field.Model), Constant(Field.Type, "mobile")],
             // needs "v11 b"|"v12 b"
             [Needs([1166, 1167])]),
         // 69
-        new([Device_69_0()],
+        new([Device_69_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Essential"), Constant(Field.Type, "mobile")],
             // needs "ph-1 "
             [Needs([1168])]),
         // 70
-        new([Device_70_0()],
+        new([Device_70_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Envizen"), Constant(Field.Type, "tablet")],
             // needs "v7011"|"v917g"|"v100md"|"v700na" & " b"
             [Needs([1169, 1170, 1171, 1172], [770])]),
         // 71
-        new([Device_71_0()],
+        new([Device_71_0],
             [Capture(Field.Model), Constant(Field.Vendor, "MachSpeed"), Constant(Field.Type, "tablet")],
             // needs "trio" & " b"
             [Needs([1173], [770])]),
         // 72
-        new([Device_72_0()],
+        new([Device_72_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Rotor"), Constant(Field.Type, "tablet")],
             // needs "tu_1491 b"
             [Needs([1174])]),
         // 73
-        new([Device_73_0()],
+        new([Device_73_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Nvidia"), Constant(Field.Type, "tablet")],
             // needs "shield t"|"tegranote" & ")"|" b"
             [Needs([1175, 1176], [146, 770])]),
         // 74
-        new([Device_74_0()],
+        new([Device_74_0],
             [Capture(Field.Vendor), Capture(Field.Model), Constant(Field.Type, "mobile")],
             // needs "sprint "
             [Needs([1177])]),
         // 75
-        new([Device_75_0()],
-            [Replace(Field.Model, Device_75_Replace0(), " ", all: true), Constant(Field.Vendor, "Microsoft"), Constant(Field.Type, "mobile")],
+        new([Device_75_0],
+            [Replace(Field.Model, Device_75_Replace0, " ", all: true), Constant(Field.Vendor, "Microsoft"), Constant(Field.Type, "mobile")],
             // needs "kin." & "e"|"n"|"o"|"t"|"w"
             [Needs([1178], [11, 1179, 15, 16, 29])]),
         // 76
-        new([Device_76_0()],
+        new([Device_76_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Zebra"), Constant(Field.Type, "tablet")],
             // needs "; et51)"|"; et56)"|"; mc22)"|"; mc23)"|"; mc32)"|"; mc33)"|"; mc92)"|"; mc93)"|"; vc80)"|"; vc83)"|"; cc666)"|"; mc22x)"|"; mc23x)"|"; mc32x)"|"; mc33x)"|"; mc92x)"|"; mc93x)"|"; vc80x)"|"; vc83x)"|"; cc6666)" & "droid"
             [Needs([1180, 1181, 1182, 1183, 1184, 1185, 1186, 1187, 1188, 1189, 1190, 1191, 1192, 1193, 1194, 1195, 1196, 1197, 1198, 1199], [182])]),
         // 77
-        new([Device_77_0()],
+        new([Device_77_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Zebra"), Constant(Field.Type, "mobile")],
             // needs "tc2"|"tc3"|"tc4"|"tc5"|"tc6"|"tc7"|"tc8"|"ec30"|"ps20" & "droid" & "; " & ")"
             [Needs([1200, 1201, 1202, 1203, 1204, 1205, 1206, 1207, 1208], [182], [577], [146])]),
         // 78
-        new([Device_78_0()],
+        new([Device_78_0],
             [Capture(Field.Vendor), Constant(Field.Type, "smarttv")],
             // needs "smart-tv" & "samsung"
             [Needs([1209], [1210])]),
         // 79
-        new([Device_79_0()],
-            [Replace(Field.Model, Device_79_Replace0(), "SmartTV", all: false), Constant(Field.Vendor, "Samsung"), Constant(Field.Type, "smarttv")],
+        new([Device_79_0],
+            [Replace(Field.Model, Device_79_Replace0, "SmartTV", all: false), Constant(Field.Vendor, "Samsung"), Constant(Field.Type, "smarttv")],
             // needs "maple;" & "hbbtv" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([1211], [1212], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 80
-        new([Device_80_0()],
+        new([Device_80_0],
             [Constant(Field.Vendor, "LG"), Constant(Field.Type, "smarttv")],
             // needs "nux; netcast"|"lg android tv"|"lg netcast.tv-2010"|"lg netcast.tv-2011"|"lg netcast.tv-2012"|"lg netcast.tv-2013"|"lg netcast.tv-2014"|"lg netcast.tv-2015"|"lg netcast.tv-2016"|"lg netcast.tv-2017"|"lg netcast.tv-2018"|"lg netcast.tv-2019"
             [Needs([1213, 1214, 1215, 1216, 1217, 1218, 1219, 1220, 1221, 1222, 1223, 1224])]),
         // 81
-        new([Device_81_0()],
+        new([Device_81_0],
             [Capture(Field.Vendor), Constant(Field.Model, "Apple TV"), Constant(Field.Type, "smarttv")],
             // needs "appletv"|"apple tv"
             [Needs([1225, 1226])]),
         // 82
-        new([Device_82_0()],
+        new([Device_82_0],
             [Constant(Field.Model, "Chromecast"), Constant(Field.Vendor, "Google"), Constant(Field.Type, "smarttv")],
             // needs "crkey"
             [Needs([1227])]),
         // 83
-        new([Device_83_0()],
+        new([Device_83_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Amazon"), Constant(Field.Type, "smarttv")],
             // needs "aft" & "droid" & ")"|" bui"
             [Needs([1228], [182], [146, 465])]),
         // 84
-        new([Device_84_0()],
+        new([Device_84_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Nvidia"), Constant(Field.Type, "smarttv")],
             // needs "shield " & " tv"
             [Needs([1229], [1230])]),
         // 85
-        new([Device_85_0(), Device_85_1()],
+        new([Device_85_0, Device_85_1],
             [Capture(Field.Model), Constant(Field.Vendor, "Sharp"), Constant(Field.Type, "smarttv")],
             // needs "(dtv)"|"(dtv;" & "aquos"; "aquos-tv" & ")"
             [Needs([1231, 1232], [1233]), Needs([1234], [146])]),
         // 86
-        new([Device_86_0()],
+        new([Device_86_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Sony"), Constant(Field.Type, "smarttv")],
             // needs "bravia" & ")"|" bui"
             [Needs([1235], [146, 465])]),
         // 87
-        new([Device_87_0()],
+        new([Device_87_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Xiaomi"), Constant(Field.Type, "smarttv")],
             // needs "mitv"|"mibox" & " bui"
             [Needs([1236, 1237], [465])]),
         // 88
-        new([Device_88_0()],
+        new([Device_88_0],
             [Capture(Field.Vendor), Capture(Field.Model), Constant(Field.Type, "smarttv")],
             // needs "technisat " & "hbbtv" & ";"
             [Needs([1238], [1212], [312])]),
         // 89
-        new([Device_89_0(), Device_89_1()],
+        new([Device_89_0, Device_89_1],
             [TrimStart(Field.Vendor), TrimStart(Field.Model), Constant(Field.Type, "smarttv")],
             // needs "roku" & ")"|"/"; "hbbtv/" & " " & ";" & ";"
             [Needs([1239], [146, 19]), Needs([1240], [18], [312], [312])]),
         // 90
-        new([Device_90_0()],
+        new([Device_90_0],
             [Capture(Field.Model), Constant(Field.Type, "smarttv")],
             // needs " smarttv"|" smart tv"|" smart-tv"|" android tv" & "droid" & "; "
             [Needs([1241, 1242, 1243, 1244], [182], [577])]),
         // 91
-        new([Device_91_0()],
+        new([Device_91_0],
             [Constant(Field.Type, "smarttv")],
             // needs "smarttv"|"tv; rv:"|"opera tv"|"smart tv"|"smart-tv"|"android tv"
             [Needs([1245, 1246, 1247, 1248, 1209, 1249])]),
         // 92
-        new([Device_92_0(), Device_92_1()],
+        new([Device_92_0, Device_92_1],
             [Capture(Field.Vendor), Capture(Field.Model), Constant(Field.Type, "console")],
             // needs "ouya"; "nintendo " & "3"|"c"|"d"|"h"|"i"|"s"|"t"|"u"|"w"
             [Needs([1250]), Needs([1251], [151, 735, 24, 1252, 12, 28, 16, 1253, 29])]),
         // 93
-        new([Device_93_0()],
+        new([Device_93_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Nvidia"), Constant(Field.Type, "console")],
             // needs "; shield)"|"; shield bui" & "droid"
             [Needs([1254, 1255], [182])]),
         // 94
-        new([Device_94_0()],
+        new([Device_94_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Sony"), Constant(Field.Type, "console")],
             // needs "playstation "
             [Needs([1256])]),
         // 95
-        new([Device_95_0()],
+        new([Device_95_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Microsoft"), Constant(Field.Type, "console")],
             // needs "xbox "|"xbox)"|"xbox;"
             [Needs([1257, 1258, 1259])]),
         // 96
-        new([Device_96_0()],
+        new([Device_96_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Samsung"), Constant(Field.Type, "wearable")],
             // needs "sm-l0"|"sm-l1"|"sm-l2"|"sm-l3"|"sm-l4"|"sm-l5"|"sm-l6"|"sm-l7"|"sm-l8"|"sm-l9"|"sm-r0"|"sm-r1"|"sm-r2"|"sm-r3"|"sm-r4"|"sm-r5"|"sm-r6"|"sm-r7"|"sm-r8"|"sm-r9"|"gear live"
             [Needs([1260, 1261, 1262, 1263, 1264, 1265, 1266, 1267, 1268, 1269, 1270, 1271, 1272, 1273, 1274, 1275, 1276, 1277, 1278, 1279, 1280])]),
         // 97
-        new([Device_97_0(), Device_97_1()],
+        new([Device_97_0, Device_97_1],
             [Capture(Field.Vendor), Capture(Field.Model), Constant(Field.Type, "wearable")],
             // needs "pebbleapp"; "lg "|"asus "|"oppo "|"google " & "watch" & ")"|" bui"
             [Needs([1281]), Needs([1282, 1283, 1284, 1285], [1286], [146, 465])]),
         // 98
-        new([Device_98_0()],
+        new([Device_98_0],
             [Capture(Field.Model), Constant(Field.Vendor, "OPPO"), Constant(Field.Type, "wearable")],
             // needs "oww"|"ow19w"|"ow20w" & "1"|"2"|"3"
             [Needs([1287, 1288, 1289], [149, 150, 151])]),
         // 99
-        new([Device_99_0()],
+        new([Device_99_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Apple"), Constant(Field.Type, "wearable")],
             // needs "watch" & "0,"|"1,"|"2,"|"3,"|"4,"|"5,"|"6,"|"7,"|"8,"|"9,"|"os,"|"os/"
             [Needs([1286], [1290, 1291, 1292, 1293, 1294, 1295, 1296, 1297, 1298, 1299, 1300, 1301])]),
         // 100
-        new([Device_100_0()],
+        new([Device_100_0],
             [Capture(Field.Model), Constant(Field.Vendor, "OnePlus"), Constant(Field.Type, "wearable")],
             // needs "opwwe" & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
             [Needs([1302], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157])]),
         // 101
-        new([Device_101_0()],
+        new([Device_101_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Motorola"), Constant(Field.Type, "wearable")],
             // needs "moto 360"
             [Needs([1303])]),
         // 102
-        new([Device_102_0()],
+        new([Device_102_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Sony"), Constant(Field.Type, "wearable")],
             // needs "smartwatch 3"
             [Needs([1304])]),
         // 103
-        new([Device_103_0()],
+        new([Device_103_0],
             [Capture(Field.Model), Constant(Field.Vendor, "LG"), Constant(Field.Type, "wearable")],
             // needs "g watch r"
             [Needs([1305])]),
         // 104
-        new([Device_104_0()],
+        new([Device_104_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Zebra"), Constant(Field.Type, "wearable")],
             // needs "wt6" & "droid" & "; " & ")"
             [Needs([1306], [182], [577], [146])]),
         // 105
-        new([Device_105_0()],
+        new([Device_105_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Google"), Constant(Field.Type, "wearable")],
             // needs "; glass 0"|"; glass 1"|"; glass 2"|"; glass 3"|"; glass 4"|"; glass 5"|"; glass 6"|"; glass 7"|"; glass 8"|"; glass 9" & "droid"
             [Needs([1307, 1308, 1309, 1310, 1311, 1312, 1313, 1314, 1315, 1316], [182])]),
         // 106
-        new([Device_106_0()],
+        new([Device_106_0],
             [Capture(Field.Vendor), Capture(Field.Model), Constant(Field.Type, "wearable")],
             // needs "pico 4"|"pico neo3"
             [Needs([1317, 1318])]),
         // 107
-        new([Device_107_0()],
+        new([Device_107_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Facebook"), Constant(Field.Type, "wearable")],
             // needs "; quest"
             [Needs([1319])]),
         // 108
-        new([Device_108_0()],
+        new([Device_108_0],
             [Capture(Field.Vendor), Constant(Field.Type, "embedded")],
             // needs "tesla" & "/"|" qtcarbrowser"
             [Needs([116], [19, 127])]),
         // 109
-        new([Device_109_0()],
+        new([Device_109_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Amazon"), Constant(Field.Type, "embedded")],
             // needs "aeobc"
             [Needs([1320])]),
         // 110
-        new([Device_110_0()],
+        new([Device_110_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Apple"), Constant(Field.Type, "embedded")],
             // needs "homepod" & "mac os"
             [Needs([1321], [1322])]),
         // 111
-        new([Device_111_0()],
+        new([Device_111_0],
             [Constant(Field.Type, "embedded")],
             // needs "windows iot"
             [Needs([1323])]),
         // 112
-        new([Device_112_0()],
+        new([Device_112_0],
             [Capture(Field.Model), Constant(Field.Type, "mobile")],
             // needs " mobile safari" & "droid " & " bui"|"; wv)"|") applew" & "; "
             [Needs([1324], [882], [465, 1325, 1326], [577])]),
         // 113
-        new([Device_113_0()],
+        new([Device_113_0],
             [Capture(Field.Model), Constant(Field.Type, "tablet")],
             // needs "droid " & " safari" & " bui"|") applew" & "; "
             [Needs([882], [115], [465, 1326], [577])]),
         // 114
-        new([Device_114_0()],
+        new([Device_114_0],
             [Constant(Field.Type, "tablet")],
             // needs "tab/"|"tab;"|"focus/0"|"focus/1"|"focus/2"|"focus/3"|"focus/4"|"focus/5"|"focus/6"|"focus/7"|"focus/8"|"focus/9"|"tablet/"|"tablet;"
             [Needs([1327, 1328, 1329, 1330, 1331, 1332, 1333, 1334, 1335, 1336, 1337, 1338, 1339, 1340])]),
         // 115
-        new([Device_115_0()],
+        new([Device_115_0],
             [Constant(Field.Type, "mobile")],
             // needs "pda"|"phone"|"mobile"
             [Needs([1341, 1342, 1343])]),
         // 116
-        new([Device_116_0()],
+        new([Device_116_0],
             [Capture(Field.Model), Constant(Field.Vendor, "Generic")],
             // needs "droid " & "; " & ")"|" bui"
             [Needs([882], [577], [146, 465])]),
@@ -2438,32 +2438,32 @@ internal static partial class UserAgentRules
     public static readonly Rule[] Engine =
     [
         // 0
-        new([Engine_0_0()],
+        new([Engine_0_0],
             [Capture(Field.Version), Constant(Field.Name, "EdgeHTML")],
             // needs " edge/" & "windows"
             [Needs([1344], [1345])]),
         // 1
-        new([Engine_1_0()],
+        new([Engine_1_0],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "arkweb/"
             [Needs([1346])]),
         // 2
-        new([Engine_2_0()],
+        new([Engine_2_0],
             [Capture(Field.Version), Constant(Field.Name, "Blink")],
             // needs "webkit/537.36" & "chrome/"
             [Needs([1347], [180])]),
         // 3
-        new([Engine_3_0(), Engine_3_1(), Engine_3_2(), Engine_3_3(), Engine_3_4(), Engine_3_5()],
+        new([Engine_3_0, Engine_3_1, Engine_3_2, Engine_3_3, Engine_3_4, Engine_3_5],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "presto/"; "w3m/"|"lynx/"|"amaya/"|"servo/"|"goanna/"|"webkit/"|"netsurf/"|"trident/"|"netfront/"; "ekiohflow/"; "khtml "|"khtml/"|"links "|"links/"|"tasman "|"tasman/"; "icab "|"icab/" & "2."|"3."; "libweb"
             [Needs([1348]), Needs([1349, 1350, 1351, 1352, 1353, 191, 1354, 1355, 1356]), Needs([1357]), Needs([1358, 190, 1359, 1360, 1361, 1362]), Needs([1363, 1364], [1365, 1366]), Needs([1367])]),
         // 4
-        new([Engine_4_0()],
+        new([Engine_4_0],
             [Constant(Field.Name, "LibWeb")],
             // needs "ladybird/"
             [Needs([1368])]),
         // 5
-        new([Engine_5_0()],
+        new([Engine_5_0],
             [Capture(Field.Version), Capture(Field.Name)],
             // needs "rv:" & "gecko"
             [Needs([90], [1369])]),
@@ -2472,92 +2472,92 @@ internal static partial class UserAgentRules
     public static readonly Rule[] Os =
     [
         // 0
-        new([Os_0_0()],
+        new([Os_0_0],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "microsoft windows xp"|"microsoft windows vista"
             [Needs([1370, 1371])]),
         // 1
-        new([Os_1_0()],
+        new([Os_1_0],
             [Capture(Field.Name), Map(Field.Version, WindowsVersionMap)],
             // needs "windows iot"|"windows phone"|"windows mobile"
             [Needs([1323, 1372, 1373])]),
         // 2
-        new([Os_2_0(), Os_2_1(), Os_2_2()],
+        new([Os_2_0, Os_2_1, Os_2_2],
             [Map(Field.Version, WindowsVersionMap), Constant(Field.Name, "Windows")],
             // needs "windows nt 6.2; arm"; "windows "|"windows/"; "win"
             [Needs([1374]), Needs([1375, 1376]), Needs([1377])]),
         // 3
-        new([Os_3_0(), Os_3_1(), Os_3_2()],
-            [Replace(Field.Version, Os_3_Replace0(), ".", all: true), Constant(Field.Name, "iOS")],
+        new([Os_3_0, Os_3_1, Os_3_2],
+            [Replace(Field.Version, Os_3_Replace0, ".", all: true), Constant(Field.Name, "iOS")],
             // needs "; opera"|" like mac" & "a"|"d"|"e"|"h"|"i"|"m"|"n"|"o"|"p"; "ios "|"ios/"|"ios;fbsv/"; "cfnetwork/" & "darwin"
             [Needs([1378, 1379], [9, 24, 11, 1252, 12, 14, 1179, 15, 26]), Needs([1380, 1381, 1382]), Needs([1383], [1384])]),
         // 4
-        new([Os_4_0(), Os_4_1()],
-            [Constant(Field.Name, "Mac OS"), Replace(Field.Version, Os_4_Replace1(), ".", all: true)],
+        new([Os_4_0, Os_4_1],
+            [Constant(Field.Name, "Mac OS"), Replace(Field.Version, Os_4_Replace1, ".", all: true)],
             // needs "mac os x"; "macintosh"|"mac_powerpc"
             [Needs([1385]), Needs([1386, 1387])]),
         // 5
-        new([Os_5_0()],
+        new([Os_5_0],
             [Capture(Field.Version), Capture(Field.Name)],
             // needs "harmonyos"|"android x86"|"android-x86" & "droid "
             [Needs([1388, 1389, 1390], [882])]),
         // 6
-        new([Os_6_0()],
-            [Replace(Field.Name, Os_6_Replace0(), "${1} Touch", all: false), Capture(Field.Version)],
+        new([Os_6_0],
+            [Replace(Field.Name, Os_6_Replace0, "${1} Touch", all: false), Capture(Field.Version)],
             // needs " like android" & "ubuntu "
             [Needs([1391], [1392])]),
         // 7
-        new([Os_7_0()],
+        new([Os_7_0],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "qnx"|"bada"|"kaios"|"maemo"|"meego"|"tizen"|"webos"|"android"|"symbian"|"sailfish"|"series40"|"blackberry"|"openharmony"|"rim tablet os"
             [Needs([1393, 1394, 1395, 730, 1396, 1397, 1398, 1399, 1400, 1401, 1402, 1068, 1403, 1404])]),
         // 8
-        new([Os_8_0()],
+        new([Os_8_0],
             [Capture(Field.Version), Constant(Field.Name, "BlackBerry")],
             // needs "(bb10;"
             [Needs([1405])]),
         // 9
-        new([Os_9_0()],
+        new([Os_9_0],
             [Capture(Field.Version), Constant(Field.Name, "Symbian")],
             // needs "s60"|"symbos"|"series 60"|"symbianos"|"symbian os"
             [Needs([1406, 1407, 1408, 1409, 1410])]),
         // 10
-        new([Os_10_0()],
+        new([Os_10_0],
             [Capture(Field.Version), Constant(Field.Name, "Firefox OS")],
             // needs " gecko/" & "; rv:" & "tv"|"mobile"|"tablet" & " ("
             [Needs([1411], [1412], [1413, 1343, 1080], [1414])]),
         // 11
-        new([Os_11_0(), Os_11_1()],
+        new([Os_11_0, Os_11_1],
             [Capture(Field.Version), Constant(Field.Name, "webOS")],
             // needs "web0s;" & "rttv"; "wos/"|"wosbrowser/"
             [Needs([1415], [1416]), Needs([1417, 1418])]),
         // 12
-        new([Os_12_0()],
+        new([Os_12_0],
             [Capture(Field.Version), Constant(Field.Name, "watchOS")],
             // needs "watch" & "0,"|"1,"|"2,"|"3,"|"4,"|"5,"|"6,"|"7,"|"8,"|"9,"|"os,"|"os/"
             [Needs([1286], [1290, 1291, 1292, 1293, 1294, 1295, 1296, 1297, 1298, 1299, 1300, 1301])]),
         // 13
-        new([Os_13_0()],
+        new([Os_13_0],
             [Capture(Field.Version), Constant(Field.Name, "Chromecast")],
             // needs "crkey/"
             [Needs([1419])]),
         // 14
-        new([Os_14_0()],
+        new([Os_14_0],
             [Constant(Field.Name, "Chromium OS"), Capture(Field.Version)],
             // needs "cros " & " "|")"
             [Needs([1420], [18, 146])]),
         // 15
-        new([Os_15_0(), Os_15_1(), Os_15_2(), Os_15_3(), Os_15_4(), Os_15_5(), Os_15_6(), Os_15_7(), Os_15_8(), Os_15_9(), Os_15_10(), Os_15_11(), Os_15_12()],
+        new([Os_15_0, Os_15_1, Os_15_2, Os_15_3, Os_15_4, Os_15_5, Os_15_6, Os_15_7, Os_15_8, Os_15_9, Os_15_10, Os_15_11, Os_15_12],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "panasonic;viera"; "netrangemmh"; "nettv/" & "." & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"; "nintendo "|"playstation "; "xbox;" & "xbox " & " "; "joli"|"palm"; "mint"; "mageia "|"mageia;"|"vectorlinux "|"vectorlinux;"; "arch"|"suse"|"minix"|"centos"|"debian"|"deepin"|"fedora"|"gentoo"|"linpus"|"plan 9"|"redhat"|"ubuntu"|"contiki"|"manjaro"|"red hat"|"risc os"|"sabayon"|"zenwalk"|"linspire"|"mandriva"|"raspbian"|"pclinuxos"|"slackware"|"elementary os"; "hurd"|"linux"; "gnu"; "bsd"|"dragonfly"; "haiku "
             [Needs([1421]), Needs([1422]), Needs([1423], [147], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157]), Needs([1251, 1256]), Needs([1259], [1257], [18]), Needs([1424, 1059]), Needs([1425]), Needs([1426, 1427, 1428, 1429]), Needs([1430, 1431, 1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440, 1441, 1442, 1443, 1444, 1445, 1446, 1447, 1448, 1449, 1450, 1451, 1452, 1453]), Needs([1454, 1455]), Needs([1456]), Needs([1457, 1458]), Needs([1459])]),
         // 16
-        new([Os_16_0()],
+        new([Os_16_0],
             [Constant(Field.Name, "Solaris"), Capture(Field.Version)],
             // needs "sunos"
             [Needs([1460])]),
         // 17
-        new([Os_17_0(), Os_17_1(), Os_17_2(), Os_17_3()],
+        new([Os_17_0, Os_17_1, Os_17_2, Os_17_3],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "solaris"; "aix "; "beos"|"os/2"|"hp-ux"|"amigaos"|"fuchsia"|"morphos"|"openvms"|"serenityos"; "unix"
             [Needs([1461]), Needs([1462]), Needs([1463, 1464, 1465, 1466, 1467, 1468, 1469, 1470]), Needs([1471])]),
