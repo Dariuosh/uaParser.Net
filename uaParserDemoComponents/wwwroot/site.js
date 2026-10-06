@@ -6,13 +6,17 @@
     const key = "uaparser-demo-theme";
     const root = document.documentElement;
 
+    // The visitor's choice, also kept here for when storage is unavailable (some private modes).
+    let chosen = null;
+
     const stored = () => {
         try {
             const value = localStorage.getItem(key);
-            return value === "light" || value === "dark" ? value : null;
+            if (value === "light" || value === "dark") return value;
         } catch {
-            return null;
+            // Storage disabled: fall back to the choice made on this page.
         }
+        return chosen;
     };
 
     const apply = () => {
@@ -61,10 +65,11 @@
         const toggle = target?.closest("[data-theme-toggle]");
         if (toggle) {
             const next = isDark() ? "light" : "dark";
+            chosen = next;
             try {
                 localStorage.setItem(key, next);
             } catch {
-                // Private mode or storage disabled: the choice lasts until the page is reloaded.
+                // Storage disabled: the choice lasts until the page is reloaded.
             }
             root.dataset.theme = next;
             return;
