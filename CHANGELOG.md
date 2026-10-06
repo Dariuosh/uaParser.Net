@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 (not released yet)
+## 2.0.0 (2026-10-07)
 
 A rewrite. The rules are now generated from ua-parser-js 1.0.41 and give the same results as
 ua-parser-js, field by field. The namespaces (`uaParserLibrary`, `uaParserLibrary.Models`,
