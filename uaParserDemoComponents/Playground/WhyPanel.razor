@@ -1,0 +1,86 @@
+@* For each part: the rule that matched, the text it matched and where each value came from. *@
+<div class="why">
+    <p class="muted">
+        Like ua-parser-js, uaParser.Net tries the rules of each part in order and stops at the first
+        regex that matches. Each value is then read from a group of that match, or set by the rule.
+    </p>
+
+    @foreach (var part in Trace.Parts)
+    {
+        var css = Highlight.CssName(part.Part);
+        <article class="card why-part part-@css">
+            <header class="part-head">
+                <span class="part-icon"><Icon Name="@IconFor(part.Part)" Size="18" /></span>
+                <h3>@Label(part.Part)</h3>
+                @if (part.Hit is { } hit)
+                {
+                    <span class="badge">rule @hit.RuleNumber of @part.RuleCount</span>
+                    @if (hit.RegexCount > 1)
+                    {
+                        <span class="badge is-muted">regex @hit.RegexNumber of @hit.RegexCount</span>
+                    }
+                }
+                else
+                {
+                    <span class="badge is-muted">no match</span>
+                }
+            </header>
+
+            @if (part.Hit is { } rule)
+            {
+                <div class="why-match">
+                    <code class="pattern">@rule.Pattern</code>
+                    <p class="small">
+                        matched <code class="matched-text">@Trace.UserAgent.Substring(rule.Index, rule.Length)</code>
+                        at position @rule.Index
+                    </p>
+                </div>
+                <table class="values">
+                    <tbody>
+                        @foreach (var value in rule.Values)
+                        {
+                            <tr>
+                                <th scope="row">@value.Field</th>
+                                <td><Value Text="@value.Value" /></td>
+                                <td class="how">
+                                    @if (value.Index >= 0)
+                                    {
+                                        <mark class="mark p-@css">@Trace.UserAgent.Substring(value.Index, value.Length)</mark>
+                                    }
+                                    @value.How
+                                </td>
+                            </tr>
+                        }
+                        @if (part.Part == "Browser" && rule.Values.Any(v => v.Field == "Version" && v.Value is not null))
+                        {
+                            <tr>
+                                <th scope="row">Major</th>
+                                <td><Value Text="@UAParser.GetBrowser(Trace.UserAgent).Major" /></td>
+                                <td class="how">the version's leading number</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="muted small">None of the @part.RuleCount rules matched, so every @Label(part.Part).ToLowerInvariant() value is <code>null</code>.</p>
+            }
+        </article>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public ParseTrace Trace { get; set; } = default!;
+
+    private static string IconFor(string part) => part switch
+    {
+        "Browser" => "browser",
+        "Engine" => "engine",
+        "OS" => "os",
+        "Device" => "device",
+        _ => "cpu",
+    };
+
+    private static string Label(string part) => part == "OS" ? "Operating system" : part;
+}

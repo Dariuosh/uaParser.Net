@@ -1,0 +1,180 @@
+@* Type or paste a user agent and see every value appear, colored where it was found. *@
+@using System.Diagnostics
+@using System.Text.Json
+@inject NavigationManager Navigation
+@inject DemoJs Js
+
+<section class="playground" id="playground">
+    <div class="card editor-card">
+        <div class="editor-head">
+            <label for="ua-input" class="label">User-Agent string</label>
+            <span class="status" aria-live="polite">
+                @if (_ua.Length > 0)
+                {
+                    <span title="How long UAParser.GetClientInfo takes for this text, here. Timed on a second parse: the first one in a page also creates the regexes it needs.">parsed in <strong>@Duration(_elapsed)</strong></span>
+                }
+                @if (_ua.Trim().Length > 500)
+                {
+                    <span class="warn" title="ua-parser-js reads at most 500 characters, and so does uaParser.Net"><Icon Name="alert" Size="14" /> only the first 500 characters are read</span>
+                }
+            </span>
+        </div>
+
+        <div class="editor">
+            <div class="editor-backdrop" aria-hidden="true">@foreach (var segment in _segments)
+                {
+                    if (segment.Part is { } part)
+                    {
+                        <mark class="mark p-@Highlight.CssName(part)">@segment.Text</mark>
+                    }
+                    else if (segment.MatchPart is { } match)
+                    {
+                        <span class="matched p-@Highlight.CssName(match)">@segment.Text</span>
+                    }
+                    else if (segment.Ignored)
+                    {
+                        <span class="ignored">@segment.Text</span>
+                    }
+                    else
+                    {
+                        @segment.Text
+                    }
+                }&#8203;</div>
+            <textarea id="ua-input" class="editor-input" rows="3" spellcheck="false" autocomplete="off"
+                      autocapitalize="off" placeholder="Paste or type a User-Agent string…"
+                      @bind:get="_ua" @bind:set="SetUserAgent" @bind:event="oninput"></textarea>
+        </div>
+
+        <div class="toolbar">
+            @if (!string.IsNullOrEmpty(MyUserAgent))
+            {
+                <button type="button" class="btn btn-sm" @onclick="() => SetUserAgent(MyUserAgent)" title="Your browser's user agent">
+                    <Icon Name="user" Size="16" /> Mine
+                </button>
+            }
+            <button type="button" class="btn btn-sm" @onclick="Random" title="A random example">
+                <Icon Name="shuffle" Size="16" /> Random
+            </button>
+            <button type="button" class="btn btn-sm" @onclick="() => SetUserAgent(string.Empty)" disabled="@(_ua.Length == 0)">
+                <Icon Name="x" Size="16" /> Clear
+            </button>
+            <button type="button" class="btn btn-sm copy-link" data-copy="@ShareLink" disabled="@(_ua.Length == 0)"
+                    title="Copy a link to this user agent">
+                <Icon Name="link" Size="16" Class="when-idle" /><Icon Name="check" Size="16" Class="when-copied" />
+                <span class="when-idle">Copy link</span><span class="when-copied">Copied</span>
+            </button>
+        </div>
+
+        <ul class="legend" aria-label="Colors">
+            @foreach (var part in Parts)
+            {
+                var found = _trace.Parts.FirstOrDefault(p => p.Part == part.Name)?.Hit is not null;
+                <li class="legend-item p-@Highlight.CssName(part.Name) @(found ? null : "is-missing")" tabindex="0"
+                    title="@(found ? $"Hover to see where the {part.Label.ToLowerInvariant()} was found" : $"No {part.Label.ToLowerInvariant()} rule matched")">
+                    <span class="swatch"></span>@part.Label
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Result views">
+        @foreach (var (key, label, icon) in Tabs)
+        {
+            <button type="button" role="tab" class="tab" aria-selected="@(_tab == key ? "true" : "false")" @onclick="() => _tab = key">
+                <Icon Name="@icon" Size="16" /> @label
+            </button>
+        }
+    </div>
+
+    <div class="tab-panel" role="tabpanel">
+        @switch (_tab)
+        {
+            case "why":
+                <WhyPanel Trace="_trace" />
+                break;
+            case "csharp":
+                <CodeBlock Title="C#" Text="@_csharp.Text" Tokens="_csharp.Tokens" />
+                <p class="muted small">Every result is an immutable record; a value that is not in the user agent is <code>null</code>.</p>
+                break;
+            case "json":
+                <CodeBlock Title="JSON" Text="@_json" Tokens="JsonTokens.Split(_json)" />
+                <p class="muted small">The same JSON an ASP.NET Core endpoint returns for <code>ClientInfo</code>.</p>
+                break;
+            default:
+                <ResultCards Info="_info" Trace="_trace" />
+                break;
+        }
+    </div>
+
+    @if (ShowExamples)
+    {
+        <SampleGallery OnSelect="Pick" />
+    }
+</section>
+
+@code {
+    private static readonly (string Name, string Label)[] Parts =
+        [("Browser", "Browser"), ("Engine", "Engine"), ("OS", "OS"), ("Device", "Device"), ("CPU", "CPU")];
+
+    private static readonly (string Key, string Label, string Icon)[] Tabs =
+        [("results", "Results", "grid"), ("why", "Why", "eye"), ("csharp", "C#", "code"), ("json", "JSON", "braces")];
+
+    /// <summary>The user agent to start with. Changing it replaces the text.</summary>
+    [Parameter] public string? InitialUserAgent { get; set; }
+
+    /// <summary>The visitor's own user agent, for the "Mine" button.</summary>
+    [Parameter] public string? MyUserAgent { get; set; }
+
+    /// <summary>Shows the example gallery under the playground.</summary>
+    [Parameter] public bool ShowExamples { get; set; }
+
+    private string _ua = string.Empty;
+    private string? _appliedInitial;
+    private ClientInfo _info = UAParser.GetClientInfo(null);
+    private ParseTrace _trace = ParseTrace.Of(null);
+    private IReadOnlyList<Segment> _segments = [];
+    private TimeSpan _elapsed;
+    private string _tab = "results";
+    private CodeBuilder _csharp = new();
+    private string _json = string.Empty;
+
+    private string ShareLink => Navigation.GetUriWithQueryParameter("ua", _ua);
+
+    protected override void OnParametersSet()
+    {
+        if (InitialUserAgent != _appliedInitial)
+        {
+            _appliedInitial = InitialUserAgent;
+            SetUserAgent(InitialUserAgent ?? string.Empty);
+        }
+    }
+
+    private void SetUserAgent(string? value)
+    {
+        _ua = value ?? string.Empty;
+
+        _info = UAParser.GetClientInfo(_ua);
+
+        // Timed on a second parse: the first may include creating regexes, a one-time cost.
+        var start = Stopwatch.GetTimestamp();
+        UAParser.GetClientInfo(_ua);
+        _elapsed = Stopwatch.GetElapsedTime(start);
+
+        _trace = ParseTrace.Of(_ua);
+        _segments = Highlight.Split(_ua, _trace);
+        _csharp = CSharpExample.For(_info);
+        _json = JsonSerializer.Serialize(_info, DemoJson.Default.ClientInfo);
+    }
+
+    private void Random() =>
+        SetUserAgent(SampleUserAgents.All[System.Random.Shared.Next(SampleUserAgents.All.Count)].UserAgent);
+
+    private async Task Pick(string userAgent)
+    {
+        SetUserAgent(userAgent);
+        await Js.ScrollToAsync("playground");
+    }
+
+    private static string Duration(TimeSpan time) =>
+        time.TotalMilliseconds >= 1 ? $"{time.TotalMilliseconds:0.#} ms" : $"{time.TotalMicroseconds:0} µs";
+}

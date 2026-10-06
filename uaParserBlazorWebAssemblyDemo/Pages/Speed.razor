@@ -1,0 +1,15 @@
+@page "/speed"
+
+<PageTitle>Speed test · uaParser.Net</PageTitle>
+
+<div class="page-head">
+    <p class="eyebrow"><Icon Name="bolt" Size="16" /> Speed test</p>
+    <h1>How fast is it in your browser?</h1>
+    <p>
+        Here .NET runs on WebAssembly, mostly interpreted, so parsing is slower than on a server; still fast
+        enough to parse as you type. Run the same test on the Blazor Server demo, or with uaParserBenchmark, to
+        see native speed on your machine.
+    </p>
+</div>
+
+<SpeedTest Where="in your browser" ThisRun="uaParser.Net in your browser (WebAssembly)" />

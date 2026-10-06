@@ -1,0 +1,38 @@
+@page "/browser"
+@inject DemoJs Js
+
+<PageTitle>Your browser · uaParser.Net</PageTitle>
+
+<div class="page-head">
+    <p class="eyebrow"><Icon Name="fingerprint" Size="16" /> Your browser</p>
+    <h1>Beyond the User-Agent string</h1>
+    <p>
+        The User-Agent string is what every browser sends to every website. Here is yours, what uaParser.Net
+        reads from it, and what your browser knows but leaves out of it.
+    </p>
+</div>
+
+@if (_info is null)
+{
+    <div class="card"><p class="muted">Reading your user agent…</p></div>
+}
+else
+{
+    <section class="card">
+        <h2><Icon Name="browser" Size="22" /> Your User-Agent string</h2>
+        <code class="block">@_info.UserAgent</code>
+        <p class="muted small">
+            uaParser.Net reads: <strong>@Words.Summary(_info)</strong>.
+            <a href="./?ua=@Uri.EscapeDataString(_info.UserAgent)">See why in the playground</a>.
+        </p>
+    </section>
+
+    <BeyondUserAgent Info="_info" />
+}
+
+@code {
+    private ClientInfo? _info;
+
+    protected override async Task OnInitializedAsync() =>
+        _info = UAParser.GetClientInfo(await Js.UserAgentAsync());
+}

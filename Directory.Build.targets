@@ -1,0 +1,17 @@
+<Project>
+
+  <!-- Evaluated after each project file, so IsPackable is already set here. (GenerateDocumentationFile
+       is set in the project files: the SDK reads it before this file is imported.) -->
+  <PropertyGroup Condition="'$(IsPackable)' == 'true'">
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+
+</Project>

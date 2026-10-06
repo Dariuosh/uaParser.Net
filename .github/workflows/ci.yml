@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build:
+    name: Build and test (${{ matrix.os }})
+    # Pull requests from this repository are already built by the push event.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Build
+        run: dotnet build uaParser.sln -c Release
+
+      - name: Test
+        run: >
+          dotnet test --project uaParserTest/uaParserTest.csproj -c Release --no-build
+          --minimum-expected-tests 2500
+          --results-directory ${{ github.workspace }}/TestResults
+          --report-xunit-markdown --report-xunit-markdown-filename tests.md
+
+      - name: Test summary
+        if: always()
+        shell: bash
+        run: cat TestResults/tests.md >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: Pack
+        if: runner.os == 'Linux'
+        run: |
+          dotnet pack uaParserLibrary/uaParserLibrary.csproj -c Release --no-build -o packages
+          dotnet pack uaParserMiddleware/uaParserMiddleware.csproj -c Release --no-build -o packages
+
+      - uses: actions/upload-artifact@v7
+        if: runner.os == 'Linux'
+        with:
+          name: packages
+          path: |
+            packages/*.nupkg
+            packages/*.snupkg
+          if-no-files-found: error
+
+  generated:
+    name: Generated files are up to date
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: tools/RuleGenerator
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tools/RuleGenerator/package-lock.json
+
+      # --ignore-scripts: never run install scripts of packages.
+      - run: npm ci --ignore-scripts
+
+      - name: Generate rules, answer key, coverage report and samples
+        run: npm run all
+
+      - name: Compare with the committed files
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --short
+            git --no-pager diff --stat
+            echo "::error::Generated files are out of date. Run 'npm run all' in tools/RuleGenerator and commit the changes."
+            exit 1
+          fi

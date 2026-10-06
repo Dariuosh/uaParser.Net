@@ -1,44 +1,42 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-using System.Threading.Tasks;
+namespace uaParserMiddleware;
 
-using uaParserLibrary;
-using uaParserLibrary.Models;
-
-namespace uaParserMiddleware
+/// <summary>
+/// Parses the User-Agent header before the rest of the pipeline runs. Optional:
+/// <see cref="HttpContextExtensions.GetClientInfo"/> parses on first use without it.
+/// </summary>
+public class ClientInfoMiddleware
 {
-    public class ClientInfoMiddleware
+    private readonly RequestDelegate _next;
+
+    /// <summary>Creates the middleware.</summary>
+    /// <param name="next">The rest of the pipeline.</param>
+    public ClientInfoMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate _next;
-
-        private readonly Options _options;
-
-        public ClientInfoMiddleware(RequestDelegate next, Options options)
-        {
-            _next = next;
-            _options = options;
-        }
-
-        public async Task InvokeAsync(HttpContext context, ClientInfo clientInfo)
-        {
-            var request = context.Request;
-
-            await _next(context);
-            string uaString = request.Headers["User-Agent"].ToString();
-            if (_options.BrowserParser) clientInfo.Browser = UAParser.GetBrowser(uaString);
-            if (_options.CPUParser) clientInfo.CPU = UAParser.GetCPU(uaString);
-            if (_options.EngineParser) clientInfo.Engine = UAParser.GetEngine(uaString);
-            if (_options.OSParser) clientInfo.OS = UAParser.GetOS(uaString);
-            if (_options.DeviceParser) clientInfo.Device = UAParser.GetDevice(uaString);
-        }
+        _next = next;
     }
 
-    public static class UserAgentMiddlewareExtensions
+    /// <summary>Parses the request's User-Agent header, then runs the rest of the pipeline.</summary>
+    /// <param name="context">The request.</param>
+    public Task InvokeAsync(HttpContext context)
     {
-        public static IApplicationBuilder UseUAParser(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ClientInfoMiddleware>();
-        }
+        context.GetClientInfo();
+        return _next(context);
+    }
+}
+
+/// <summary>Adds <see cref="ClientInfoMiddleware"/> to a pipeline.</summary>
+public static class UserAgentMiddlewareExtensions
+{
+    /// <summary>
+    /// Parses the User-Agent header of every request before the rest of the pipeline runs. Optional:
+    /// <see cref="HttpContextExtensions.GetClientInfo"/> and an injected ClientInfo parse on first use without it.
+    /// </summary>
+    /// <param name="builder">The application's pipeline.</param>
+    public static IApplicationBuilder UseUAParser(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<ClientInfoMiddleware>();
     }
 }

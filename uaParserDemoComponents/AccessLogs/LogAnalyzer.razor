@@ -1,0 +1,282 @@
+@* Reads a web server log, counts the user agents and shows who visits: browsers, systems, devices. *@
+@using System.Globalization
+@using System.Text
+@inject DemoJs Js
+
+<section class="card log-input">
+    <div class="tabs" role="tablist" aria-label="Log source">
+        <button type="button" role="tab" class="tab" aria-selected="@(_source == "paste" ? "true" : "false")" @onclick="@(() => _source = "paste")">
+            <Icon Name="file" Size="16" /> Paste
+        </button>
+        <button type="button" role="tab" class="tab" aria-selected="@(_source == "file" ? "true" : "false")" @onclick="@(() => _source = "file")">
+            <Icon Name="upload" Size="16" /> Upload a file
+        </button>
+    </div>
+
+    @if (_source == "paste")
+    {
+        <textarea class="input log-text" rows="8" spellcheck="false" maxlength="@MaxPasteLength" disabled="@_busy"
+                  placeholder="Paste lines of an access log (Apache, nginx, IIS, JSON), or one user agent per line…"
+                  @bind="_pasted"></textarea>
+        <div class="toolbar">
+            <button type="button" class="btn btn-primary" @onclick="AnalyzePasted" disabled="@(_busy || string.IsNullOrWhiteSpace(_pasted))">
+                <Icon Name="play" Size="16" /> Analyze
+            </button>
+            <button type="button" class="btn" @onclick="AnalyzeExample" disabled="@_busy">
+                <Icon Name="sparkles" Size="16" /> Try an example log (@ExampleLog.DefaultLines.ToString("N0") requests)
+            </button>
+        </div>
+    }
+    else
+    {
+        <label class="dropzone @(_busy ? "is-busy" : null)">
+            <Icon Name="upload" Size="28" />
+            <span><strong>Choose a log file</strong> or drop it here</span>
+            <span class="muted small">.log, .txt, .json · up to @Size(MaxFileSize)</span>
+            <InputFile OnChange="AnalyzeFile" disabled="@_busy" accept=".log,.txt,.json,.jsonl,.csv,text/plain" />
+        </label>
+    }
+
+    <p class="muted small privacy"><Icon Name="info" Size="14" /> @PrivacyNote</p>
+</section>
+
+@if (_busy)
+{
+    <div class="card progress-card" aria-live="polite">
+        <div class="progress-text">@_progressText</div>
+        <div class="progress"><span style="width:@_progress.ToString("0.#", CultureInfo.InvariantCulture)%"></span></div>
+    </div>
+}
+
+@if (_error is not null)
+{
+    <p class="card error"><Icon Name="alert" Size="16" /> @_error</p>
+}
+
+@if (_report is { } report)
+{
+    <section class="report" aria-label="Report">
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-value">@report.Requests.ToString("N0")</span>
+                <span class="stat-label">requests with a user agent</span>
+                <span class="stat-note">of @report.Lines.ToString("N0") lines · @report.Format</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">@report.Distinct.ToString("N0")</span>
+                <span class="stat-label">different user agents</span>
+                <span class="stat-note">each parsed once</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">@Percent(report.Recognized, report.Requests)</span>
+                <span class="stat-label">browser recognised</span>
+                <span class="stat-note">the rest are mostly bots and tools</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">@Speed(report)</span>
+                <span class="stat-label">user agents per second</span>
+                <span class="stat-note">parsed in @report.ParseTime.TotalMilliseconds.ToString("N0") ms, @Where</span>
+            </div>
+        </div>
+
+        @if (report.Overflow > 0)
+        {
+            <p class="hint"><Icon Name="info" Size="16" /> More than @LogAnalysis.MaxDistinct.ToString("N0") different user agents: @report.Overflow.ToString("N0") requests with further new ones are counted but not broken down.</p>
+        }
+
+        <div class="card device-mix">
+            <h3 class="chart-title">Devices</h3>
+            <div class="stack" role="img" aria-label="Share of requests by device type">
+                @foreach (var slice in report.DeviceTypes)
+                {
+                    var share = 100.0 * slice.Count / Math.Max(1, report.Requests);
+                    <span class="stack-part t-@(slice.Label ?? "none")" style="width:@share.ToString("0.###", CultureInfo.InvariantCulture)%"
+                          title="@DeviceLabel(slice.Label): @Percent(slice.Count, report.Requests)"></span>
+                }
+            </div>
+            <ul class="stack-legend">
+                @foreach (var slice in report.DeviceTypes)
+                {
+                    <li><span class="swatch t-@(slice.Label ?? "none")"></span>@DeviceLabel(slice.Label) <strong>@Percent(slice.Count, report.Requests)</strong></li>
+                }
+            </ul>
+        </div>
+
+        <div class="chart-grid">
+            <BarList Title="Browsers" Icon="browser" Part="browser" Items="report.Browsers" Total="report.Requests" />
+            <BarList Title="Browser versions" Icon="browser" Part="browser" Items="report.BrowserVersions" Total="report.Requests" />
+            <BarList Title="Operating systems" Icon="os" Part="os" Items="report.Systems" Total="report.Requests" />
+            <BarList Title="System versions" Icon="os" Part="os" Items="report.SystemVersions" Total="report.Requests" />
+            <BarList Title="Device vendors" Icon="mobile" Part="device" Items="report.Vendors" Total="report.Requests" />
+            <BarList Title="Device models" Icon="mobile" Part="device" Items="report.Models" Total="report.Requests" />
+            <BarList Title="Engines" Icon="engine" Part="engine" Items="report.Engines" Total="report.Requests" />
+            <BarList Title="CPU" Icon="cpu" Part="cpu" Items="report.Cpus" Total="report.Requests" />
+        </div>
+
+        @if (report.Unrecognized.Count > 0)
+        {
+            <section class="card">
+                <h3 class="chart-title"><span class="part-icon"><Icon Name="alert" Size="18" /></span> Most frequent user agents without a recognised browser</h3>
+                <p class="muted small">ua-parser-js 1.0.41 has no rules for most bots and tools; they show up here.</p>
+                <ol class="ua-list">
+                    @foreach (var row in report.Unrecognized)
+                    {
+                        <li>
+                            <span class="count">@row.Count.ToString("N0")</span>
+                            <a class="ua-link" href="@PlaygroundLink(row.UserAgent)" title="Open in the playground"><code>@row.UserAgent</code></a>
+                        </li>
+                    }
+                </ol>
+            </section>
+        }
+
+        <div class="toolbar">
+            <button type="button" class="btn" @onclick="DownloadCsv"><Icon Name="download" Size="16" /> Download CSV (@report.Distinct.ToString("N0") rows)</button>
+        </div>
+    </section>
+}
+
+@code {
+    /// <summary>Where the log is processed, for the privacy note and the speed figure ("in your browser").</summary>
+    [Parameter, EditorRequired] public string Where { get; set; } = "";
+
+    [Parameter, EditorRequired] public string PrivacyNote { get; set; } = "";
+
+    /// <summary>The playground page, opened with ?ua= for an unrecognised user agent.</summary>
+    [Parameter] public string PlaygroundPath { get; set; } = "";
+
+    [Parameter] public long MaxFileSize { get; set; } = 20 * 1024 * 1024;
+
+    [Parameter] public int MaxPasteLength { get; set; } = 500_000;
+
+    private string _source = "paste";
+    private string _pasted = string.Empty;
+    private bool _busy;
+    private double _progress;
+    private string _progressText = string.Empty;
+    private string? _error;
+    private LogReport? _report;
+
+    private Task AnalyzePasted() => Analyze(analysis =>
+    {
+        foreach (var line in _pasted.Split('\n'))
+            analysis.AddLine(line);
+        return Task.CompletedTask;
+    });
+
+    private Task AnalyzeExample() => Analyze(analysis =>
+    {
+        foreach (var line in ExampleLog.Lines())
+            analysis.AddLine(line);
+        return Task.CompletedTask;
+    });
+
+    private Task AnalyzeFile(InputFileChangeEventArgs e) => Analyze(async analysis =>
+    {
+        if (e.File.Size > MaxFileSize)
+            throw new InvalidOperationException($"The file is {Size(e.File.Size)}; this demo reads files up to {Size(MaxFileSize)}.");
+
+        await using var stream = e.File.OpenReadStream(MaxFileSize);
+        using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
+
+        var lastUpdate = Environment.TickCount64;
+        while (await reader.ReadLineAsync() is { } line)
+        {
+            analysis.AddLine(line);
+            if (Environment.TickCount64 - lastUpdate > 100)
+            {
+                lastUpdate = Environment.TickCount64;
+                _progressText = $"Reading… {analysis.Lines:N0} lines";
+                _progress = Math.Min(50, 50.0 * stream.Position / Math.Max(1, e.File.Size));
+                StateHasChanged();
+                await Task.Delay(1);
+            }
+        }
+    });
+
+    private async Task Analyze(Func<LogAnalysis, Task> read)
+    {
+        _busy = true;
+        _error = null;
+        _report = null;
+        _progress = 0;
+        _progressText = "Reading…";
+        StateHasChanged();
+        await Task.Delay(1);
+
+        try
+        {
+            var analysis = new LogAnalysis();
+            await read(analysis);
+
+            // Parse in slices of ~40 ms so the page stays responsive (WebAssembly has one thread).
+            while (!analysis.ParseSome(TimeSpan.FromMilliseconds(40)))
+            {
+                _progress = 50 + 50.0 * analysis.Parsed / Math.Max(1, analysis.Distinct);
+                _progressText = $"Parsing {analysis.Distinct:N0} different user agents… {analysis.Parsed:N0}";
+                StateHasChanged();
+                await Task.Delay(1);
+            }
+
+            _report = analysis.Report();
+            if (_report.Requests == 0)
+                _error = "No user agents found. Each line should be an access log line (Apache, nginx, IIS or JSON) or a user agent.";
+        }
+        catch (Exception ex) when (ex is IOException or InvalidOperationException)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+
+    private async Task DownloadCsv()
+    {
+        if (_report is null)
+            return;
+
+        var csv = new StringBuilder("requests,user_agent,browser,browser_version,engine,engine_version,os,os_version,device_vendor,device_model,device_type,cpu\n");
+        foreach (var row in _report.Rows)
+        {
+            var i = row.Info;
+            csv.AppendJoin(',', row.Count.ToString(CultureInfo.InvariantCulture), Csv(row.UserAgent),
+                Csv(i.Browser.Name), Csv(i.Browser.Version), Csv(i.Engine.Name), Csv(i.Engine.Version),
+                Csv(i.OS.Name), Csv(i.OS.Version), Csv(i.Device.Vendor), Csv(i.Device.Model), Csv(i.Device.Type),
+                Csv(i.CPU.Architecture)).Append('\n');
+        }
+
+        await using var stream = new MemoryStream(Encoding.UTF8.GetBytes(csv.ToString()));
+        await Js.DownloadAsync("user-agents.csv", "text/csv", stream);
+    }
+
+    private string PlaygroundLink(string userAgent) => $"{PlaygroundPath}?ua={Uri.EscapeDataString(userAgent)}";
+
+    // RFC 4180, and a leading quote mark against formula injection in spreadsheets.
+    private static string Csv(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return string.Empty;
+
+        if (value[0] is '=' or '+' or '-' or '@')
+            value = "'" + value;
+
+        return value.IndexOfAny([',', '"', '\n', '\r']) >= 0 ? $"\"{value.Replace("\"", "\"\"")}\"" : value;
+    }
+
+    private static string DeviceLabel(string? type) =>
+        Words.DeviceKind(type) is { } kind ? char.ToUpperInvariant(kind[0]) + kind[1..] : "No device named (computers)";
+
+    private static string Percent(long part, long total)
+    {
+        var share = total == 0 ? 0 : 100.0 * part / total;
+        return share is > 0 and < 0.1 ? "<0.1%" : $"{share:0.#}%";
+    }
+
+    private static string Speed(LogReport report) =>
+        report.ParseTime.TotalSeconds <= 0 ? "—" : (report.Distinct / report.ParseTime.TotalSeconds).ToString("N0");
+
+    private static string Size(long bytes) =>
+        bytes >= 1024 * 1024 ? $"{bytes / (1024.0 * 1024):0.#} MB" : $"{bytes / 1024.0:0} KB";
+}

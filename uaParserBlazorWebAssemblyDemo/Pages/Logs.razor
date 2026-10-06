@@ -1,0 +1,18 @@
+@page "/logs"
+
+<PageTitle>Log analyzer · uaParser.Net</PageTitle>
+
+<div class="page-head">
+    <p class="eyebrow"><Icon Name="file" Size="16" /> Log analyzer</p>
+    <h1>Who visits your website?</h1>
+    <p>
+        Give it an access log from Apache, nginx, IIS or any JSON logger and see the browsers, systems and
+        devices of your visitors. Each different user agent is parsed once.
+    </p>
+</div>
+
+<LogAnalyzer Where="in your browser"
+             PrivacyNote="Your log never leaves this tab: it is read and parsed by .NET running in your browser."
+             PlaygroundPath="./"
+             MaxFileSize="@(200L * 1024 * 1024)"
+             MaxPasteLength="5_000_000" />

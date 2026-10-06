@@ -61,3 +61,12 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+###############################################################################
+# Files produced by tools/RuleGenerator: shown collapsed in GitHub diffs.
+###############################################################################
+uaParserTest/TestData/*.golden.json linguist-generated=true
+tools/RuleGenerator/reports/** linguist-generated=true
+tools/RuleGenerator/package-lock.json linguist-generated=true
+uaParserLibrary/Rules/*.g.cs linguist-generated=true
+Shared/*.g.cs linguist-generated=true

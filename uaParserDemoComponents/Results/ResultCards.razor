@@ -1,0 +1,89 @@
+@* One card per part of a ClientInfo. With a ParseTrace, each card also says which rule matched. *@
+<div class="result-grid">
+    <article class="card part-card part-browser">
+        <PartHeader Icon="browser" Title="Browser" Hit="@Hit("Browser")" />
+        <div class="part-main">
+            <Monogram Name="@Info.Browser.Name" />
+            <Value Text="@Info.Browser.Name" Class="part-name" />
+        </div>
+        <dl class="kv">
+            <dt>Version</dt><dd><Value Text="@Info.Browser.Version" /></dd>
+            <dt>Major</dt><dd><Value Text="@Info.Browser.Major" /></dd>
+        </dl>
+    </article>
+
+    <article class="card part-card part-engine">
+        <PartHeader Icon="engine" Title="Engine" Hit="@Hit("Engine")" />
+        <div class="part-main">
+            <Monogram Name="@Info.Engine.Name" />
+            <Value Text="@Info.Engine.Name" Class="part-name" />
+        </div>
+        <dl class="kv">
+            <dt>Version</dt><dd><Value Text="@Info.Engine.Version" /></dd>
+        </dl>
+    </article>
+
+    <article class="card part-card part-os">
+        <PartHeader Icon="os" Title="OS" Hit="@Hit("OS")" />
+        <div class="part-main">
+            <Monogram Name="@Info.OS.Name" />
+            <Value Text="@Info.OS.Name" Class="part-name" />
+        </div>
+        <dl class="kv">
+            <dt>Version</dt><dd><Value Text="@Info.OS.Version" /></dd>
+        </dl>
+    </article>
+
+    <article class="card part-card part-device">
+        <PartHeader Icon="@Icon.ForDeviceType(Info.Device.Type)" Title="Device" Hit="@Hit("Device")" />
+        <div class="part-main">
+            <Monogram Name="@Info.Device.Vendor" />
+            <Value Text="@(Words.DeviceName(Info.Device))" Class="part-name"
+                   Empty="@(Info.Device.Type is null ? "Not named" : Words.DeviceKind(Info.Device.Type))" />
+        </div>
+        <dl class="kv">
+            <dt>Vendor</dt><dd><Value Text="@Info.Device.Vendor" /></dd>
+            <dt>Model</dt><dd><Value Text="@Info.Device.Model" /></dd>
+            <dt>Type</dt><dd><Value Text="@Info.Device.Type" /></dd>
+        </dl>
+    </article>
+
+    <article class="card part-card part-cpu">
+        <PartHeader Icon="cpu" Title="CPU" Hit="@Hit("CPU")" />
+        <div class="part-main">
+            <Value Text="@Info.CPU.Architecture" Class="part-name" Empty="Not named" />
+        </div>
+        <dl class="kv">
+            <dt>Architecture</dt><dd><Value Text="@Info.CPU.Architecture" /></dd>
+        </dl>
+    </article>
+
+    @if (Info.GPU is { } gpu)
+    {
+        <article class="card part-card part-gpu">
+            <PartHeader Icon="gpu" Title="GPU" />
+            <div class="part-main">
+                <Monogram Name="@gpu.Vendor" />
+                <Value Text="@(Words.Join(gpu.Vendor, gpu.Model))" Class="part-name" Empty="Not recognised" />
+            </div>
+            <dl class="kv">
+                <dt>Vendor</dt><dd><Value Text="@gpu.Vendor" /></dd>
+                <dt>Model</dt><dd><Value Text="@gpu.Model" /></dd>
+            </dl>
+        </article>
+    }
+</div>
+
+@if (Info.Device.Type is null && Info.Device.Model is null && Info.Browser.Name is not null)
+{
+    <p class="hint"><Icon Name="info" Size="16" /> Desktop browsers do not name the device, so <code>Device</code> is empty: that usually means a computer.</p>
+}
+
+@code {
+    [Parameter, EditorRequired] public ClientInfo Info { get; set; } = default!;
+
+    /// <summary>Optional: adds "rule n" to each card.</summary>
+    [Parameter] public ParseTrace? Trace { get; set; }
+
+    private PartTrace? Hit(string part) => Trace?[part];
+}

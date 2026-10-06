@@ -1,27 +1,11 @@
-﻿namespace uaParserLibrary.Models
+namespace uaParserLibrary.Models;
+
+/// <summary>The browser that sent the user agent, for example Chrome 140.</summary>
+/// <param name="Name">Browser name, or <see langword="null"/> when it is not detected.</param>
+/// <param name="Version">Full version, or <see langword="null"/>.</param>
+/// <param name="Major">Major version (the digits before the first dot), or <see langword="null"/>.</param>
+public sealed record Browser(string? Name, string? Version, string? Major)
 {
-    public sealed class Browser
-    {
-        public string Name { get; set; }
-
-        public string Major { get; set; }
-
-        public string Version { get; set; }
-
-        public override string ToString() => $"{"Browser",-7}: {Name} {Version}";
-
-        public Browser Empty
-        {
-            get
-            {
-                Name = "Other";
-                Major = string.Empty;
-                Version = string.Empty;
-                return this;
-            }
-        }
-
-       
- 
-    }
+    /// <summary>A one-line description, for example "Browser: Chrome 140.0.0.0".</summary>
+    public override string ToString() => Describe.Line("Browser", Name, Version);
 }

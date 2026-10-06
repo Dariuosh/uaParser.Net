@@ -1,33 +1,13 @@
-﻿namespace uaParserLibrary.Models
+namespace uaParserLibrary.Models;
+
+/// <summary>
+/// The graphics card, read from a WebGL renderer string (not from the user agent). In a browser,
+/// the renderer is gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL).
+/// </summary>
+/// <param name="Vendor">For example "Intel" or "NVIDIA", or <see langword="null"/>.</param>
+/// <param name="Model">For example "GeForce GT 650M", or <see langword="null"/>.</param>
+public sealed record GPU(string? Vendor, string? Model)
 {
-    public sealed class GPU
-    {
-        public string Model { get; set; }
-        public string Vendor { get; set; }
-
-        public GPU Empty
-        {
-            get
-            {   
-                Vendor = "Other";
-                Model = string.Empty;                
-                return this;
-            }
-        }
-
-        public override string ToString() => $"{"GPU",-7}: {Vendor} {Model}";
-    }
+    /// <summary>A one-line description, for example "Browser: Chrome 140.0.0.0".</summary>
+    public override string ToString() => Describe.Line("GPU", Vendor, Model);
 }
-
-/// -----------
-///
-/// -----------
-
-//var renderer;
-//// browser only
-//if (window && window.document)
-//{
-//    var canvas = document.createElement('canvas');
-//    var gl = canvas.getContext ? canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl') : undefined;
-//    renderer = gl && gl.getParameter && gl.getExtension && gl.getExtension('WEBGL_debug_renderer_info') ? gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL) : undefined;
-//}

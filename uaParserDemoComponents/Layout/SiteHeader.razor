@@ -1,0 +1,36 @@
+@* The top bar: brand, the app's navigation (ChildContent), links and the theme switch. Works in
+   static and interactive rendering (the theme switch is handled by site.js). *@
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="">
+            <img src="_content/uaParserDemoComponents/favicon.svg" width="30" height="30" alt="" />
+            <span class="brand-name">uaParser<span class="dot">.</span>Net</span>
+            <span class="brand-kind">@Kind</span>
+        </a>
+
+        <nav class="nav" aria-label="Pages">
+            @ChildContent
+        </nav>
+
+        <div class="header-actions">
+            <a class="icon-btn" href="https://github.com/Dariuosh/uaParser.Net" target="_blank" rel="noopener" title="Source code on GitHub" aria-label="Source code on GitHub">
+                <Icon Name="source" />
+            </a>
+            <a class="icon-btn" href="https://www.nuget.org/packages/uaParser.Net" target="_blank" rel="noopener" title="Package on NuGet" aria-label="Package on NuGet">
+                <Icon Name="package" />
+            </a>
+            <button type="button" class="icon-btn theme-toggle" data-theme-toggle title="Switch between light and dark" aria-label="Switch between light and dark">
+                <Icon Name="moon" Class="when-light" />
+                <Icon Name="sun" Class="when-dark" />
+            </button>
+        </div>
+    </div>
+</header>
+
+@code {
+    /// <summary>"WebAssembly" or "Server".</summary>
+    [Parameter, EditorRequired] public string Kind { get; set; } = "";
+
+    /// <summary>The navigation links (NavLink elements).</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}
