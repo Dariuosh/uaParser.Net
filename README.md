@@ -14,8 +14,11 @@
 
 ```
 dotnet build uaParser.sln
-dotnet test uaParserTest
+dotnet test
+dotnet test --coverlet    # with code coverage (cobertura + json)
 ```
+
+Tests use xUnit.net v3 on Microsoft.Testing.Platform (enabled in `global.json`), so pass a project as `dotnet test --project uaParserTest`.
 
 # Documentation
 
