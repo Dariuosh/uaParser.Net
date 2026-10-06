@@ -1,0 +1,21 @@
+<header class="part-head">
+    <span class="part-icon"><Icon Name="@Icon" Size="18" /></span>
+    <h3>@Title</h3>
+    @if (Hit is { } part)
+    {
+        if (part.Hit is { } hit)
+        {
+            <span class="badge" title="Rule @hit.RuleNumber of the @part.RuleCount @part.Part.ToLowerInvariant() rules matched">rule @hit.RuleNumber</span>
+        }
+        else
+        {
+            <span class="badge is-muted" title="None of the @part.RuleCount @part.Part.ToLowerInvariant() rules matched">no match</span>
+        }
+    }
+</header>
+
+@code {
+    [Parameter, EditorRequired] public string Icon { get; set; } = "";
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+    [Parameter] public PartTrace? Hit { get; set; }
+}

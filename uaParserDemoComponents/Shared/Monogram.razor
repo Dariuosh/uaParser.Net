@@ -1,0 +1,34 @@
+@* A round badge with the initials of a name, in a color derived from the name. Logos are
+   trademarks of their owners, so the demos use these instead. *@
+<span class="monogram @(Name is null ? "is-empty" : null) @Class" style="--hue:@Hue(Name)" aria-hidden="true">@Initials(Name)</span>
+
+@code {
+    [Parameter] public string? Name { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    private static string Initials(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return "?";
+
+        var words = name.Split([' ', '-', '_', '.', '/'], StringSplitOptions.RemoveEmptyEntries)
+            .Where(w => char.IsLetterOrDigit(w[0]))
+            .ToArray();
+
+        return words.Length switch
+        {
+            0 => name[..1].ToUpperInvariant(),
+            1 => words[0][..1].ToUpperInvariant(),
+            _ => string.Concat(words[0][..1], words[1][..1]).ToUpperInvariant(),
+        };
+    }
+
+    // FNV-1a: stable across runs and machines (string.GetHashCode is not).
+    private static int Hue(string? name)
+    {
+        var hash = 2166136261;
+        foreach (var c in name ?? "")
+            hash = (hash ^ char.ToLowerInvariant(c)) * 16777619;
+        return (int)(hash % 360);
+    }
+}

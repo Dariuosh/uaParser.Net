@@ -1,0 +1,19 @@
+@page "/Error"
+@using System.Diagnostics
+
+<PageTitle>Error · uaParser.Net</PageTitle>
+
+<div class="page-head">
+    <h1>Something went wrong</h1>
+    <p>An error occurred while processing your request.</p>
+    @if (RequestId is not null)
+    {
+        <p class="muted small">Request ID: <code>@RequestId</code></p>
+    }
+</div>
+
+@code {
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    private string? RequestId => Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
+}

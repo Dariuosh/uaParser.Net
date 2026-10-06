@@ -19,6 +19,9 @@ agents (and were checked on 58,000 more).
 - GPU detection from WebGL renderer strings
 - .NET 10
 
+![The playground: a user agent with every value highlighted where it was found](https://raw.githubusercontent.com/Dariuosh/uaParser.Net/master/docs/images/playground.webp)
+<sub>The playground of the [demos](#demos): each value is highlighted where it was found, and the Why tab shows the rule that matched.</sub>
+
 ## Install
 
 ```
@@ -94,10 +97,42 @@ app.MapGet("/client", (HttpContext context) => context.GetClientInfo());   // as
 Every request gets the result for its own User-Agent header. `HttpContext.GetClientInfo()` works
 with or without the middleware and parses at most once per request.
 
-**Blazor Server / interactive server rendering:** a circuit has no request of its own, so read the
-User-Agent while the page is served and pass it on, as the Blazor Server demo does.
+**Blazor, interactive server rendering:** a circuit has no request of its own, so read the
+User-Agent while the page is prerendered and keep it for the circuit, as the Blazor Server demo's
+playground does:
+
+```razor
+@code {
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    [PersistentState] public string? UserAgent { get; set; }
+
+    protected override void OnInitialized() =>
+        UserAgent ??= HttpContext?.Request.Headers.UserAgent.ToString();
+}
+```
+
 **Blazor WebAssembly:** read `navigator.userAgent` with JS interop and call `UAParser` in the
 browser, as the WebAssembly demo does.
+
+## Demos
+
+Two Blazor apps show uaParser.Net at work. Their pages come from `uaParserDemoComponents`.
+
+| | `uaParserBlazorWebAssemblyDemo` | `uaParserBlazorServerDemo` |
+|---|---|---|
+| Runs | in the browser (.NET on WebAssembly): nothing is sent anywhere | on the server (ASP.NET Core, Blazor) |
+| Start page | your browser, read in the tab | what your request told the server: User-Agent, Client Hints and the injected `ClientInfo` |
+| Playground | type or paste a user agent: every value is highlighted where it was found, with the rule and regex that matched, the C# and the JSON | the same, parsed on the server as you type |
+| Log analyzer | the browsers, systems and devices in an Apache, nginx, IIS or JSON access log, read in the browser | the same, on the server |
+| Also | Client Hints next to the User-Agent, the GPU, the iPad check; a speed test in the browser | a JSON API (`/api/client`, `/api/parse?ua=`); a speed test on the server |
+
+```
+dotnet run -c Release --project uaParserBlazorWebAssemblyDemo   # http://localhost:5000
+dotnet run -c Release --project uaParserBlazorServerDemo        # http://localhost:5002
+```
+
+![The log analyzer: browsers, systems and devices in an access log](https://raw.githubusercontent.com/Dariuosh/uaParser.Net/master/docs/images/log-analyzer.webp)
 
 ## Performance
 
@@ -109,6 +144,7 @@ Measured on a 4-CPU Linux container (Intel Xeon 2.8 GHz), .NET 10:
 | Repeated user agent, `ClientInfoCache` | about 40 ns | |
 | Memory per parse | about 2.6 KB | |
 | First call in a new process | about 110 ms (45-60 ms with ReadyToRun) | about 8 ms |
+| In the browser (Blazor WebAssembly, Chromium) | about 0.4 ms | |
 
 Most regexes are skipped by a cheap substring check before they run (about 96 % of them for a
 typical user agent); the checks are derived from the regexes and verified never to skip a match.
@@ -170,7 +206,8 @@ See [CHANGELOG.md](https://github.com/Dariuosh/uaParser.Net/blob/master/CHANGELO
 | `uaParserBenchmark` | Speed measurements |
 | `tools/RuleGenerator` | Generates the rules, the answer key and the example user agents |
 | `uaParserConsole` | Console sample |
-| `uaParserBlazorServerDemo`, `uaParserBlazorWebAssemblyDemo` | Demos |
+| `uaParserBlazorWebAssemblyDemo`, `uaParserBlazorServerDemo` | Demos (see above) |
+| `uaParserDemoComponents` | The demos' pages, shared by both |
 | `Shared` | Example user agents shared by the samples |
 
 ```

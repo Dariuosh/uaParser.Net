@@ -1,0 +1,193 @@
+@* Measures uaParser.Net where this component runs: in the browser (WebAssembly) or on the server. *@
+@using System.Diagnostics
+@using System.Globalization
+@using System.Runtime.InteropServices
+
+<section class="card speed">
+    <div class="speed-head">
+        <div>
+            <p class="muted">
+                Parses the @_samples.Length example user agents @Where, again and again for @Seconds(MeasureTime)
+                after a warm-up, and reports the time for one user agent. Nothing is cached, except in the last
+                figure.
+            </p>
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="Run" disabled="@_running">
+            <Icon Name="play" Size="16" /> @(_result is null ? "Run the test" : "Run again")
+        </button>
+    </div>
+
+    @if (IsDebugBuild)
+    {
+        <p class="hint"><Icon Name="alert" Size="16" /> This is a Debug build, which runs several times slower. For real figures, run the demo with <code>dotnet run -c Release</code>.</p>
+    }
+
+    @if (_running)
+    {
+        <div aria-live="polite">
+            <div class="progress-text">@_phase</div>
+            <div class="progress"><span style="width:@_progress.ToString("0.#", CultureInfo.InvariantCulture)%"></span></div>
+        </div>
+    }
+
+    @if (_result is { } result)
+    {
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-value">@Micro(result.MedianMicroseconds)</span>
+                <span class="stat-label">per user agent (median)</span>
+                <span class="stat-note">fastest round: @Micro(result.BestMicroseconds)</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">@((1_000_000 / result.MedianMicroseconds).ToString("N0"))</span>
+                <span class="stat-label">user agents per second</span>
+                <span class="stat-note">on one thread</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">@Nano(result.CachedNanoseconds)</span>
+                <span class="stat-label">for a repeated user agent</span>
+                <span class="stat-note">with <code>ClientInfoCache</code></span>
+            </div>
+        </div>
+
+        <h3 class="chart-title">Compared with</h3>
+        <ol class="bars compare">
+            @foreach (var (label, value, isThis) in Comparison(result.MedianMicroseconds))
+            {
+                <li class="@(isThis ? "is-this" : null)">
+                    <span class="bar-label">@label</span>
+                    <span class="bar-value">@Micro(value)</span>
+                    <span class="bar" style="--share:@Share(value, result.MedianMicroseconds)%"></span>
+                </li>
+            }
+        </ol>
+        <p class="muted small">
+            The other rows were measured with uaParserBenchmark and <code>npm run bench</code> on a 4-CPU Linux
+            server (Intel Xeon, 2.8 GHz). Shorter bars are faster. Run them on your own machine to compare.
+        </p>
+
+        <dl class="kv env">
+            <dt>Runtime</dt><dd>@RuntimeInformation.FrameworkDescription</dd>
+            <dt>Architecture</dt><dd>@RuntimeInformation.ProcessArchitecture</dd>
+            <dt>Processors</dt><dd>@Environment.ProcessorCount</dd>
+            <dt>Rounds</dt><dd>@result.Rounds.ToString("N0") × @_samples.Length user agents</dd>
+        </dl>
+    }
+</section>
+
+@code {
+    /// <summary>Where the test runs: "in your browser" or "on this server".</summary>
+    [Parameter, EditorRequired] public string Where { get; set; } = "";
+
+    /// <summary>The label of this run in the comparison.</summary>
+    [Parameter, EditorRequired] public string ThisRun { get; set; } = "";
+
+    private static readonly TimeSpan WarmUpTime = TimeSpan.FromSeconds(1);
+    private static readonly TimeSpan MeasureTime = TimeSpan.FromSeconds(3);
+
+    // Median per user agent for these same examples ("recent"), measured with
+    // `dotnet run -c Release -- --quick` and `npm run bench` on a 4-CPU Xeon server, October 2026.
+    private const double NativeMicroseconds = 26.7;
+    private const double NodeMicroseconds = 39.6;
+
+    // The library compiled without optimizations (dotnet run without -c Release).
+    private static readonly bool IsDebugBuild =
+        typeof(UAParser).Assembly.GetCustomAttributes(typeof(DebuggableAttribute), false)
+            .OfType<DebuggableAttribute>().Any(a => a.IsJITOptimizerDisabled);
+
+    private readonly string[] _samples = [.. uaParserSamples.SampleUserAgents.All.Select(s => s.UserAgent)];
+    private bool _running;
+    private double _progress;
+    private string _phase = string.Empty;
+    private SpeedResult? _result;
+
+    private sealed record SpeedResult(double MedianMicroseconds, double BestMicroseconds, double CachedNanoseconds, int Rounds);
+
+    private async Task Run()
+    {
+        _running = true;
+        _result = null;
+
+        // Warm-up: creates the regexes and lets .NET compile the hot code.
+        _phase = "Warming up…";
+        await Rounds(WarmUpTime, 0, 25);
+
+        _phase = "Measuring…";
+        var perUserAgent = await Rounds(MeasureTime, 25, 90);
+
+        _phase = "Measuring the cache…";
+        var cache = new ClientInfoCache(capacity: _samples.Length * 2);
+        foreach (var ua in _samples)
+            cache.GetClientInfo(ua);
+
+        var lookups = 0L;
+        var cacheTime = Stopwatch.StartNew();
+        while (cacheTime.Elapsed < TimeSpan.FromMilliseconds(300))
+        {
+            for (var round = 0; round < 100; round++)
+            {
+                foreach (var ua in _samples)
+                    cache.GetClientInfo(ua);
+            }
+
+            lookups += 100L * _samples.Length;
+        }
+
+        perUserAgent.Sort();
+        _result = new SpeedResult(
+            perUserAgent[perUserAgent.Count / 2],
+            perUserAgent[0],
+            cacheTime.Elapsed.TotalNanoseconds / lookups,
+            perUserAgent.Count);
+        _running = false;
+    }
+
+    // Parses all samples per round until the time is up; returns microseconds per user agent for each round.
+    private async Task<List<double>> Rounds(TimeSpan duration, double fromPercent, double toPercent)
+    {
+        var results = new List<double>();
+        var total = Stopwatch.StartNew();
+        var sinceYield = Stopwatch.StartNew();
+
+        while (total.Elapsed < duration)
+        {
+            var start = Stopwatch.GetTimestamp();
+            foreach (var ua in _samples)
+                UAParser.GetClientInfo(ua);
+            results.Add(Stopwatch.GetElapsedTime(start).TotalMicroseconds / _samples.Length);
+
+            // Let the page update now and then (WebAssembly runs on the page's only thread).
+            if (sinceYield.ElapsedMilliseconds > 60)
+            {
+                _progress = fromPercent + (toPercent - fromPercent) * Math.Min(1, total.Elapsed / duration);
+                StateHasChanged();
+                await Task.Delay(1);
+                sinceYield.Restart();
+            }
+        }
+
+        return results;
+    }
+
+    private IEnumerable<(string Label, double Microseconds, bool IsThis)> Comparison(double thisRun) =>
+        new[]
+        {
+            (ThisRun, thisRun, true),
+            ("uaParser.Net, .NET 10 on a server", NativeMicroseconds, false),
+            ("ua-parser-js 1.0.41, Node.js 22 on the same server", NodeMicroseconds, false),
+        }.OrderBy(r => r.Item2);
+
+    private static string Share(double value, double thisRun)
+    {
+        var max = Math.Max(Math.Max(thisRun, NativeMicroseconds), NodeMicroseconds);
+        return (100 * value / max).ToString("0.###", CultureInfo.InvariantCulture);
+    }
+
+    private static string Micro(double microseconds) =>
+        microseconds >= 1000 ? $"{microseconds / 1000:0.##} ms" : $"{microseconds:0.#} µs";
+
+    private static string Nano(double nanoseconds) =>
+        nanoseconds >= 1000 ? $"{nanoseconds / 1000:0.##} µs" : $"{nanoseconds:0} ns";
+
+    private static string Seconds(TimeSpan time) => $"{time.TotalSeconds:0} seconds";
+}

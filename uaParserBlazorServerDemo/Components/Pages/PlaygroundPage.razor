@@ -1,0 +1,31 @@
+@page "/playground"
+@rendermode InteractiveServer
+
+<PageTitle>Playground · uaParser.Net</PageTitle>
+
+<div class="page-head">
+    <p class="eyebrow"><Icon Name="sparkles" Size="16" /> Playground</p>
+    <h1>Try any user agent</h1>
+    <p>
+        Parsed on the server as you type: this page is interactive through Blazor Server, and every
+        keystroke is read by uaParser.Net in ASP.NET Core.
+    </p>
+</div>
+
+<Playground InitialUserAgent="@(Ua ?? RequestUserAgent)" MyUserAgent="@RequestUserAgent" ShowExamples />
+
+@code {
+    // Only available while the page is prerendered: the interactive circuit has no request.
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    /// <summary>A user agent shared with "Copy link".</summary>
+    [SupplyParameterFromQuery(Name = "ua")]
+    public string? Ua { get; set; }
+
+    /// <summary>Read from the request during prerendering and kept for the interactive circuit.</summary>
+    [PersistentState]
+    public string? RequestUserAgent { get; set; }
+
+    protected override void OnInitialized() =>
+        RequestUserAgent ??= HttpContext?.Request.Headers.UserAgent.ToString();
+}

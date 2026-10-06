@@ -1,0 +1,18 @@
+@page "/logs"
+@rendermode InteractiveServer
+
+<PageTitle>Log analyzer · uaParser.Net</PageTitle>
+
+<div class="page-head">
+    <p class="eyebrow"><Icon Name="file" Size="16" /> Log analyzer</p>
+    <h1>Who visits your website?</h1>
+    <p>
+        Give it an access log from Apache, nginx, IIS or any JSON logger and see the browsers, systems and
+        devices of your visitors. Each different user agent is parsed once, on this server.
+    </p>
+</div>
+
+<LogAnalyzer Where="on this server"
+             PrivacyNote="The log is sent to this demo server, analyzed in memory and discarded: nothing is stored."
+             PlaygroundPath="playground"
+             MaxFileSize="@(20L * 1024 * 1024)" />

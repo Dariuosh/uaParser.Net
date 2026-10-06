@@ -1,0 +1,58 @@
+@* A ranked list with proportional bars, for breakdowns such as "browsers in this log". *@
+<section class="card chart @PartClass">
+    <h3 class="chart-title">
+        @if (Icon is not null)
+        {
+            <span class="part-icon"><Icon Name="@Icon" Size="18" /></span>
+        }
+        @Title
+    </h3>
+
+    @if (Items.Count == 0)
+    {
+        <p class="muted small">Nothing to show.</p>
+    }
+    else
+    {
+        <ol class="bars">
+            @foreach (var item in Shown)
+            {
+                var share = Total == 0 ? 0 : 100.0 * item.Count / Total;
+                <li class="@(item.Label is null ? "is-none" : null)">
+                    <span class="bar-label" title="@item.Label">@(item.Label ?? NoneLabel)</span>
+                    <span class="bar-value">@item.Count.ToString("N0") <span class="muted">· @Percent(share)</span></span>
+                    <span class="bar" style="--share:@share.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)%"></span>
+                </li>
+            }
+        </ol>
+    }
+</section>
+
+@code {
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+    [Parameter, EditorRequired] public IReadOnlyList<Slice> Items { get; set; } = [];
+
+    /// <summary>What the percentages are of; usually the number of requests.</summary>
+    [Parameter] public long Total { get; set; }
+
+    [Parameter] public string? Icon { get; set; }
+
+    /// <summary>One of browser, engine, os, device, cpu, gpu: sets the color.</summary>
+    [Parameter] public string? Part { get; set; }
+
+    [Parameter] public int Max { get; set; } = 8;
+
+    /// <summary>The label for a null value.</summary>
+    [Parameter] public string NoneLabel { get; set; } = "(not in the user agent)";
+
+    private string? PartClass => Part is null ? null : $"part-{Part}";
+
+    // The first Max - 1 items and "Other" when there are more than Max.
+    private IEnumerable<Slice> Shown =>
+        Items.Count <= Max
+            ? Items
+            : Items.Take(Max - 1).Append(new Slice($"Other ({Items.Count - Max + 1:N0})", Items.Skip(Max - 1).Sum(i => i.Count)));
+
+    private static string Percent(double share) =>
+        share is > 0 and < 0.1 ? "<0.1%" : $"{share:0.#}%";
+}

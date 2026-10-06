@@ -36,6 +36,22 @@ internal sealed class Assignment
 
     public Field Field { get; }
 
+    // Whether the value is read from the capture group (every shape except a constant).
+    public bool ReadsCapture => _kind != Kind.Constant;
+
+    // How the value is set, in words (for Explainer).
+    public string How => _kind switch
+    {
+        Kind.Capture => "captured",
+        Kind.Constant => "set by the rule",
+        Kind.Lowercase => "captured, lowercased",
+        Kind.TrimStart => "captured, trimmed",
+        Kind.Replace => "captured, rewritten",
+        Kind.ReplaceThenLowercase => "captured, rewritten, lowercased",
+        Kind.Map => "captured, looked up in a table",
+        _ => throw new InvalidOperationException($"Unknown assignment kind {_kind}."),
+    };
+
     // PROP
     public static Assignment Capture(Field field) => new(field, Kind.Capture);
 

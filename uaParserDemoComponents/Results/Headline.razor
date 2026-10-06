@@ -1,0 +1,43 @@
+@* "You're using Chrome 131 on Windows 10", with the device on a second line. *@
+<div class="headline">
+    <p class="eyebrow"><Icon Name="@Icon.ForDeviceType(Info.Device.Type)" Size="16" /> @Lead</p>
+    <h1>
+        @if (Words.Browser(Info.Browser) is { } browser)
+        {
+            <span class="hl hl-browser">@browser</span>
+        }
+        else
+        {
+            <span>an unknown browser</span>
+        }
+        @if (Words.OS(Info.OS) is { } os)
+        {
+            <span class="on"> on </span><span class="hl hl-os">@os</span>
+        }
+    </h1>
+    <p class="sub">
+        @if (Words.DeviceName(Info.Device) is { } device)
+        {
+            <text>Device: <strong>@device</strong>@(Words.DeviceKind(Info.Device.Type) is { } kind ? $", a {kind}" : "")</text>
+        }
+        else if (Words.DeviceKind(Info.Device.Type) is { } kind)
+        {
+            <text>Device: a <strong>@kind</strong></text>
+        }
+        else
+        {
+            <text>No device named: most likely a desktop or laptop computer.</text>
+        }
+        @if (Words.Engine(Info.Engine) is { } engine)
+        {
+            <text> Engine: <strong>@engine</strong>.</text>
+        }
+    </p>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public ClientInfo Info { get; set; } = default!;
+
+    /// <summary>The line above the headline, such as "Your browser".</summary>
+    [Parameter] public string Lead { get; set; } = "You're using";
+}

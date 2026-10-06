@@ -1,0 +1,63 @@
+@* The example user agents, grouped and searchable. Picking one calls OnSelect. *@
+<section class="gallery" id="examples">
+    <div class="section-head">
+        <h2>Examples</h2>
+        <p class="muted">@SampleCatalog.All.Count user agents, from today's browsers to TVs, cars and crawlers. Pick one to see how it is read.</p>
+    </div>
+
+    <div class="gallery-tools">
+        <label class="search">
+            <Icon Name="search" Size="18" />
+            <input type="search" placeholder="Filter: iPhone, smart TV, Firefox, Tesla…" aria-label="Filter the examples"
+                   @bind="_filter" @bind:event="oninput" />
+        </label>
+        <div class="chips" role="group" aria-label="Groups">
+            <button type="button" class="chip" aria-pressed="@(_group is null ? "true" : "false")" @onclick="() => _group = null">All</button>
+            @foreach (var group in SampleCatalog.Groups)
+            {
+                <button type="button" class="chip" aria-pressed="@(_group == group ? "true" : "false")" @onclick="() => _group = group">@group</button>
+            }
+        </div>
+    </div>
+
+    @{
+        var shown = SampleCatalog.All
+            .Where(s => _group is null || s.Group == _group)
+            .Where(s => string.IsNullOrWhiteSpace(_filter) || s.Matches(_filter.Trim()))
+            .GroupBy(s => s.Group)
+            .ToList();
+    }
+
+    @if (shown.Count == 0)
+    {
+        <p class="empty">No example matches “@_filter”.</p>
+    }
+
+    @foreach (var group in shown)
+    {
+        <h3 class="group-title">@group.Key <span class="count">@group.Count()</span></h3>
+        <div class="gallery-grid">
+            @foreach (var sample in group)
+            {
+                <button type="button" class="sample" @onclick="() => OnSelect.InvokeAsync(sample.UserAgent)" title="@sample.UserAgent">
+                    <span class="sample-top">
+                        <Monogram Name="@sample.Info.Browser.Name" />
+                        <span class="sample-text">
+                            <span class="sample-title">@sample.Title</span>
+                            <span class="sample-sub">@sample.Subtitle</span>
+                        </span>
+                        <Icon Name="@Icon.ForDeviceType(sample.Info.Device.Type)" Size="18" Class="sample-kind" />
+                    </span>
+                    <code class="sample-ua">@sample.UserAgent</code>
+                </button>
+            }
+        </div>
+    }
+</section>
+
+@code {
+    [Parameter] public EventCallback<string> OnSelect { get; set; }
+
+    private string _filter = string.Empty;
+    private string? _group;
+}

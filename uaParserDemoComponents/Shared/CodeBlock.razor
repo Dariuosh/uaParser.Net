@@ -1,0 +1,42 @@
+@* Code with a copy button. The copy button works without Blazor interactivity (site.js). *@
+<div class="code @Class">
+    @if (Title is not null)
+    {
+        <div class="code-title">
+            <span>@Title</span>
+        </div>
+    }
+    <button type="button" class="icon-btn copy-btn" data-copy="@Text" title="Copy" aria-label="Copy">
+        <Icon Name="copy" Size="16" Class="when-idle" />
+        <Icon Name="check" Size="16" Class="when-copied" />
+    </button>
+    <pre><code>@if (Tokens is null)
+{
+    @Text
+}
+else
+{
+    foreach (var token in Tokens)
+    {
+        if (token.Kind is null)
+        {
+            @token.Text
+        }
+        else
+        {
+            <span class="tok-@token.Kind">@token.Text</span>
+        }
+    }
+}</code></pre>
+</div>
+
+@code {
+    /// <summary>The code; also what the copy button copies.</summary>
+    [Parameter, EditorRequired] public string Text { get; set; } = "";
+
+    /// <summary>The same code split into colored tokens (optional).</summary>
+    [Parameter] public IReadOnlyList<CodeToken>? Tokens { get; set; }
+
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Class { get; set; }
+}

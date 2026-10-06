@@ -1,0 +1,106 @@
+@page "/"
+@inject ClientInfo Client
+
+@* Static server rendering: this page is rendered once per request, so the request is at hand.
+   ClientInfo is injected: AddUAParser() registers it for the current request. *@
+
+<PageTitle>uaParser.Net · What the server sees</PageTitle>
+
+<Headline Info="Client" Lead="Your browser told this server it is" />
+
+<ul class="facts" aria-label="About this page">
+    <li><Icon Name="server" Size="16" /> Read on the server, from this request</li>
+    <li><Icon Name="code" Size="16" /> <code>@@inject ClientInfo</code></li>
+    <li><Icon Name="bolt" Size="16" /> No JavaScript needed</li>
+</ul>
+
+<ResultCards Info="Client" Trace="ParseTrace.Of(Client.UserAgent)" />
+
+<div class="section-head">
+    <h2><Icon Name="globe" Size="22" /> What your browser sent</h2>
+    <p class="muted">The request headers about the browser: the User-Agent, which uaParser.Net reads, and the Client Hints Chromium-based browsers add.</p>
+</div>
+
+<div class="card">
+    <div class="table-wrap">
+        <table class="header-table">
+            <tbody>
+                <tr>
+                    <th scope="row">User-Agent</th>
+                    <td>@Shorten(Header("User-Agent")) <span class="badge">read by uaParser.Net</span></td>
+                </tr>
+                @foreach (var name in ClientHintHeaders.LowEntropy.Concat(ClientHintHeaders.HighEntropy))
+                {
+                    <tr>
+                        <th scope="row">@name</th>
+                        @if (Header(name) is { Length: > 0 } value)
+                        {
+                            <td>@Shorten(value)</td>
+                        }
+                        else
+                        {
+                            <td class="not-sent">not sent</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!SentAny(ClientHintHeaders.LowEntropy))
+    {
+        <p class="hint"><Icon Name="info" Size="16" /> Your browser sends no Client Hints (Firefox and Safari do not, and browsers send them only to secure sites: https, or localhost). The User-Agent is all it tells servers.</p>
+    }
+    else if (!SentAny(ClientHintHeaders.HighEntropy))
+    {
+        <p class="hint"><Icon Name="info" Size="16" /> This server asks for more hints with the <code>Accept-CH</code> response header. Your browser sends them from the next request on: <a href="">reload the page</a>.</p>
+    }
+    else
+    {
+        <p class="hint"><Icon Name="info" Size="16" /> The hints carry what the frozen User-Agent string no longer does, such as the full browser version and, on Windows, whether it is Windows 11 (platform version 13 or more). uaParser.Net 2.0 reads the User-Agent only.</p>
+    }
+</div>
+
+<div class="section-head">
+    <h2><Icon Name="code" Size="22" /> How this page does it</h2>
+    <p class="muted">Two lines in <code>Program.cs</code>, then ask for <code>ClientInfo</code> wherever you need it.</p>
+</div>
+
+<div class="two-col">
+    <CodeBlock Title="Program.cs" Text="@HomeSnippets.Program" Tokens="CSharpTokens.Split(HomeSnippets.Program)" />
+    <CodeBlock Title="Any page or endpoint" Text="@HomeSnippets.Page" Tokens="CSharpTokens.Split(HomeSnippets.Page)" />
+</div>
+
+<div class="section-head">
+    <h2><Icon Name="braces" Size="22" /> JSON API</h2>
+    <p class="muted">This demo also answers as JSON.</p>
+</div>
+
+<div class="card">
+    <div class="endpoint">
+        <a href="api/client">GET /api/client</a>
+        <span class="muted small">What this server reads from your request: <code>HttpContext.GetClientInfo()</code></span>
+    </div>
+    <div class="endpoint">
+        <a href="@ParseLink">GET /api/parse?ua=…</a>
+        <span class="muted small">Any user agent, through the shared <code>ClientInfoCache</code></span>
+    </div>
+    <CodeBlock Title="curl" Text="@CurlCode" />
+</div>
+
+@code {
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    private static string ParseLink => $"api/parse?ua={Uri.EscapeDataString(HomeSnippets.ExampleUserAgent)}";
+
+    private string CurlCode =>
+        $"curl \"{HttpContext?.Request.Scheme ?? "http"}://{HttpContext?.Request.Host.Value ?? "localhost"}/{ParseLink}\"";
+
+    private string? Header(string name) => HttpContext?.Request.Headers[name].ToString();
+
+    private bool SentAny(IEnumerable<string> names) => names.Any(n => !string.IsNullOrEmpty(Header(n)));
+
+    // Headers can be long; like ua-parser-js, show at most 500 characters.
+    private static string? Shorten(string? value) =>
+        value is { Length: > 500 } ? value[..500] + "…" : value;
+}

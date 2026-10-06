@@ -1,35 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>uaParserBlazorWebAssemblyDemo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>uaParser.Net · User-Agent playground</title>
+    <meta name="description" content="Read the browser, engine, operating system, device and CPU from any User-Agent string, right in your browser, with uaParser.Net running on WebAssembly." />
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/app.css" rel="stylesheet" />
-    <link href="uaParserBlazorWebAssemblyDemo.styles.css" rel="stylesheet" />
+    <link rel="preload" id="webassembly" />
+    <link rel="icon" type="image/svg+xml" href="_content/uaParserDemoComponents/favicon.svg" />
+    <link rel="stylesheet" href="_content/uaParserDemoComponents/demo.css" />
+    <script src="_content/uaParserDemoComponents/site.js"></script>
+    <script type="importmap"></script>
 </head>
 
 <body>
-    <div id="app">Loading...</div>
-
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
+    <div id="app">
+        <div class="loading">
+            <svg class="loading-ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="track" r="40%" cx="50%" cy="50%" />
+                <circle class="value" r="40%" cx="50%" cy="50%" />
+            </svg>
+            <div>
+                <strong>uaParser.Net</strong><br />
+                <span class="loading-text muted"></span>
+            </div>
+        </div>
     </div>
-    <script>
-        window.getUserAgent = () => { return navigator.userAgent; };
-        window.getRenderer = () => {
-            // browser only
-            if (window && window.document) {
-                var canvas = document.createElement('canvas');
-                var gl = canvas.getContext ? canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl') : undefined;
-                return gl && gl.getParameter && gl.getExtension && gl.getExtension('WEBGL_debug_renderer_info') ? gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL) : undefined;
-            }
-        }
-    </script>
-    <script src="_framework/blazor.webassembly.js"></script>
+
+    <div id="blazor-error-ui" data-nosnippet>
+        Something went wrong.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss" role="button" aria-label="Dismiss">✕</span>
+    </div>
+    <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
 </body>
+
 </html>

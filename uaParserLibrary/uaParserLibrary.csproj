@@ -11,4 +11,10 @@
     <Description>Detects the browser, engine, operating system, CPU and device from a User-Agent string. A faithful, generated port of ua-parser-js 1.0.41 (every rule, identical results), with immutable thread-safe results, an optional cache, and GPU detection from WebGL renderer strings.</Description>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Parsing.Explainer: why a user agent is read the way it is, shown by the demos -->
+    <InternalsVisibleTo Include="uaParserTest" />
+    <InternalsVisibleTo Include="uaParserDemoComponents" />
+  </ItemGroup>
+
 </Project>

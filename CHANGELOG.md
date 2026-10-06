@@ -22,6 +22,10 @@ ASP.NET Core setup have changed; see "Upgrading from 1.x" below.
   `AddUAParser(o => o.CacheCapacity = n)`.
 - `uaParserBenchmark` project and `npm run bench`, to measure speed on any machine.
 - XML documentation, Source Link and a symbol package.
+- New demos, built from scratch: a Blazor WebAssembly app and a Blazor Web App (server), with a
+  playground that highlights where each value was found and shows the rule that matched, a log
+  analyzer for Apache, nginx, IIS and JSON access logs, Client Hints next to the User-Agent, and a
+  speed test.
 
 ### Changed (breaking)
 

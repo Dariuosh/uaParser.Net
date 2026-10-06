@@ -33,10 +33,26 @@ internal sealed class Rule
     public static FieldValues Apply(Rule[] rules, Input input)
     {
         var values = new FieldValues();
+
+        if (Find(rules, input) is { } found)
+        {
+            var assignments = rules[found.RuleIndex].Assignments;
+            var groups = found.Match.Groups;
+            for (var p = 0; p < assignments.Length; p++)
+                values[assignments[p].Field] = assignments[p].Apply(groups[p + 1]);
+        }
+
+        return values;
+    }
+
+    // The first regex that matches, in rule order, or null when none does.
+    public static RuleMatch? Find(Rule[] rules, Input input)
+    {
         var prefilter = input.CanPrefilter;
 
-        foreach (var rule in rules)
+        for (var i = 0; i < rules.Length; i++)
         {
+            var rule = rules[i];
             for (var r = 0; r < rule.Regexes.Length; r++)
             {
                 if (prefilter && rule.Prefilters is { } prefilters && !prefilters[r].Allows(input))
@@ -52,17 +68,14 @@ internal sealed class Rule
                     continue;
                 }
 
-                if (!match.Success)
-                    continue;
-
-                var assignments = rule.Assignments;
-                for (var p = 0; p < assignments.Length; p++)
-                    values[assignments[p].Field] = assignments[p].Apply(match.Groups[p + 1]);
-
-                return values;
+                if (match.Success)
+                    return new RuleMatch(i, r, match);
             }
         }
 
-        return values;
+        return null;
     }
 }
+
+// The regex that decided a rule set's result: rules[RuleIndex].Regexes[RegexIndex].
+internal readonly record struct RuleMatch(int RuleIndex, int RegexIndex, Match Match);

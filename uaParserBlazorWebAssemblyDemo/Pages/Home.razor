@@ -1,0 +1,36 @@
+@page "/"
+@inject DemoJs Js
+
+<PageTitle>uaParser.Net · User-Agent playground</PageTitle>
+
+@if (_mine is not null)
+{
+    <Headline Info="_mine" Lead="Your browser, read by uaParser.Net in this tab" />
+}
+else
+{
+    <div class="headline"><h1>User-Agent playground</h1></div>
+}
+
+<ul class="facts" aria-label="About this page">
+    <li><Icon Name="globe" Size="16" /> Runs in your browser: nothing is sent anywhere</li>
+    <li><Icon Name="sparkles" Size="16" /> Every rule of ua-parser-js @UAParser.RulesVersion</li>
+    <li><Icon Name="eye" Size="16" /> Shows which rule matched and why</li>
+</ul>
+
+<Playground InitialUserAgent="@(Ua ?? _myUa)" MyUserAgent="@_myUa" ShowExamples />
+
+@code {
+    /// <summary>A user agent shared with "Copy link".</summary>
+    [SupplyParameterFromQuery(Name = "ua")]
+    public string? Ua { get; set; }
+
+    private string? _myUa;
+    private ClientInfo? _mine;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _myUa = await Js.UserAgentAsync();
+        _mine = UAParser.GetClientInfo(_myUa);
+    }
+}

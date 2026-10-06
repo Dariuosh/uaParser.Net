@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\uaParserLibrary\uaParserLibrary.csproj" />
     <ProjectReference Include="..\uaParserMiddleware\uaParserMiddleware.csproj" />
+    <ProjectReference Include="..\uaParserDemoComponents\uaParserDemoComponents.csproj" />
   </ItemGroup>
 
   <ItemGroup>

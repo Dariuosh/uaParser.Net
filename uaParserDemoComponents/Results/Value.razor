@@ -1,0 +1,15 @@
+@* A result value; null is shown as a dash (or Empty) and explained in a tooltip. *@
+@if (string.IsNullOrEmpty(Text))
+{
+    <span class="value is-null @Class" title="null: not in this user agent">@(Empty ?? "—")</span>
+}
+else
+{
+    <span class="value @Class">@Text</span>
+}
+
+@code {
+    [Parameter] public string? Text { get; set; }
+    [Parameter] public string? Empty { get; set; }
+    [Parameter] public string? Class { get; set; }
+}

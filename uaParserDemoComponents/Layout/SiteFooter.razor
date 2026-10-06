@@ -1,0 +1,22 @@
+@using System.Reflection
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <p>
+            <strong>uaParser.Net @Version</strong> · rules from
+            <a href="https://github.com/faisalman/ua-parser-js/tree/@UAParser.RulesVersion" target="_blank" rel="noopener">ua-parser-js @UAParser.RulesVersion</a>
+            (MIT, © Faisal Salman) · MIT License
+        </p>
+        <p class="muted">
+            <code>dotnet add package uaParser.Net</code> ·
+            <a href="https://github.com/Dariuosh/uaParser.Net" target="_blank" rel="noopener">GitHub</a> ·
+            <a href="https://www.nuget.org/packages/uaParser.Net" target="_blank" rel="noopener">NuGet</a>
+        </p>
+    </div>
+</footer>
+
+@code {
+    // "2.0.0" from "2.0.0+<commit>".
+    private static readonly string Version =
+        typeof(UAParser).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0]
+        ?? "";
+}
