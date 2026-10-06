@@ -21,7 +21,7 @@ namespace uaParserLibrary.Expressions
                 },
                 Action = (Match match,Engine engine) =>
                 {
-                    engine.Name = "Edge HTML";
+                    engine.Name = "EdgeHTML";
                     engine.Version = match.Groups["Version"].Value;
                 }
             },

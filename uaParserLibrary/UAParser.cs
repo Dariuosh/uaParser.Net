@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-using uaParserLibrary.Expressions;
+﻿using uaParserLibrary.Expressions;
 using uaParserLibrary.Models;
 
 namespace uaParserLibrary
@@ -8,8 +6,6 @@ namespace uaParserLibrary
     public static class UAParser
     {
         private static Browser browser { get; set; }
-
-        private static Regex regex = Util.CreateRegex(@"\d*");
 
         public static Browser GetBrowser(string UserAgent)
         {
@@ -25,7 +21,7 @@ namespace uaParserLibrary
 
                         matchItem.Action(match, browser);
 
-                        browser.Major = regex.Match(browser.Version).Value;
+                        browser.Major = Util.Majorize(browser.Version);
 
                         return browser;
                     }
