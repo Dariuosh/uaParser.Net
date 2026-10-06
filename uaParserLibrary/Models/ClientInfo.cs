@@ -8,4 +8,8 @@ namespace uaParserLibrary.Models;
 /// <param name="Engine">The browser engine.</param>
 /// <param name="OS">The operating system.</param>
 /// <param name="GPU">The graphics card, when a WebGL renderer string was given; otherwise <see langword="null"/>.</param>
-public sealed record ClientInfo(string UserAgent, Browser Browser, CPU CPU, Device Device, Engine Engine, OS OS, GPU? GPU = null);
+public sealed record ClientInfo(string UserAgent, Browser Browser, CPU CPU, Device Device, Engine Engine, OS OS, GPU? GPU = null)
+{
+    /// <summary>The bot the user agent belongs to; <see cref="Bot.None"/> when it is not a bot.</summary>
+    public Bot Bot { get; init; } = Bot.None;
+}

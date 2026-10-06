@@ -9,6 +9,7 @@
   },
   "scripts": {
     "rules": "node src/main.js rules",
+    "bots": "node src/main.js bots",
     "golden": "node src/main.js golden",
     "coverage": "node src/main.js coverage",
     "differences": "node src/main.js differences",

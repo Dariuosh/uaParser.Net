@@ -1,6 +1,7 @@
 # RuleGenerator
 
-Builds uaParser.Net's parsing data from its rules, `rules/user-agent-rules.js`.
+Builds uaParser.Net's parsing data from its rules: `rules/user-agent-rules.js` (browser, engine,
+operating system, CPU and device) and `rules/bot-rules.js` (bots).
 
 The rules began as a copy of the rules of [ua-parser-js](https://github.com/faisalman/ua-parser-js)
 **1.0.41** (MIT License, copyright (c) 2012-2025 Faisal Salman) and are now maintained here.
@@ -30,7 +31,8 @@ pinned in `package-lock.json`. (In October 2021 three published versions of ua-p
 | Command | Output |
 |---|---|
 | `npm run rules` | `uaParserLibrary/Rules/UserAgentRules.g.cs`: the rules as C# |
-| `npm run golden` | `uaParserTest/TestData/expected-results.json`: what the rules give for every user agent in the corpus, worked out in JavaScript (the C# parser must give exactly the same) |
+| `npm run bots` | `uaParserLibrary/Rules/BotRules.g.cs`: the bot rules as C#, and `uaParserTest/TestData/expected-bots.json`: the bot every example of the bot list belongs to |
+| `npm run golden` | `uaParserTest/TestData/expected-results.json`: what the rules (and the bot rules) give for every user agent in the corpus, worked out in JavaScript (the C# parser must give exactly the same) |
 | `npm run coverage` | `reports/coverage.md`: which regexes the corpus reaches |
 | `npm run differences` | `reports/differences.md`: where the results differ from ua-parser-js 1.0.41 |
 | `npm run samples` | `Shared/SampleUserAgents.g.cs`: the example user agents the console sample and the demos use, grouped by the headings in `corpus/extra-user-agents.txt` |
@@ -52,6 +54,30 @@ fails if the committed files differ.
    `corpus/upstream-test-differences.json` with the reason; the generator and `UpstreamTests`
    stop on any other difference.
 5. Run the .NET tests.
+
+## Bots
+
+The bots come from [crawler-user-agents](https://github.com/monperrus/crawler-user-agents)
+(MIT License, copyright (c) 2017 Martin Monperrus): `rules/crawler-user-agents.json` is an
+unchanged copy of its `crawler-user-agents.json` (the commit is in `rules/bot-rules.js`).
+`rules/bot-rules.js` holds everything uaParser.Net changes:
+
+- `REPLACE`: patterns that also match phones or browsers, made stricter (or dropped), with the
+  reason for each;
+- `EXTRA`: bots the list does not have;
+- `NAMES`: names for patterns that are not a readable name;
+- `FALLBACK`: unknown bots, found by a word such as `examplebot/1.0`.
+
+When several patterns match, the match that starts first in the user agent wins, then the
+longest, then the pattern that comes first in the list. `detect(ua)` in `bot-rules.js` is the
+reference; the C# detector must give the same for every example of the list and every corpus
+user agent.
+
+To update the list, replace `rules/crawler-user-agents.json` with a newer copy, update the
+commit in `bot-rules.js` and run `npm run all`. The generator stops if a pattern in `REPLACE`
+no longer exists, a pattern needs a name, a regex cannot be converted, or an example of the
+list is no longer found. Check that no browser user agent in `expected-results.json` became a
+bot (`"bot": null` is expected for browsers).
 
 ## How the rules are converted
 

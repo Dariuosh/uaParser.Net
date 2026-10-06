@@ -243,4 +243,4 @@ function verifyPrefilters(source, userAgents, samples) {
     return checks;
 }
 
-module.exports = { generate, verifyPrefilters, csString };
+module.exports = { generate, verifyPrefilters, csString, csPattern, checkPattern };

@@ -17,6 +17,9 @@ public static class UAParser
     /// <summary>What the rules are based on: "ua-parser-js 1.0.41" (MIT), extended by uaParser.Net.</summary>
     public const string RulesBasedOn = UserAgentRules.BasedOn;
 
+    /// <summary>Where the list of bots comes from: crawler-user-agents (MIT) and the commit it was copied from.</summary>
+    public const string BotListSource = BotRules.Source;
+
     /// <summary>Reads the browser from a user agent string.</summary>
     /// <param name="userAgent">The User-Agent string; <see langword="null"/> is treated as empty.</param>
     public static Browser GetBrowser(string? userAgent) => ReadBrowser(Prepare(userAgent));
@@ -36,6 +39,13 @@ public static class UAParser
     /// <summary>Reads the operating system from a user agent string.</summary>
     /// <param name="userAgent">The User-Agent string; <see langword="null"/> is treated as empty.</param>
     public static OS GetOS(string? userAgent) => ReadOs(Prepare(userAgent));
+
+    /// <summary>
+    /// Reads which bot a user agent belongs to: a search engine or AI crawler, a link preview,
+    /// a monitor, an HTTP library and so on (see <see cref="Bot"/>).
+    /// </summary>
+    /// <param name="userAgent">The User-Agent string; <see langword="null"/> is treated as empty.</param>
+    public static Bot GetBot(string? userAgent) => BotDetector.Detect(Prepare(userAgent));
 
     /// <summary>Reads the GPU from a WebGL renderer string (see <see cref="Models.GPU"/>).</summary>
     /// <param name="renderer">The WebGL renderer string; <see langword="null"/> is treated as empty.</param>
@@ -57,7 +67,10 @@ public static class UAParser
     private static ClientInfo Parse(string? userAgent, GPU? gpu)
     {
         var input = Prepare(userAgent);
-        return new ClientInfo(input.Text, ReadBrowser(input), ReadCpu(input), ReadDevice(input), ReadEngine(input), ReadOs(input), gpu);
+        return new ClientInfo(input.Text, ReadBrowser(input), ReadCpu(input), ReadDevice(input), ReadEngine(input), ReadOs(input), gpu)
+        {
+            Bot = BotDetector.Detect(input),
+        };
     }
 
     // One Input per parse: the five rule sets share its prefilter results.

@@ -2,11 +2,13 @@
 
 // Builds the expected results: what uaParser.Net's rules give for every user agent in the
 // corpus, worked out in JavaScript by rules/user-agent-rules.js. The C# parser must give exactly
-// the same, field by field. "undefined" in JavaScript is written as null.
+// the same, field by field. "undefined" in JavaScript is written as null. bot is what
+// rules/bot-rules.js gives, or null.
 
 const fs = require('fs');
 const path = require('path');
 const { CATEGORIES, upstreamCases, userAgents } = require('./corpus');
+const bots = require('./bots');
 
 const FIELDS = {
     browser: ['name', 'version', 'major'],
@@ -29,6 +31,7 @@ function entry(source, ua) {
             item[category][field] = value === undefined ? null : value;
         }
     }
+    item.bot = bots.expected(result.ua);
     return item;
 }
 
