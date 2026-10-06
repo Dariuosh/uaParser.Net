@@ -338,6 +338,10 @@ var regexes = {
         /webkit.+?(mobile ?safari|safari)(\/[\w\.]+)/i                      // Safari < 3.0
         ], [NAME, [VERSION, strMapper, oldSafariMap]], [
 
+        // uaParser.Net: the browser of the Nintendo Switch and Switch 2 (it was read as "WebKit").
+        /\bnintendobrowser\/([\w\.]+)/i
+        ], [VERSION, [NAME, 'Nintendo Browser']], [
+
         /(webkit|khtml)\/([\w\.]+)/i
         ], [NAME, VERSION], [
 
@@ -431,6 +435,13 @@ var regexes = {
         /honor([-\w ]+)[;\)]/i
         ], [MODEL, [VENDOR, HONOR], [TYPE, MOBILE]], [
 
+        // uaParser.Net: HarmonyOS NEXT ("OpenHarmony" in the user agent) names no model; with
+        // Huawei Browser it is a Huawei device.
+        /\(tablet; openharmony\b.+\bhuaweibrowser\//i
+        ], [[VENDOR, HUAWEI], [TYPE, TABLET]], [
+        /\(phone; openharmony\b.+\bhuaweibrowser\//i
+        ], [[VENDOR, HUAWEI], [TYPE, MOBILE]], [
+
         // Huawei
         /\b((?:ag[rs][2356]?k?|bah[234]?|bg[2o]|bt[kv]|cmr|cpn|db[ry]2?|jdn2|got|kob2?k?|mon|pce|scm|sht?|[tw]gr|vrd)-[ad]?[lw][0125][09]b?|605hw|bg2-u03|(?:gem|fdr|m2|ple|t1)-[7a]0[1-4][lu]|t1-a2[13][lw]|mediapad[\w\. ]*(?= bui|\)))\b(?!.+d\/s)/i
         ], [MODEL, [VENDOR, HUAWEI], [TYPE, TABLET]], [
@@ -447,7 +458,7 @@ var regexes = {
         /\b; (\w+) build\/hm\1/i,                                           // Xiaomi Hongmi 'numeric' models
         /\b(hm[-_ ]?note?[_ ]?(?:\d\w)?) bui/i,                             // Xiaomi Hongmi
         /\b(redmi[\-_ ]?(?:note|k)?[\w_ ]+)(?: bui|\))/i,                   // Xiaomi Redmi
-        /oid[^\)]+; (m?[12][0-389][01]\w{3,6}[c-y])( bui|; wv|\))/i,        // Xiaomi Redmi 'numeric' models
+        /oid[^\)]+; (m?[12]\d[01]\w{3,6}[c-y])( bui|; wv|\))/i,             // Xiaomi Redmi 'numeric' models (uaParser.Net: any year, not only 20-23, 28-29)
         /\b(mi[-_ ]?(?:a\d|one|one[_ ]plus|note lte|max|cc)?[_ ]?(?:\d?\w?)[_ ]?(?:plus|se|lite|pro)?)(?: bui|\))/i, // Xiaomi Mi
         / ([\w ]+) miui\/v?\d/i
         ], [[MODEL, /_/g, ' '], [VENDOR, XIAOMI], [TYPE, MOBILE]], [
@@ -581,7 +592,10 @@ var regexes = {
         ], [MODEL, [VENDOR, 'Smartfren'], [TYPE, MOBILE]], [
 
         // Nothing
-        /droid.+; (a(?:015|06[35]|142p?))/i
+        /droid.+; (a(?:015|06[35]|142p?))/i,
+        // uaParser.Net: newer models: Phone (3) A024, (3a) A059, (3a) Pro A059P, (4a) A069,
+        // (4a) Pro A069P, (3a) Lite A001T, and AIN065 (Phone (2) in India)
+        /droid.+; (a0(?:24|59|69)p?|a001t|ain065)(?: bui|; wv|\))/i
         ], [MODEL, [VENDOR, 'Nothing'], [TYPE, MOBILE]], [
 
         // Archos
@@ -689,6 +703,14 @@ var regexes = {
         ], [VENDOR, [MODEL, APPLE+' TV'], [TYPE, SMARTTV]], [
         /crkey/i                                                            // Google Chromecast
         ], [[MODEL, CHROME+'cast'], [VENDOR, GOOGLE], [TYPE, SMARTTV]], [
+        // uaParser.Net: Chromecast with Google TV and Google TV Streamer (Android; were read as tablets)
+        /droid.+; (chromecast|google tv streamer)(?: bui|; wv|\))/i
+        ], [MODEL, [VENDOR, GOOGLE], [TYPE, SMARTTV]], [
+        // uaParser.Net: VIDAA, the TV system of Hisense (also licensed to other brands)
+        /\bhisense\b.+\bvidaa\b|\bvidaa\b.+\bhisense\b/i
+        ], [[VENDOR, 'Hisense'], [TYPE, SMARTTV]], [
+        /\bvidaa\b/i
+        ], [[TYPE, SMARTTV]], [
         /droid.+aft(\w+)( bui|\))/i                                         // Fire TV
         ], [MODEL, [VENDOR, AMAZON], [TYPE, SMARTTV]], [
         /(shield \w+ tv)/i                                                  // Nvidia Shield TV
@@ -716,6 +738,7 @@ var regexes = {
         ///////////////////
 
         /(ouya)/i,                                                          // Ouya
+        /(nintendo) (switch 2)\b/i,                                        // uaParser.Net: Nintendo Switch 2
         /(nintendo) ([wids3utch]+)/i                                        // Nintendo
         ], [VENDOR, MODEL, [TYPE, CONSOLE]], [
         /droid.+; (shield)( bui|\))/i                                       // Nvidia Portable
@@ -734,6 +757,8 @@ var regexes = {
         /((pebble))app/i,                                                   // Pebble
         /(asus|google|lg|oppo) ((pixel |zen)?watch[\w ]*)( bui|\))/i        // Asus ZenWatch / LG Watch / Pixel Watch
         ], [VENDOR, MODEL, [TYPE, WEARABLE]], [
+        /droid.+; (pixel watch(?: \d)?)(?: bui|; wv|\))/i                   // uaParser.Net: Google Pixel Watch on Wear OS
+        ], [MODEL, [VENDOR, GOOGLE], [TYPE, WEARABLE]], [
         /(ow(?:19|20)?we?[1-3]{1,3})/i                                      // Oppo Watch
         ], [MODEL, [VENDOR, OPPO], [TYPE, WEARABLE]], [
         /(watch)(?: ?os[,\/]|\d,\d\/)[\d\.]+/i                              // Apple Watch
@@ -867,6 +892,10 @@ var regexes = {
         ], [VERSION, [NAME, CHROME+'cast']], [
         /(cros) [\w]+(?:\)| ([\w\.]+)\b)/i                                  // Chromium OS
         ], [[NAME, CHROMIUM_OS], VERSION],[
+
+        // uaParser.Net: VIDAA, the TV system of Hisense (was read as Linux)
+        /\b(vidaa)[\/ ]([\d\.]+)/i
+        ], [[NAME, 'VIDAA'], VERSION], [
 
         // Smart TVs
         /panasonic;(viera)/i,                                               // Panasonic Viera
