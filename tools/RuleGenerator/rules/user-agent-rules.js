@@ -510,7 +510,8 @@ var regexes = {
         // Google
         /(pixel (c|tablet))\b/i                                             // Google Pixel C/Tablet
         ], [MODEL, [VENDOR, GOOGLE], [TYPE, TABLET]], [
-        /droid.+; (pixel[\daxl ]{0,6})(?: bui|\))/i                         // Google Pixel
+        /droid.+; (pixel[\daxl ]{0,6})(?: bui|\))/i,                        // Google Pixel
+        /droid.+; (pixel(?: \d{1,2}a?)? (?:pro(?: xl| fold)?|fold))(?: bui|; wv|\))/i   // uaParser.Net: Pixel Pro, Pro XL, Pro Fold and Fold
         ], [MODEL, [VENDOR, GOOGLE], [TYPE, MOBILE]], [
 
         // Sony

@@ -67,6 +67,8 @@ public static class SampleUserAgents
         new("Android", "Mozilla/5.0 (Linux; U; Android 13; en-US; V2250 Build/TP1A.220624.014) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/123.0.6312.80 UCBrowser/13.8.0.1360 Mobile Safari/537.36"),
         new("Android", "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/29.0 Chrome/136.0.0.0 Mobile Safari/537.36"),
         new("Android", "Mozilla/5.0 (Linux; Android 16; Pixel 10 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"),
+        new("Android", "Mozilla/5.0 (Linux; Android 15; Pixel 9 Pro Fold Build/AP4A.250205.002) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.6943.49 Mobile Safari/537.36"),
+        new("Android", "Mozilla/5.0 (Linux; Android 15; Pixel 9 Pro XL; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/133.0.6943.49 Mobile Safari/537.36"),
         new("Android", "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36 EdgA/140.0.0.0"),
         new("Android", "Mozilla/5.0 (Linux; Android 15; 25010PN30G Build/AQ3A.240912.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36"),
         new("Android", "Mozilla/5.0 (Linux; Android 15; 24129PN74G Build/AQ3A.240912.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/131.0.6778.135 Mobile Safari/537.36 XiaoMi/MiuiBrowser/19.2.10101-gn"),

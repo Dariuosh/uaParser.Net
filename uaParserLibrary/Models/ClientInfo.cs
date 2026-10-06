@@ -12,4 +12,7 @@ public sealed record ClientInfo(string UserAgent, Browser Browser, CPU CPU, Devi
 {
     /// <summary>The bot the user agent belongs to; <see cref="Bot.None"/> when it is not a bot.</summary>
     public Bot Bot { get; init; } = Bot.None;
+
+    /// <summary>The User-Agent Client Hints that were used, or <see langword="null"/> when none were given.</summary>
+    public ClientHints? Hints { get; init; }
 }

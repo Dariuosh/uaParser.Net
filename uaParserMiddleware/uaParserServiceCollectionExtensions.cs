@@ -12,7 +12,8 @@ public static class uaParserServiceCollectionExtensions
 {
     /// <summary>
     /// Makes <see cref="ClientInfo"/> injectable. It is scoped: every request gets the result for
-    /// its own User-Agent header. Outside a request (no HttpContext) all values are null.
+    /// its own User-Agent header (and client hints, see <see cref="UAParserOptions.UseClientHints"/>).
+    /// Outside a request (no HttpContext) all values are null.
     /// Repeated user agents are served from a shared <see cref="ClientInfoCache"/> unless
     /// <see cref="UAParserOptions.CacheCapacity"/> is 0. Calling it again replaces the earlier
     /// settings: the last call wins.
@@ -35,6 +36,8 @@ public static class uaParserServiceCollectionExtensions
         services.RemoveAll<ClientInfoCache>();
         if (options.CacheCapacity > 0)
             services.AddSingleton(new ClientInfoCache(options.CacheCapacity));
+        services.RemoveAll<UAParserSettings>();
+        services.AddSingleton(new UAParserSettings(options.UseClientHints, options.RequestClientHints));
 
         services.AddHttpContextAccessor();
         services.TryAddScoped(provider =>

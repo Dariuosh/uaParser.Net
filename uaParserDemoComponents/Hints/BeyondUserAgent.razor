@@ -99,7 +99,7 @@ else
     [Parameter, EditorRequired] public ClientInfo Info { get; set; } = default!;
 
     private bool _loaded;
-    private ClientHints? _hints;
+    private JsClientHints? _hints;
     private string? _renderer;
     private GPU? _gpu;
     private int _touchPoints;
@@ -123,7 +123,7 @@ else
         StateHasChanged();
     }
 
-    private IEnumerable<Row> Rows(ClientHints hints)
+    private IEnumerable<Row> Rows(JsClientHints hints)
     {
         var browsers = (hints.FullVersionList ?? hints.Brands).Where(b => !IsGrease(b.Brand)).ToList();
         var browser = browsers.FirstOrDefault(b => b.Brand != "Chromium") ?? browsers.FirstOrDefault();
@@ -159,7 +159,7 @@ else
 
     // Windows: platformVersion 13 or more is Windows 11, 1-10 is Windows 10, 0 is Windows 7, 8 or 8.1.
     // https://learn.microsoft.com/microsoft-edge/web-platform/how-to-detect-win11
-    private static string? SystemFromHints(ClientHints hints)
+    private static string? SystemFromHints(JsClientHints hints)
     {
         if (string.IsNullOrEmpty(hints.Platform))
             return null;
@@ -173,7 +173,7 @@ else
         return $"{hints.Platform} {version}";
     }
 
-    private Verdict? CompareSystems(ClientHints hints, string? fromHints)
+    private Verdict? CompareSystems(JsClientHints hints, string? fromHints)
     {
         if (fromHints is null || Info.OS.Name is null)
             return null;
