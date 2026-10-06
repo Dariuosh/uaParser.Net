@@ -100,9 +100,10 @@ app.MapGet("/client", (HttpContext context) => context.GetClientInfo());   // as
 Every request gets the result for its own User-Agent header. `HttpContext.GetClientInfo()` works
 with or without the middleware and parses at most once per request.
 
-**Blazor, interactive server rendering:** a circuit has no request of its own, so read the
-User-Agent while the page is prerendered and keep it for the circuit, as the Blazor Server demo's
-playground does:
+**Blazor, interactive server rendering:** a circuit has no request of its own, so do not inject
+`ClientInfo` into interactive components (or SignalR hubs): there it depends on the SignalR
+transport, and is empty with long polling. Read the User-Agent while the page is prerendered and
+keep it for the circuit, as the Blazor Server demo's playground does:
 
 ```razor
 @code {
@@ -114,6 +115,11 @@ playground does:
         UserAgent ??= HttpContext?.Request.Headers.UserAgent.ToString();
 }
 ```
+
+This needs the component to be prerendered (per-page interactivity, the default). With global
+interactivity, pages reached by in-app navigation are not prerendered: read the header in
+`App.razor`, which is always rendered on the server, and pass it down, for example
+`<Routes @rendermode="InteractiveServer" UserAgent="@HttpContext?.Request.Headers.UserAgent.ToString()" />`.
 
 **Blazor WebAssembly:** read `navigator.userAgent` with JS interop and call `UAParser` in the
 browser, as the WebAssembly demo does.

@@ -62,6 +62,19 @@ public class CacheTests
     }
 
     [Fact]
+    public void Count_counts_a_user_agent_once_after_it_moves_back()
+    {
+        var cache = new ClientInfoCache(capacity: 10);
+        cache.GetClientInfo(Chrome);
+        for (var i = 0; i < 9; i++)
+            cache.GetClientInfo($"other {i}");   // rotation: all ten are in "previous"
+
+        cache.GetClientInfo(Chrome);             // moves back to "current"
+
+        Assert.Equal(10, cache.Count);
+    }
+
+    [Fact]
     public void Clear_forgets_everything()
     {
         var cache = new ClientInfoCache();

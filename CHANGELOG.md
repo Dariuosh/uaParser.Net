@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.0.1 (not released yet)
+
+### Fixed
+
+- ASP.NET Core: when a request has several User-Agent headers, the first is read, as in Node.js
+  and ua-parser-js. They were joined with commas into a string no client sent.
+- `AddUAParser` called more than once: the last call now wins. A later
+  `AddUAParser(o => o.CacheCapacity = 0)` left the earlier cache on, and `ClientInfo` was
+  registered twice.
+- `ClientInfoCache.Count` counted a user agent twice after it moved back from the previous
+  generation; it is now removed from there.
+- README: the ASP.NET Core example lacked its `using` lines; the Blazor section now says when
+  the prerendering pattern works, and not to inject `ClientInfo` into interactive components or
+  SignalR hubs (the XML documentation of `AddUAParser` says so too).
+
 ## 2.0.0 (2026-10-07)
 
 A rewrite. The rules are now generated from ua-parser-js 1.0.41 and give the same results as

@@ -32,7 +32,7 @@ public sealed class ClientInfoCache
     /// <summary>How many user agents each generation holds.</summary>
     public int Capacity { get; }
 
-    /// <summary>The number of user agents currently remembered.</summary>
+    /// <summary>The number of user agents currently remembered (in both generations).</summary>
     public int Count => _current.Count + _previous.Count;
 
     /// <summary>Like <see cref="UAParser.GetClientInfo(string?)"/>, but reuses earlier results.</summary>
@@ -45,7 +45,8 @@ public sealed class ClientInfoCache
         if (current.TryGetValue(key, out var info))
             return info;
 
-        if (!_previous.TryGetValue(key, out info))
+        // Found in the previous generation: move it back to the current one.
+        if (!_previous.TryRemove(key, out info))
             info = UAParser.GetClientInfo(key);
 
         if (current.TryAdd(key, info) && Interlocked.Increment(ref _currentCount) >= Capacity)
