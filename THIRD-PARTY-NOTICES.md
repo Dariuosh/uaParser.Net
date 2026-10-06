@@ -9,8 +9,10 @@ https://github.com/faisalman/ua-parser-js
 Used from version 1.0.41 (MIT). Nothing is taken from ua-parser-js 2.x, which is licensed under
 AGPL-3.0.
 
-- `uaParserLibrary/Rules/UserAgentRules.g.cs`: the user agent rules, generated from ua-parser-js
-  1.0.41 by `tools/RuleGenerator`.
+- `tools/RuleGenerator/rules/user-agent-rules.js`: the user agent rules, copied from ua-parser-js
+  1.0.41 and since then changed and extended by uaParser.Net (changes are marked there).
+- `uaParserLibrary/Rules/UserAgentRules.g.cs`: those rules, converted to C# by
+  `tools/RuleGenerator`.
 - `uaParserLibrary/Rules/GpuRules.cs`: GPU rules from the ua-parser-js development branch of 2021,
   as ported in uaParser.Net 1.x.
 - `tools/RuleGenerator/corpus/ua-parser-js-1.0.41/`: ua-parser-js 1.0.41's test data, used by the
