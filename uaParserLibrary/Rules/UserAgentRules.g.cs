@@ -1409,100 +1409,103 @@ internal static partial class UserAgentRules
         "windows ", // 1375
         "windows/", // 1376
         "win", // 1377
-        "; opera", // 1378
-        " like mac", // 1379
-        "ios ", // 1380
-        "ios/", // 1381
-        "ios;fbsv/", // 1382
-        "cfnetwork/", // 1383
-        "darwin", // 1384
-        "mac os x", // 1385
-        "macintosh", // 1386
-        "mac_powerpc", // 1387
-        "harmonyos", // 1388
-        "android x86", // 1389
-        "android-x86", // 1390
-        " like android", // 1391
-        "ubuntu ", // 1392
-        "qnx", // 1393
-        "bada", // 1394
-        "kaios", // 1395
-        "meego", // 1396
-        "tizen", // 1397
-        "webos", // 1398
-        "android", // 1399
-        "symbian", // 1400
-        "sailfish", // 1401
-        "series40", // 1402
-        "openharmony", // 1403
-        "rim tablet os", // 1404
-        "(bb10;", // 1405
-        "s60", // 1406
-        "symbos", // 1407
-        "series 60", // 1408
-        "symbianos", // 1409
-        "symbian os", // 1410
-        " gecko/", // 1411
-        "; rv:", // 1412
-        "tv", // 1413
-        " (", // 1414
-        "web0s;", // 1415
-        "rttv", // 1416
-        "wos/", // 1417
-        "wosbrowser/", // 1418
-        "crkey/", // 1419
-        "cros ", // 1420
-        "panasonic;viera", // 1421
-        "netrangemmh", // 1422
-        "nettv/", // 1423
-        "joli", // 1424
-        "mint", // 1425
-        "mageia ", // 1426
-        "mageia;", // 1427
-        "vectorlinux ", // 1428
-        "vectorlinux;", // 1429
-        "arch", // 1430
-        "suse", // 1431
-        "minix", // 1432
-        "centos", // 1433
-        "debian", // 1434
-        "deepin", // 1435
-        "fedora", // 1436
-        "gentoo", // 1437
-        "linpus", // 1438
-        "plan 9", // 1439
-        "redhat", // 1440
-        "ubuntu", // 1441
-        "contiki", // 1442
-        "manjaro", // 1443
-        "red hat", // 1444
-        "risc os", // 1445
-        "sabayon", // 1446
-        "zenwalk", // 1447
-        "linspire", // 1448
-        "mandriva", // 1449
-        "raspbian", // 1450
-        "pclinuxos", // 1451
-        "slackware", // 1452
-        "elementary os", // 1453
-        "hurd", // 1454
-        "linux", // 1455
-        "gnu", // 1456
-        "bsd", // 1457
-        "dragonfly", // 1458
-        "haiku ", // 1459
-        "sunos", // 1460
-        "solaris", // 1461
-        "aix ", // 1462
-        "beos", // 1463
-        "os/2", // 1464
-        "hp-ux", // 1465
-        "amigaos", // 1466
-        "fuchsia", // 1467
-        "morphos", // 1468
-        "openvms", // 1469
-        "serenityos", // 1470
-        "unix", // 1471
+        "os 18", // 1378
+        " like mac os x)", // 1379
+        "ipad", // 1380
+        "; opera", // 1381
+        " like mac", // 1382
+        "ios ", // 1383
+        "ios/", // 1384
+        "ios;fbsv/", // 1385
+        "cfnetwork/", // 1386
+        "darwin", // 1387
+        "mac os x", // 1388
+        "macintosh", // 1389
+        "mac_powerpc", // 1390
+        "harmonyos", // 1391
+        "android x86", // 1392
+        "android-x86", // 1393
+        " like android", // 1394
+        "ubuntu ", // 1395
+        "qnx", // 1396
+        "bada", // 1397
+        "kaios", // 1398
+        "meego", // 1399
+        "tizen", // 1400
+        "webos", // 1401
+        "android", // 1402
+        "symbian", // 1403
+        "sailfish", // 1404
+        "series40", // 1405
+        "openharmony", // 1406
+        "rim tablet os", // 1407
+        "(bb10;", // 1408
+        "s60", // 1409
+        "symbos", // 1410
+        "series 60", // 1411
+        "symbianos", // 1412
+        "symbian os", // 1413
+        " gecko/", // 1414
+        "; rv:", // 1415
+        "tv", // 1416
+        " (", // 1417
+        "web0s;", // 1418
+        "rttv", // 1419
+        "wos/", // 1420
+        "wosbrowser/", // 1421
+        "crkey/", // 1422
+        "cros ", // 1423
+        "panasonic;viera", // 1424
+        "netrangemmh", // 1425
+        "nettv/", // 1426
+        "joli", // 1427
+        "mint", // 1428
+        "mageia ", // 1429
+        "mageia;", // 1430
+        "vectorlinux ", // 1431
+        "vectorlinux;", // 1432
+        "arch", // 1433
+        "suse", // 1434
+        "minix", // 1435
+        "centos", // 1436
+        "debian", // 1437
+        "deepin", // 1438
+        "fedora", // 1439
+        "gentoo", // 1440
+        "linpus", // 1441
+        "plan 9", // 1442
+        "redhat", // 1443
+        "ubuntu", // 1444
+        "contiki", // 1445
+        "manjaro", // 1446
+        "red hat", // 1447
+        "risc os", // 1448
+        "sabayon", // 1449
+        "zenwalk", // 1450
+        "linspire", // 1451
+        "mandriva", // 1452
+        "raspbian", // 1453
+        "pclinuxos", // 1454
+        "slackware", // 1455
+        "elementary os", // 1456
+        "hurd", // 1457
+        "linux", // 1458
+        "gnu", // 1459
+        "bsd", // 1460
+        "dragonfly", // 1461
+        "haiku ", // 1462
+        "sunos", // 1463
+        "solaris", // 1464
+        "aix ", // 1465
+        "beos", // 1466
+        "os/2", // 1467
+        "hp-ux", // 1468
+        "amigaos", // 1469
+        "fuchsia", // 1470
+        "morphos", // 1471
+        "openvms", // 1472
+        "serenityos", // 1473
+        "unix", // 1474
     ];
 
     // String maps come first: static fields are initialised in order.
@@ -2489,80 +2492,85 @@ internal static partial class UserAgentRules
             // needs "windows nt 6.2; arm"; "windows "|"windows/"; "win"
             [Needs([1374]), Needs([1375, 1376]), Needs([1377])]),
         // 3
-        new([Os_3_0, Os_3_1, Os_3_2],
-            [Replace(Field.Version, Os_3_Replace0, ".", all: true), Constant(Field.Name, "iOS")],
-            // needs "; opera"|" like mac" & "a"|"d"|"e"|"h"|"i"|"m"|"n"|"o"|"p"; "ios "|"ios/"|"ios;fbsv/"; "cfnetwork/" & "darwin"
-            [Needs([1378, 1379], [9, 24, 11, 1252, 12, 14, 1179, 15, 26]), Needs([1380, 1381, 1382]), Needs([1383], [1384])]),
+        new([Os_3_0],
+            [Capture(Field.Version), Constant(Field.Name, "iOS")],
+            // needs "os 18" & " like mac os x)" & "ipad"|"ipod"|"iphone" & "version/"
+            [Needs([1378], [1379], [1380, 359, 360], [8])]),
         // 4
-        new([Os_4_0, Os_4_1],
-            [Constant(Field.Name, "Mac OS"), Replace(Field.Version, Os_4_Replace1, ".", all: true)],
-            // needs "mac os x"; "macintosh"|"mac_powerpc"
-            [Needs([1385]), Needs([1386, 1387])]),
+        new([Os_4_0, Os_4_1, Os_4_2],
+            [Replace(Field.Version, Os_4_Replace0, ".", all: true), Constant(Field.Name, "iOS")],
+            // needs "; opera"|" like mac" & "a"|"d"|"e"|"h"|"i"|"m"|"n"|"o"|"p"; "ios "|"ios/"|"ios;fbsv/"; "cfnetwork/" & "darwin"
+            [Needs([1381, 1382], [9, 24, 11, 1252, 12, 14, 1179, 15, 26]), Needs([1383, 1384, 1385]), Needs([1386], [1387])]),
         // 5
-        new([Os_5_0],
-            [Capture(Field.Version), Capture(Field.Name)],
-            // needs "harmonyos"|"android x86"|"android-x86" & "droid "
-            [Needs([1388, 1389, 1390], [882])]),
+        new([Os_5_0, Os_5_1],
+            [Constant(Field.Name, "Mac OS"), Replace(Field.Version, Os_5_Replace1, ".", all: true)],
+            // needs "mac os x"; "macintosh"|"mac_powerpc"
+            [Needs([1388]), Needs([1389, 1390])]),
         // 6
         new([Os_6_0],
-            [Replace(Field.Name, Os_6_Replace0, "${1} Touch", all: false), Capture(Field.Version)],
-            // needs " like android" & "ubuntu "
-            [Needs([1391], [1392])]),
+            [Capture(Field.Version), Capture(Field.Name)],
+            // needs "harmonyos"|"android x86"|"android-x86" & "droid "
+            [Needs([1391, 1392, 1393], [882])]),
         // 7
         new([Os_7_0],
-            [Capture(Field.Name), Capture(Field.Version)],
-            // needs "qnx"|"bada"|"kaios"|"maemo"|"meego"|"tizen"|"webos"|"android"|"symbian"|"sailfish"|"series40"|"blackberry"|"openharmony"|"rim tablet os"
-            [Needs([1393, 1394, 1395, 730, 1396, 1397, 1398, 1399, 1400, 1401, 1402, 1068, 1403, 1404])]),
+            [Replace(Field.Name, Os_7_Replace0, "${1} Touch", all: false), Capture(Field.Version)],
+            // needs " like android" & "ubuntu "
+            [Needs([1394], [1395])]),
         // 8
         new([Os_8_0],
-            [Capture(Field.Version), Constant(Field.Name, "BlackBerry")],
-            // needs "(bb10;"
-            [Needs([1405])]),
+            [Capture(Field.Name), Capture(Field.Version)],
+            // needs "qnx"|"bada"|"kaios"|"maemo"|"meego"|"tizen"|"webos"|"android"|"symbian"|"sailfish"|"series40"|"blackberry"|"openharmony"|"rim tablet os"
+            [Needs([1396, 1397, 1398, 730, 1399, 1400, 1401, 1402, 1403, 1404, 1405, 1068, 1406, 1407])]),
         // 9
         new([Os_9_0],
-            [Capture(Field.Version), Constant(Field.Name, "Symbian")],
-            // needs "s60"|"symbos"|"series 60"|"symbianos"|"symbian os"
-            [Needs([1406, 1407, 1408, 1409, 1410])]),
+            [Capture(Field.Version), Constant(Field.Name, "BlackBerry")],
+            // needs "(bb10;"
+            [Needs([1408])]),
         // 10
         new([Os_10_0],
+            [Capture(Field.Version), Constant(Field.Name, "Symbian")],
+            // needs "s60"|"symbos"|"series 60"|"symbianos"|"symbian os"
+            [Needs([1409, 1410, 1411, 1412, 1413])]),
+        // 11
+        new([Os_11_0],
             [Capture(Field.Version), Constant(Field.Name, "Firefox OS")],
             // needs " gecko/" & "; rv:" & "tv"|"mobile"|"tablet" & " ("
-            [Needs([1411], [1412], [1413, 1343, 1080], [1414])]),
-        // 11
-        new([Os_11_0, Os_11_1],
+            [Needs([1414], [1415], [1416, 1343, 1080], [1417])]),
+        // 12
+        new([Os_12_0, Os_12_1],
             [Capture(Field.Version), Constant(Field.Name, "webOS")],
             // needs "web0s;" & "rttv"; "wos/"|"wosbrowser/"
-            [Needs([1415], [1416]), Needs([1417, 1418])]),
-        // 12
-        new([Os_12_0],
+            [Needs([1418], [1419]), Needs([1420, 1421])]),
+        // 13
+        new([Os_13_0],
             [Capture(Field.Version), Constant(Field.Name, "watchOS")],
             // needs "watch" & "0,"|"1,"|"2,"|"3,"|"4,"|"5,"|"6,"|"7,"|"8,"|"9,"|"os,"|"os/"
             [Needs([1286], [1290, 1291, 1292, 1293, 1294, 1295, 1296, 1297, 1298, 1299, 1300, 1301])]),
-        // 13
-        new([Os_13_0],
-            [Capture(Field.Version), Constant(Field.Name, "Chromecast")],
-            // needs "crkey/"
-            [Needs([1419])]),
         // 14
         new([Os_14_0],
+            [Capture(Field.Version), Constant(Field.Name, "Chromecast")],
+            // needs "crkey/"
+            [Needs([1422])]),
+        // 15
+        new([Os_15_0],
             [Constant(Field.Name, "Chromium OS"), Capture(Field.Version)],
             // needs "cros " & " "|")"
-            [Needs([1420], [18, 146])]),
-        // 15
-        new([Os_15_0, Os_15_1, Os_15_2, Os_15_3, Os_15_4, Os_15_5, Os_15_6, Os_15_7, Os_15_8, Os_15_9, Os_15_10, Os_15_11, Os_15_12],
+            [Needs([1423], [18, 146])]),
+        // 16
+        new([Os_16_0, Os_16_1, Os_16_2, Os_16_3, Os_16_4, Os_16_5, Os_16_6, Os_16_7, Os_16_8, Os_16_9, Os_16_10, Os_16_11, Os_16_12],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "panasonic;viera"; "netrangemmh"; "nettv/" & "." & "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"; "nintendo "|"playstation "; "xbox;" & "xbox " & " "; "joli"|"palm"; "mint"; "mageia "|"mageia;"|"vectorlinux "|"vectorlinux;"; "arch"|"suse"|"minix"|"centos"|"debian"|"deepin"|"fedora"|"gentoo"|"linpus"|"plan 9"|"redhat"|"ubuntu"|"contiki"|"manjaro"|"red hat"|"risc os"|"sabayon"|"zenwalk"|"linspire"|"mandriva"|"raspbian"|"pclinuxos"|"slackware"|"elementary os"; "hurd"|"linux"; "gnu"; "bsd"|"dragonfly"; "haiku "
-            [Needs([1421]), Needs([1422]), Needs([1423], [147], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157]), Needs([1251, 1256]), Needs([1259], [1257], [18]), Needs([1424, 1059]), Needs([1425]), Needs([1426, 1427, 1428, 1429]), Needs([1430, 1431, 1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440, 1441, 1442, 1443, 1444, 1445, 1446, 1447, 1448, 1449, 1450, 1451, 1452, 1453]), Needs([1454, 1455]), Needs([1456]), Needs([1457, 1458]), Needs([1459])]),
-        // 16
-        new([Os_16_0],
+            [Needs([1424]), Needs([1425]), Needs([1426], [147], [148, 149, 150, 151, 152, 153, 154, 155, 156, 157]), Needs([1251, 1256]), Needs([1259], [1257], [18]), Needs([1427, 1059]), Needs([1428]), Needs([1429, 1430, 1431, 1432]), Needs([1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440, 1441, 1442, 1443, 1444, 1445, 1446, 1447, 1448, 1449, 1450, 1451, 1452, 1453, 1454, 1455, 1456]), Needs([1457, 1458]), Needs([1459]), Needs([1460, 1461]), Needs([1462])]),
+        // 17
+        new([Os_17_0],
             [Constant(Field.Name, "Solaris"), Capture(Field.Version)],
             // needs "sunos"
-            [Needs([1460])]),
-        // 17
-        new([Os_17_0, Os_17_1, Os_17_2, Os_17_3],
+            [Needs([1463])]),
+        // 18
+        new([Os_18_0, Os_18_1, Os_18_2, Os_18_3],
             [Capture(Field.Name), Capture(Field.Version)],
             // needs "solaris"; "aix "; "beos"|"os/2"|"hp-ux"|"amigaos"|"fuchsia"|"morphos"|"openvms"|"serenityos"; "unix"
-            [Needs([1461]), Needs([1462]), Needs([1463, 1464, 1465, 1466, 1467, 1468, 1469, 1470]), Needs([1471])]),
+            [Needs([1464]), Needs([1465]), Needs([1466, 1467, 1468, 1469, 1470, 1471, 1472, 1473]), Needs([1474])]),
     ];
 
     [GeneratedRegex(@"\b(?:crmo|crios)\/([\w\.]+)", Options, TimeoutMilliseconds, "")]
@@ -3423,114 +3431,117 @@ internal static partial class UserAgentRules
     [GeneratedRegex(@"(?:win(?=3|9|n)|win 9x )([nt\d\.]+)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_2_2();
 
-    [GeneratedRegex(@"[adehimnop]{4,7}\b(?:.*os ([\w]+) like mac|; opera)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"\bip(?:hone|ad|od)\b.+\bos 18(?:_\d+)* like mac os x\).+\bversion\/((?:2[6-9]|[3-9]\d)(?:\.\d+)*)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_3_0();
 
-    [GeneratedRegex(@"(?:ios;fbsv\/|iphone.+ios[\/ ])([\d\.]+)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_3_1();
-
-    [GeneratedRegex(@"cfnetwork\/.+darwin", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_3_2();
-
-    [GeneratedRegex(@"_", CaseSensitiveOptions, TimeoutMilliseconds, "")]
-    private static partial Regex Os_3_Replace0();
-
-    [GeneratedRegex(@"(mac os x) ?([\w\. ]*)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"[adehimnop]{4,7}\b(?:.*os ([\w]+) like mac|; opera)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_4_0();
 
-    [GeneratedRegex(@"(macintosh|mac_powerpc\b)(?!.+haiku)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"(?:ios;fbsv\/|iphone.+ios[\/ ])([\d\.]+)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_4_1();
 
-    [GeneratedRegex(@"_", CaseSensitiveOptions, TimeoutMilliseconds, "")]
-    private static partial Regex Os_4_Replace1();
+    [GeneratedRegex(@"cfnetwork\/.+darwin", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_4_2();
 
-    [GeneratedRegex(@"droid ([\w\.]+)\b.+(android[- ]x86|harmonyos)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"_", CaseSensitiveOptions, TimeoutMilliseconds, "")]
+    private static partial Regex Os_4_Replace0();
+
+    [GeneratedRegex(@"(mac os x) ?([\w\. ]*)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_5_0();
 
-    [GeneratedRegex(@"(ubuntu) ([\w\.]+) like android", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"(macintosh|mac_powerpc\b)(?!.+haiku)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_5_1();
+
+    [GeneratedRegex(@"_", CaseSensitiveOptions, TimeoutMilliseconds, "")]
+    private static partial Regex Os_5_Replace1();
+
+    [GeneratedRegex(@"droid ([\w\.]+)\b.+(android[- ]x86|harmonyos)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_6_0();
 
-    [GeneratedRegex(@"(.+)", CaseSensitiveOptions, TimeoutMilliseconds, "")]
-    private static partial Regex Os_6_Replace0();
-
-    [GeneratedRegex(@"(android|bada|blackberry|kaios|maemo|meego|openharmony|qnx|rim tablet os|sailfish|series40|symbian|tizen|webos)\w*[-\/; ]?([\d\.]*)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"(ubuntu) ([\w\.]+) like android", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_7_0();
 
-    [GeneratedRegex(@"\(bb(10);", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"(.+)", CaseSensitiveOptions, TimeoutMilliseconds, "")]
+    private static partial Regex Os_7_Replace0();
+
+    [GeneratedRegex(@"(android|bada|blackberry|kaios|maemo|meego|openharmony|qnx|rim tablet os|sailfish|series40|symbian|tizen|webos)\w*[-\/; ]?([\d\.]*)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_8_0();
 
-    [GeneratedRegex(@"(?:symbian ?os|symbos|s60(?=;)|series ?60)[-\/ ]?([\w\.]*)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"\(bb(10);", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_9_0();
 
-    [GeneratedRegex(@"mozilla\/[\d\.]+ \((?:mobile|tablet|tv|mobile; [\w ]+); rv:.+ gecko\/([\w\.]+)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"(?:symbian ?os|symbos|s60(?=;)|series ?60)[-\/ ]?([\w\.]*)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_10_0();
 
-    [GeneratedRegex(@"web0s;.+rt(tv)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"mozilla\/[\d\.]+ \((?:mobile|tablet|tv|mobile; [\w ]+); rv:.+ gecko\/([\w\.]+)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_11_0();
 
-    [GeneratedRegex(@"\b(?:hp)?wos(?:browser)?\/([\w\.]+)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_11_1();
-
-    [GeneratedRegex(@"watch(?: ?os[,\/]|\d,\d\/)([\d\.]+)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"web0s;.+rt(tv)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_12_0();
 
-    [GeneratedRegex(@"crkey\/([\d\.]+)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"\b(?:hp)?wos(?:browser)?\/([\w\.]+)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_12_1();
+
+    [GeneratedRegex(@"watch(?: ?os[,\/]|\d,\d\/)([\d\.]+)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_13_0();
 
-    [GeneratedRegex(@"(cros) [\w]+(?:\)| ([\w\.]+)\b)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"crkey\/([\d\.]+)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_14_0();
 
-    [GeneratedRegex(@"panasonic;(viera)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"(cros) [\w]+(?:\)| ([\w\.]+)\b)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_15_0();
 
-    [GeneratedRegex(@"(netrange)mmh", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_1();
-
-    [GeneratedRegex(@"(nettv)\/(\d+\.[\w\.]+)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_2();
-
-    [GeneratedRegex(@"(nintendo|playstation) ([wids345portablevuch]+)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_3();
-
-    [GeneratedRegex(@"(xbox); +xbox ([^\);]+)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_4();
-
-    [GeneratedRegex(@"\b(joli|palm)\b ?(?:os)?\/?([\w\.]*)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_5();
-
-    [GeneratedRegex(@"(mint)[\/\(\) ]?(\w*)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_6();
-
-    [GeneratedRegex(@"(mageia|vectorlinux)[; ]", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_7();
-
-    [GeneratedRegex(@"([kxln]?ubuntu|debian|suse|opensuse|gentoo|arch(?= linux)|slackware|fedora|mandriva|centos|pclinuxos|red ?hat|zenwalk|linpus|raspbian|plan 9|minix|risc os|contiki|deepin|manjaro|elementary os|sabayon|linspire)(?: gnu\/linux)?(?: enterprise)?(?:[- ]linux)?(?:-gnu)?[-\/ ]?(?!chrom|package)([-\w\.]*)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_8();
-
-    [GeneratedRegex(@"(hurd|linux)(?: arm\w*| x86\w*| ?)([\w\.]*)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_9();
-
-    [GeneratedRegex(@"(gnu) ?([\w\.]*)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_10();
-
-    [GeneratedRegex(@"\b([-frentopcghs]{0,5}bsd|dragonfly)[\/ ]?(?!amd|[ix346]{1,2}86)([\w\.]*)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_11();
-
-    [GeneratedRegex(@"(haiku) (\w+)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_15_12();
-
-    [GeneratedRegex(@"(sunos) ?([\w\.\d]*)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"panasonic;(viera)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_16_0();
 
-    [GeneratedRegex(@"((?:open)?solaris)[-\/ ]?([\w\.]*)", Options, TimeoutMilliseconds, "")]
+    [GeneratedRegex(@"(netrange)mmh", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_1();
+
+    [GeneratedRegex(@"(nettv)\/(\d+\.[\w\.]+)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_2();
+
+    [GeneratedRegex(@"(nintendo|playstation) ([wids345portablevuch]+)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_3();
+
+    [GeneratedRegex(@"(xbox); +xbox ([^\);]+)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_4();
+
+    [GeneratedRegex(@"\b(joli|palm)\b ?(?:os)?\/?([\w\.]*)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_5();
+
+    [GeneratedRegex(@"(mint)[\/\(\) ]?(\w*)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_6();
+
+    [GeneratedRegex(@"(mageia|vectorlinux)[; ]", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_7();
+
+    [GeneratedRegex(@"([kxln]?ubuntu|debian|suse|opensuse|gentoo|arch(?= linux)|slackware|fedora|mandriva|centos|pclinuxos|red ?hat|zenwalk|linpus|raspbian|plan 9|minix|risc os|contiki|deepin|manjaro|elementary os|sabayon|linspire)(?: gnu\/linux)?(?: enterprise)?(?:[- ]linux)?(?:-gnu)?[-\/ ]?(?!chrom|package)([-\w\.]*)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_8();
+
+    [GeneratedRegex(@"(hurd|linux)(?: arm\w*| x86\w*| ?)([\w\.]*)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_9();
+
+    [GeneratedRegex(@"(gnu) ?([\w\.]*)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_10();
+
+    [GeneratedRegex(@"\b([-frentopcghs]{0,5}bsd|dragonfly)[\/ ]?(?!amd|[ix346]{1,2}86)([\w\.]*)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_11();
+
+    [GeneratedRegex(@"(haiku) (\w+)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_16_12();
+
+    [GeneratedRegex(@"(sunos) ?([\w\.\d]*)", Options, TimeoutMilliseconds, "")]
     private static partial Regex Os_17_0();
 
+    [GeneratedRegex(@"((?:open)?solaris)[-\/ ]?([\w\.]*)", Options, TimeoutMilliseconds, "")]
+    private static partial Regex Os_18_0();
+
     [GeneratedRegex(@"(aix) ((\d)(?=\.|\)| )[\w\.])*", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_17_1();
+    private static partial Regex Os_18_1();
 
     [GeneratedRegex(@"\b(beos|os\/2|amigaos|morphos|openvms|fuchsia|hp-ux|serenityos)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_17_2();
+    private static partial Regex Os_18_2();
 
     [GeneratedRegex(@"(unix) ?([\w\.]*)", Options, TimeoutMilliseconds, "")]
-    private static partial Regex Os_17_3();
+    private static partial Regex Os_18_3();
 }

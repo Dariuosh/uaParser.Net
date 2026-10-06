@@ -827,6 +827,12 @@ var regexes = {
         /(?:win(?=3|9|n)|win 9x )([nt\d\.]+)/i
         ], [[VERSION, strMapper, windowsVersionMap], [NAME, 'Windows']], [
 
+        // uaParser.Net: iOS 26 and later. Safari freezes the OS version at 18_6 from iOS 26 on,
+        // but every iOS browser uses the system WebKit, whose Version/ token is the real iOS
+        // version; an iOS 18 device always says Version/18.x.
+        /\bip(?:hone|ad|od)\b.+\bos 18(?:_\d+)* like mac os x\).+\bversion\/((?:2[6-9]|[3-9]\d)(?:\.\d+)*)/i
+        ], [VERSION, [NAME, 'iOS']], [
+
         // iOS/macOS
         /[adehimnop]{4,7}\b(?:.*os ([\w]+) like mac|; opera)/i,             // iOS
         /(?:ios;fbsv\/|iphone.+ios[\/ ])([\d\.]+)/i,
