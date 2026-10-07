@@ -47,6 +47,9 @@ User-Agent Client Hints. Nothing needs to change in code written for 2.0.
 - A bot's user agent now reads as a bot in `ClientInfo.Bot`; its browser, OS and device values
   are unchanged.
 - Parsing takes about 1.5 µs longer (bot detection) and the first call about 15 ms longer.
+- Repository: the solution is now `uaParser.slnx`, the XML solution format (Visual Studio 2022
+  17.13 or later, Visual Studio 2026, .NET SDK 9.0.200 or later), with the projects in `src`,
+  `tests` and `demos` folders.
 
 ### Fixed
 

@@ -289,7 +289,7 @@ are more precise (see the changelog).
 | `Shared` | Example user agents shared by the samples |
 
 ```
-dotnet build uaParser.sln
+dotnet build uaParser.slnx
 dotnet test
 ```
 
