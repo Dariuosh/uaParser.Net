@@ -36,6 +36,13 @@ public sealed record ClientHints
     /// <summary>The brands with their full versions (Sec-CH-UA-Full-Version-List), for example "Google Chrome" 140.0.7339.128.</summary>
     public IReadOnlyList<BrandVersion> FullVersionList { get; init; } = [];
 
+    /// <summary>
+    /// The browser's full version (Sec-CH-UA-Full-Version), for example "140.0.7339.128", or
+    /// <see langword="null"/>. Deprecated in favour of <see cref="FullVersionList"/>, which is used
+    /// when both are present, but still sent to sites that ask for it.
+    /// </summary>
+    public string? FullVersion { get; init; }
+
     /// <summary>Whether the browser asks for the mobile version of sites (Sec-CH-UA-Mobile), or <see langword="null"/>.</summary>
     public bool? Mobile { get; init; }
 
@@ -77,6 +84,7 @@ public sealed record ClientHints
         {
             Brands = StructuredField.Brands(Get("Sec-CH-UA")),
             FullVersionList = StructuredField.Brands(Get("Sec-CH-UA-Full-Version-List")),
+            FullVersion = Text("Sec-CH-UA-Full-Version"),
             Mobile = StructuredField.Boolean(Get("Sec-CH-UA-Mobile")),
             Platform = Text("Sec-CH-UA-Platform"),
             PlatformVersion = Text("Sec-CH-UA-Platform-Version"),
@@ -91,7 +99,7 @@ public sealed record ClientHints
 
     /// <summary>Whether no hint has a value.</summary>
     public bool IsEmpty =>
-        Brands.Count == 0 && FullVersionList.Count == 0 && Mobile is null && Platform is null &&
+        Brands.Count == 0 && FullVersionList.Count == 0 && FullVersion is null && Mobile is null && Platform is null &&
         PlatformVersion is null && Architecture is null && Bitness is null && Model is null &&
         FormFactors.Count == 0 && Wow64 is null;
 
@@ -99,7 +107,7 @@ public sealed record ClientHints
     public bool Equals(ClientHints? other) =>
         other is not null &&
         Brands.SequenceEqual(other.Brands) && FullVersionList.SequenceEqual(other.FullVersionList) &&
-        Mobile == other.Mobile && Platform == other.Platform && PlatformVersion == other.PlatformVersion &&
+        FullVersion == other.FullVersion && Mobile == other.Mobile && Platform == other.Platform && PlatformVersion == other.PlatformVersion &&
         Architecture == other.Architecture && Bitness == other.Bitness && Model == other.Model &&
         FormFactors.SequenceEqual(other.FormFactors) && Wow64 == other.Wow64;
 
@@ -109,6 +117,7 @@ public sealed record ClientHints
         var hash = new HashCode();
         foreach (var brand in Brands) hash.Add(brand);
         foreach (var brand in FullVersionList) hash.Add(brand);
+        hash.Add(FullVersion);
         hash.Add(Mobile);
         hash.Add(Platform);
         hash.Add(PlatformVersion);
@@ -127,6 +136,7 @@ public sealed record ClientHints
         return Describe.Line("Hints", string.Join(", ", new[]
         {
             string.Join(", ", brands.Where(b => !ClientHintsReader.IsGrease(b.Brand)).Select(b => $"{b.Brand} {b.Version}")),
+            FullVersionList.Count == 0 && FullVersion is not null ? $"full version {FullVersion}" : null,
             Join(Platform, PlatformVersion),
             Join(Architecture, Bitness),
             Model,
@@ -153,6 +163,7 @@ public sealed record ClientHints
 
         AddList(Brands);
         AddList(FullVersionList);
+        Add(FullVersion);
         Add(Mobile?.ToString());
         Add(Platform);
         Add(PlatformVersion);

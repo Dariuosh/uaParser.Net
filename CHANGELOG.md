@@ -20,7 +20,11 @@ User-Agent Client Hints. Nothing needs to change in code written for 2.0.
   behind a Chrome-like user agent (Brave), Windows 11, the macOS and Android version, the CPU
   (arm64 on Apple silicon and Windows on ARM) and the Android device model, with its vendor.
   `ClientInfo.Hints` holds the hints used; `ClientInfoCache.GetClientInfo(userAgent, hints)`
-  caches by user agent and hints.
+  caches by user agent and hints. Following the UA-CH specification: made-up (GREASE) brands are
+  never taken for the browser, whatever their wording; Linux has no platform version (Chrome
+  sends the kernel's); the deprecated `Sec-CH-UA-Full-Version` is read when there is no full
+  version list; and only Android models go through the device rules (Windows can send
+  "Surface Pro").
 - ASP.NET Core: `GetClientInfo()` and the injected `ClientInfo` use the request's client hints
   (`UAParserOptions.UseClientHints`, on by default). With `UAParserOptions.RequestClientHints`,
   `UseUAParser()` asks browsers for all of them (`Accept-CH`).

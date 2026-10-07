@@ -335,6 +335,88 @@ public class ClientHintsTests
         Assert.NotEqual(Hints(Windows11), Hints(With(Windows11, ("Sec-CH-UA-Arch", "\"arm\""))));
     }
 
+    // The spec builds GREASE brands from any words joined by ( ) - . / : ; = ? _ or spaces; Chromium
+    // happens to use "Not A Brand".
+    [Theory]
+    [InlineData("Totally-Arbitrary_Name")]
+    [InlineData("Some.Thing")]
+    [InlineData("Not A Brand")]
+    [InlineData("Not)A;Brand")]
+    public void GREASE_brands_are_never_the_browser(string grease)
+    {
+        var hints = new ClientHints { Brands = [new("Chromium", "140"), new(grease, "99"), new("Google Chrome", "140")] };
+
+        Assert.Equal("Chrome", UAParser.GetClientInfo(WindowsChrome, hints).Browser.Name);
+        Assert.DoesNotContain(grease, hints.ToString());
+    }
+
+    [Fact]
+    public void Linux_has_no_platform_version()
+    {
+        // The spec says Linux has none; Chrome sends the kernel's.
+        const string userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
+        var hints = new ClientHints { Platform = "Linux", PlatformVersion = "6.18.44" };
+
+        Assert.Equal(new OS("Linux", null), UAParser.GetClientInfo(userAgent, hints).OS);
+    }
+
+    [Fact]
+    public void The_deprecated_full_version_header_is_read()
+    {
+        // Microsoft's example for Edge: Sec-CH-UA and Sec-CH-UA-Full-Version, no full version list.
+        const string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
+        var hints = ClientHints.FromHeaders(name => name switch
+        {
+            "Sec-CH-UA" => "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Microsoft Edge\";v=\"120\"",
+            "Sec-CH-UA-Full-Version" => "\"120.0.2210.91\"",
+            _ => null,
+        })!;
+
+        var info = UAParser.GetClientInfo(userAgent, hints);
+
+        Assert.Equal("120.0.2210.91", hints.FullVersion);
+        Assert.Equal(new Browser("Edge", "120.0.2210.91", "120"), info.Browser);
+        Assert.Equal(new Engine("Blink", "120.0.0.0"), info.Engine);   // Edge's version is not Chromium's
+    }
+
+    [Fact]
+    public void The_deprecated_full_version_of_chrome_is_also_blinks()
+    {
+        var hints = new ClientHints { Brands = [new("Chromium", "140"), new("Google Chrome", "140")], FullVersion = "140.0.7339.128" };
+
+        var info = UAParser.GetClientInfo(WindowsChrome, hints);
+
+        Assert.Equal(new Browser("Chrome", "140.0.7339.128", "140"), info.Browser);
+        Assert.Equal(new Engine("Blink", "140.0.7339.128"), info.Engine);
+    }
+
+    [Fact]
+    public void A_full_version_of_another_major_version_is_ignored()
+    {
+        var hints = new ClientHints { Brands = [new("Chromium", "140"), new("Google Chrome", "140")], FullVersion = "139.0.7258.155" };
+
+        Assert.Equal(new Browser("Chrome", "140.0.0.0", "140"), UAParser.GetClientInfo(WindowsChrome, hints).Browser);
+    }
+
+    [Fact]
+    public void The_full_version_list_wins_over_the_deprecated_header()
+    {
+        var hints = Hints(With(Windows11, ("Sec-CH-UA-Full-Version", "\"140.0.1.1\"")));
+
+        Assert.Equal("140.0.7339.128", UAParser.GetClientInfo(WindowsChrome, hints).Browser.Version);
+        Assert.NotEqual(Hints(Windows11), hints);
+    }
+
+    [Theory]
+    [InlineData("Surface Pro")]
+    [InlineData("SM-W767")]
+    public void Models_of_other_platforms_skip_the_android_device_rules(string model)
+    {
+        var hints = Hints(With(Windows11, ("Sec-CH-UA-Model", $"\"{model}\"")));
+
+        Assert.Equal(new Device(null, model, null), UAParser.GetClientInfo(WindowsChrome, hints).Device);
+    }
+
     [Fact]
     public void The_cache_keeps_results_per_user_agent_and_hints()
     {

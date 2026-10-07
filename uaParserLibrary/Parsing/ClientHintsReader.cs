@@ -56,11 +56,16 @@ internal static class ClientHintsReader
         };
     }
 
-    // Chromium's "GREASE" brands, made up so that sites do not rely on the brand list:
-    // "Not)A;Brand", " Not A;Brand", "Not_A Brand" and so on.
+    // "GREASE" brands, made up so that sites do not rely on the brand list. The spec builds them
+    // from words joined by any of ( ) - . / : ; = ? _ and spaces; Chromium uses the words
+    // "Not A Brand" ("Not)A;Brand", "Not_A Brand", " Not A;Brand"...). No real brand uses those
+    // characters, so a brand with one of them, or with "Not" and "Brand", is GREASE.
     public static bool IsGrease(string brand) =>
-        brand.Contains("Not", StringComparison.Ordinal) &&
-        (brand.Contains("Brand", StringComparison.Ordinal) || brand.Contains("Browser", StringComparison.Ordinal));
+        brand.AsSpan().ContainsAny(GreaseCharacters) ||
+        (brand.Contains("Not", StringComparison.Ordinal) &&
+         (brand.Contains("Brand", StringComparison.Ordinal) || brand.Contains("Browser", StringComparison.Ordinal)));
+
+    private static readonly System.Buffers.SearchValues<char> GreaseCharacters = System.Buffers.SearchValues.Create("()-./:;=?_");
 
     private static Browser ReadBrowser(Browser browser, ClientHints hints)
     {
@@ -69,14 +74,17 @@ internal static class ClientHintsReader
         if (brands.Count == 0)
             return browser;
 
+        var best = Product(brands);
+        var fullVersion = full ? null : ProductFullVersion(hints, best);
         string? Version(BrandVersion brand) =>
-            full ? brand.Version : browser.Version is null ? brand.Version : null;
+            full ? brand.Version
+            : fullVersion is not null && brand == best ? fullVersion
+            : browser.Version is null ? brand.Version : null;
 
         // A browser that looks like Chrome in the User-Agent string: the most specific brand
         // tells which one it is.
         if (ChromeLike.Contains(browser.Name))
         {
-            var best = brands.OrderBy(Rank).ThenByDescending(b => b.Brand.Length).ThenBy(b => b.Brand, StringComparer.Ordinal).First();
             var name = BrowserName(best.Brand);
             if (name != browser.Name)
             {
@@ -94,7 +102,19 @@ internal static class ClientHintsReader
         return browser;
     }
 
-    // Chromium itself last, Google Chrome before it, every other brand (Edge, Opera, Brave...) first.
+    // The brand that names the product: Chromium itself last, Google Chrome before it, every
+    // other brand (Edge, Opera, Brave...) first; the longest name wins ("Microsoft Edge WebView2"
+    // over "Microsoft Edge").
+    private static BrandVersion Product(List<BrandVersion> brands) =>
+        brands.OrderBy(Rank).ThenByDescending(b => b.Brand.Length).ThenBy(b => b.Brand, StringComparer.Ordinal).First();
+
+    // The deprecated Sec-CH-UA-Full-Version is the product's full version: used when its major
+    // version is the product brand's.
+    private static string? ProductFullVersion(ClientHints hints, BrandVersion product) =>
+        IsVersion(hints.FullVersion) && JsString.Majorize(hints.FullVersion) == JsString.Majorize(product.Version)
+            ? hints.FullVersion
+            : null;
+
     private static int Rank(BrandVersion brand) => brand.Brand switch
     {
         "Chromium" => 2,
@@ -110,9 +130,15 @@ internal static class ClientHintsReader
             return engine;
         if (Usable(hints.FullVersionList).FirstOrDefault(b => b.Brand == "Chromium") is { } chromium)
             return new Engine("Blink", chromium.Version);
-        if (engine.Name is null && Usable(hints.Brands).FirstOrDefault(b => b.Brand == "Chromium") is { } major)
-            return new Engine("Blink", major.Version);
-        return engine;
+
+        // Without the full version list: Chrome's own full version is also Chromium's.
+        var brands = Usable(hints.Brands);
+        if (brands.FirstOrDefault(b => b.Brand == "Chromium") is not { } major)
+            return engine;
+        var product = Product(brands);
+        if (product.Brand is "Google Chrome" or "Chromium" && ProductFullVersion(hints, product) is { } version)
+            return new Engine("Blink", version);
+        return engine.Name is null ? new Engine("Blink", major.Version) : engine;
     }
 
     private static OS ReadOs(OS os, ClientHints hints)
@@ -127,6 +153,9 @@ internal static class ClientHintsReader
         {
             "Windows" => WindowsVersion(version),
             "Mac OS" or "Android" => TrimZeros(version),
+            // The spec gives Linux and Fuchsia no platform version; Chrome on Linux sends the
+            // kernel's ("6.8.0"), which is not the version of the system.
+            "Linux" or "Fuchsia" => null,
             _ => version,
         };
         return os.Name == name ? os with { Version = version ?? os.Version } : new OS(name, version);
@@ -155,16 +184,7 @@ internal static class ClientHintsReader
     private static Device ReadDevice(Device device, ClientHints hints, OS os)
     {
         if (Model(hints.Model) is { } model)
-        {
-            // Let the device rules read the model, as if it were in an Android User-Agent string,
-            // to find the vendor (for example "SM-S931B" is a Samsung phone).
-            var mobile = hints.Mobile == false ? "" : "Mobile ";
-            var userAgent = $"Mozilla/5.0 (Linux; Android {os.Version ?? "10"}; {model}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 {mobile}Safari/537.36";
-            var values = Rule.Apply(UserAgentRules.Device, new Input(userAgent, UserAgentRules.PrefilterWords));
-            device = values[Field.Vendor] is { } vendor
-                ? new Device(vendor, values[Field.Model] ?? model, values[Field.Type] ?? device.Type)
-                : device with { Model = model };
-        }
+            device = WithModel(device, model, hints, os);
 
         // The form factors the browser reports; "Desktop" changes nothing.
         foreach (var (formFactor, type) in FormFactorTypes)
@@ -175,6 +195,23 @@ internal static class ClientHintsReader
         if (hints.FormFactors.Count == 0 && hints.Mobile == true && device.Type is null)
             return device with { Type = DeviceTypes.Mobile };
         return device;
+    }
+
+    // Android models are read by the device rules, as if they were in an Android User-Agent
+    // string, to find the vendor (for example "SM-S931B" is a Samsung phone). The rules are for
+    // Android only, so other platforms (Windows can send "Surface Pro") keep just the model.
+    private static Device WithModel(Device device, string model, ClientHints hints, OS os)
+    {
+        var android = hints.Platform == "Android" || (hints.Platform is null && os.Name == "Android");
+        if (!android)
+            return device with { Model = model };
+
+        var mobile = hints.Mobile == false ? "" : "Mobile ";
+        var userAgent = $"Mozilla/5.0 (Linux; Android {os.Version ?? "10"}; {model}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 {mobile}Safari/537.36";
+        var values = Rule.Apply(UserAgentRules.Device, new Input(userAgent, UserAgentRules.PrefilterWords));
+        return values[Field.Vendor] is { } vendor
+            ? new Device(vendor, values[Field.Model] ?? model, values[Field.Type] ?? device.Type)
+            : device with { Model = model };
     }
 
     private static readonly (string FormFactor, string Type)[] FormFactorTypes =
@@ -230,7 +267,8 @@ internal static class ClientHintsReader
         version is { Length: > 0 and <= 32 } && char.IsAsciiDigit(version[0]) &&
         !version.AsSpan().ContainsAnyExcept("0123456789.");
 
-    // Letters, digits, spaces and . _ - ("Google Chrome", "Microsoft Edge WebView2", "Opera GX").
+    // Letters, digits, spaces and . _ - ("Google Chrome", "Microsoft Edge WebView2", "Opera GX");
+    // brands with . _ - are GREASE (see IsGrease).
     private static bool IsBrandName(string? brand) =>
         brand is { Length: > 0 and <= MaxValueLength } && char.IsAsciiLetterOrDigit(brand[0]) &&
         !brand.AsSpan().ContainsAnyExcept(BrandCharacters);
