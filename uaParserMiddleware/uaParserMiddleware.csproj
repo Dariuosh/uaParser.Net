@@ -8,7 +8,7 @@
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>uaParser.Net.AspNetCore</PackageId>
-    <Description>ASP.NET Core integration for uaParser.Net: an injectable, per-request ClientInfo, HttpContext.GetClientInfo(), an optional middleware and a shared cache for repeated user agents.</Description>
+    <Description>ASP.NET Core integration for uaParser.Net: an injectable, per-request ClientInfo (with the request's User-Agent Client Hints), HttpContext.GetClientInfo(), an optional middleware that can ask for all client hints, and a shared cache for repeated user agents.</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -11,5 +11,5 @@ namespace uaParserDemoComponents.Interop;
 /// </summary>
 [JsonSourceGenerationOptions(JsonSerializerDefaults.Web, WriteIndented = true)]
 [JsonSerializable(typeof(ClientInfo))]
-[JsonSerializable(typeof(ClientHints))]
+[JsonSerializable(typeof(JsClientHints))]
 public partial class DemoJson : JsonSerializerContext;

@@ -30,9 +30,37 @@ public static class Words
         _ => type,
     };
 
+    /// <summary>"search engine crawler", "AI crawler", ... for a bot category; "bot" when there is none.</summary>
+    public static string BotKind(string? category) => category switch
+    {
+        BotCategories.SearchEngine => "search engine crawler",
+        BotCategories.AiCrawler => "AI crawler or assistant",
+        BotCategories.Seo => "SEO tool",
+        BotCategories.Monitoring => "monitoring service",
+        BotCategories.Scanner => "security scanner",
+        BotCategories.Advertising => "advertising crawler",
+        BotCategories.SocialPreview => "link preview",
+        BotCategories.FeedReader => "feed reader",
+        BotCategories.HttpLibrary => "HTTP library or tool",
+        BotCategories.Archiver => "web archiver",
+        BotCategories.Academic => "research crawler",
+        BotCategories.BrowserAutomation => "automated browser",
+        null => "bot",
+        _ => category,
+    };
+
+    /// <summary>"a link preview", "an AI crawler", "an SEO tool".</summary>
+    public static string WithArticle(string noun) =>
+        (noun.Length > 0 && "aeiouAEIOU".Contains(noun[0])) || noun.StartsWith("SEO") || noun.StartsWith("HTTP")
+            ? "an " + noun
+            : "a " + noun;
+
     /// <summary>A one-line summary, such as "Samsung Internet 28 · Android 15 · Samsung SM-S931B".</summary>
     public static string Summary(ClientInfo info)
     {
+        if (info.Bot.IsBot)
+            return $"{info.Bot.Name} ({BotKind(info.Bot.Category)})";
+
         var parts = new[] { Browser(info.Browser), OS(info.OS), DeviceName(info.Device) ?? DeviceKind(info.Device.Type) }
             .Where(p => p is not null)
             .ToArray();

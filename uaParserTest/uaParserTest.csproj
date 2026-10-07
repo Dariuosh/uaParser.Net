@@ -28,7 +28,10 @@
   <ItemGroup>
     <!-- Answer key produced by tools/RuleGenerator -->
     <None Update="TestData\*.json" CopyToOutputDirectory="PreserveNewest" />
-    <!-- ua-parser-js's own test data, read from the generator's corpus -->
+    <!-- ua-parser-js's own test data, read from the generator's corpus, and the deliberate differences -->
+    <None Include="..\tools\RuleGenerator\corpus\upstream-test-differences.json"
+          Link="TestData\upstream-test-differences.json"
+          CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\tools\RuleGenerator\corpus\ua-parser-js-1.0.41\*-test.json"
           Link="TestData\ua-parser-js\%(Filename)%(Extension)"
           CopyToOutputDirectory="PreserveNewest" />

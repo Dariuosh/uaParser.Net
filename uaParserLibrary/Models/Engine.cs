@@ -5,6 +5,6 @@ namespace uaParserLibrary.Models;
 /// <param name="Version">Engine version, or <see langword="null"/>.</param>
 public sealed record Engine(string? Name, string? Version)
 {
-    /// <summary>A one-line description, for example "Browser: Chrome 140.0.0.0".</summary>
+    /// <summary>A one-line description, for example "Engine : Blink 140.0.0.0".</summary>
     public override string ToString() => Describe.Line("Engine", Name, Version);
 }

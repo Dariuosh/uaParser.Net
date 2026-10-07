@@ -147,8 +147,9 @@ public class ParserTests
     }
 
     [Fact]
-    public void Rules_come_from_ua_parser_js_1_0_41()
+    public void Rules_are_based_on_ua_parser_js_1_0_41()
     {
-        Assert.Equal("1.0.41", UAParser.RulesVersion);
+        Assert.Equal("ua-parser-js 1.0.41", UAParser.RulesBasedOn);
+        Assert.Matches(@"^\d+\.\d+\.\d+$", UAParser.RulesVersion);
     }
 }

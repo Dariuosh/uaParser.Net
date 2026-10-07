@@ -29,7 +29,7 @@ public static class QuickRun
             .AppendLine($"# uaParser.Net quick benchmark")
             .AppendLine()
             .AppendLine($"- Date: {DateTimeOffset.Now:yyyy-MM-dd HH:mm zzz}")
-            .AppendLine($"- Library: uaParser.Net, rules from ua-parser-js {UAParser.RulesVersion}")
+            .AppendLine($"- Library: uaParser.Net, rules {UAParser.RulesVersion} (based on {UAParser.RulesBasedOn})")
             .AppendLine($"- Runtime: {machine["runtime"]}")
             .AppendLine($"- Machine: {machine["cpu"]}, {machine["cpus"]} CPUs, {machine["os"]} ({machine["architecture"]})")
             .AppendLine()
@@ -51,7 +51,7 @@ public static class QuickRun
         Results.WriteJson(stem + ".json", new
         {
             library = "uaParser.Net",
-            rules = $"ua-parser-js {UAParser.RulesVersion}",
+            rules = $"uaParser.Net rules {UAParser.RulesVersion}, based on {UAParser.RulesBasedOn}",
             date = DateTimeOffset.Now,
             machine,
             coldStartMilliseconds = Math.Round(cold.Elapsed.TotalMilliseconds, 1),

@@ -13,8 +13,9 @@ builder.Services.AddRazorComponents()
     .AddHubOptions(options => options.MaximumReceiveMessageSize = 1024 * 1024);
 
 // uaParser.Net: ClientInfo for the current request (scoped), HttpContext.GetClientInfo() and a
-// shared ClientInfoCache for repeated user agents.
-builder.Services.AddUAParser();
+// shared ClientInfoCache for repeated user agents. Client hints sent by the browser improve the
+// result; RequestClientHints asks Chromium-based browsers for all of them (Accept-CH).
+builder.Services.AddUAParser(options => options.RequestClientHints = true);
 
 builder.Services.AddScoped<DemoJs>();
 
@@ -37,7 +38,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
 
-app.UseClientHints();
+app.UseCriticalClientHints();
 app.UseUAParser();
 
 app.UseAntiforgery();

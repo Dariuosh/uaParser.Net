@@ -6,8 +6,10 @@ using static uaParserTest.TestData;
 
 namespace uaParserTest;
 
-// Every user agent in the answer key must give exactly what ua-parser-js 1.0.41 gives.
-// The answer key is uaParserTest/TestData/ua-parser-js.golden.json (tools/RuleGenerator).
+// Every corpus user agent must give exactly what the rules give when tools/RuleGenerator runs
+// them in JavaScript: uaParserTest/TestData/expected-results.json. This checks that the rules
+// were turned into .NET regexes and assignments without changing a single result. The same
+// holds for the bot rules (rules/bot-rules.js) and expected-bots.json.
 public class GoldenTests
 {
     public static TheoryData<string> UserAgents => new(Golden.Keys);
@@ -38,5 +40,31 @@ public class GoldenTests
         var os = expected.GetProperty("os");
         Assert.Equal(Value(os, "name"), actual.OS.Name);
         Assert.Equal(Value(os, "version"), actual.OS.Version);
+
+        AssertBot(expected.GetProperty("bot"), actual.Bot);
+    }
+
+    public static TheoryData<string> BotExamples => new(GoldenBots.Keys);
+
+    // The examples of every bot in the crawler-user-agents list (expected-bots.json).
+    [Theory]
+    [MemberData(nameof(BotExamples))]
+    public void Finds_the_same_bot(string userAgent)
+    {
+        var actual = UAParser.GetBot(userAgent);
+        AssertBot(GoldenBots[userAgent], actual);
+        Assert.Equal(actual, UAParser.GetClientInfo(userAgent).Bot);
+    }
+
+    private static void AssertBot(System.Text.Json.JsonElement expected, uaParserLibrary.Models.Bot actual)
+    {
+        if (expected.ValueKind == System.Text.Json.JsonValueKind.Null)
+        {
+            Assert.Same(uaParserLibrary.Models.Bot.None, actual);
+            return;
+        }
+        Assert.Equal(Value(expected, "name"), actual.Name);
+        Assert.Equal(Value(expected, "category"), actual.Category);
+        Assert.Equal(Value(expected, "url"), actual.Url);
     }
 }

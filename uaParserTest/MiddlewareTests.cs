@@ -111,6 +111,27 @@ public class MiddlewareTests
         Assert.Equal(UAParser.GetClientInfo(null), scope.ServiceProvider.GetRequiredService<ClientInfo>());
     }
 
+    // Two User-Agent header lines, as Kestrel receives them. (HttpClient would join them into one.)
+    [Fact]
+    public void Uses_the_first_of_several_User_Agent_headers()
+    {
+        var context = new DefaultHttpContext();
+        context.Request.Headers.UserAgent = new Microsoft.Extensions.Primitives.StringValues([IPhone, Chrome]);
+
+        Assert.Equal(IPhone, context.GetClientInfo().UserAgent);
+    }
+
+    [Fact]
+    public void Calling_AddUAParser_again_replaces_the_earlier_settings()
+    {
+        var services = new ServiceCollection().AddUAParser().AddUAParser(o => o.CacheCapacity = 0);
+        Assert.DoesNotContain(services, d => d.ServiceType == typeof(ClientInfoCache));
+        Assert.Single(services, d => d.ServiceType == typeof(ClientInfo));
+
+        using var provider = new ServiceCollection().AddUAParser().AddUAParser(o => o.CacheCapacity = 4096).BuildServiceProvider();
+        Assert.Equal(4096, Assert.Single(provider.GetServices<ClientInfoCache>()).Capacity);
+    }
+
     [Fact]
     public void Negative_cache_capacity_is_rejected()
     {

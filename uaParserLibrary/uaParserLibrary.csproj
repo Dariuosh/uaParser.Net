@@ -8,7 +8,7 @@
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>uaParser.Net</PackageId>
-    <Description>Detects the browser, engine, operating system, CPU and device from a User-Agent string. A faithful, generated port of ua-parser-js 1.0.41 (every rule, identical results), with immutable thread-safe results, an optional cache, and GPU detection from WebGL renderer strings.</Description>
+    <Description>Detects the browser, engine, operating system, CPU, device and bot from a User-Agent string and User-Agent Client Hints (Windows 11, full browser versions, CPU, Android model). Rules based on ua-parser-js 1.0.41 and about 1,500 bots from crawler-user-agents, kept up to date; immutable thread-safe results, an optional cache, and GPU detection from WebGL renderer strings.</Description>
   </PropertyGroup>
 
   <ItemGroup>

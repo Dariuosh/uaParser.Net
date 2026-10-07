@@ -1,5 +1,74 @@
 # Changelog
 
+## 2.1.0 (2026-10-07)
+
+uaParser.Net now maintains its own rules, based on ua-parser-js 1.0.41 (MIT), and adds bots and
+User-Agent Client Hints. Nothing needs to change in code written for 2.0.
+
+### Added
+
+- **Bots.** `ClientInfo.Bot` and `UAParser.GetBot` tell which bot a user agent belongs to: about
+  1,500 search engine and AI crawlers, link previews, monitors, scanners, HTTP libraries and
+  other tools from [crawler-user-agents](https://github.com/monperrus/crawler-user-agents) (MIT),
+  each with a category (`BotCategories`) and a web page. A name such as `examplebot/1.0` also
+  counts. Five patterns of the list that also matched phones (HTC Butterfly, Lucky Ultra Sonic,
+  Yahoo Mail on HTC, `sprd-L008`, an OPPO build number) are made stricter; Java, Postman and
+  Insomnia are added.
+- **Client Hints.** `ClientHints` (read from the `Sec-CH-UA-*` headers with
+  `ClientHints.FromHeaders`, or set from `navigator.userAgentData`) and
+  `UAParser.GetClientInfo(userAgent, hints)`: the full browser and engine version, the browser
+  behind a Chrome-like user agent (Brave), Windows 11, the macOS and Android version, the CPU
+  (arm64 on Apple silicon and Windows on ARM) and the Android device model, with its vendor.
+  `ClientInfo.Hints` holds the hints used; `ClientInfoCache.GetClientInfo(userAgent, hints)`
+  caches by user agent and hints. Following the UA-CH specification: made-up (GREASE) brands are
+  never taken for the browser, whatever their wording; Linux has no platform version (Chrome
+  sends the kernel's); the deprecated `Sec-CH-UA-Full-Version` is read when there is no full
+  version list; and only Android models go through the device rules (Windows can send
+  "Surface Pro").
+- ASP.NET Core: `GetClientInfo()` and the injected `ClientInfo` use the request's client hints
+  (`UAParserOptions.UseClientHints`, on by default). With `UAParserOptions.RequestClientHints`,
+  `UseUAParser()` asks browsers for all of them (`Accept-CH`).
+- `UAParser.RulesVersion`, `UAParser.RulesBasedOn` and `UAParser.BotListSource`.
+- `reports/differences.md` in `tools/RuleGenerator`: every result that differs from
+  ua-parser-js 1.0.41, each one on purpose.
+- Demos: a Bot card, the bots of an access log (and two new CSV columns), and what Client Hints
+  add to the User-Agent string.
+
+### Changed
+
+- The rules are uaParser.Net's own (`tools/RuleGenerator/rules/user-agent-rules.js`, version
+  2.1.0); every change to the ua-parser-js 1.0.41 rules is marked there. Results that differ
+  from ua-parser-js 1.0.41:
+  - iOS and iPadOS 26 and later: Safari keeps `OS 18_6` (or `18_7`) in the user agent; the
+    version now comes from `Version/26.x`.
+  - Nintendo Browser (Switch, Switch 2, Wii U, 3DS) is named, with its own version; the Switch 2
+    is told apart from the Switch.
+  - Chromecast and Google TV Streamer are smart TVs (were tablets); Pixel Watch is a wearable
+    (was a phone).
+  - VIDAA, the system of Hisense and other smart TVs, is recognised.
+  - Vendors for Huawei phones and tablets with HarmonyOS NEXT, newer Xiaomi and Nothing phones,
+    and Google Pixel Pro, Pro XL, Pro Fold and Fold models.
+- A bot's user agent now reads as a bot in `ClientInfo.Bot`; its browser, OS and device values
+  are unchanged.
+- Parsing takes about 1.5 µs longer (bot detection) and the first call about 15 ms longer.
+- Repository: the solution is now `uaParser.slnx`, the XML solution format (Visual Studio 2022
+  17.13 or later, Visual Studio 2026, .NET SDK 9.0.200 or later), with the projects in `src`,
+  `tests` and `demos` folders.
+
+### Fixed
+
+- ASP.NET Core: when a request has several User-Agent headers, the first is read, as in Node.js
+  and ua-parser-js. They were joined with commas into a string no client sent.
+- `AddUAParser` called more than once: the last call now wins. A later
+  `AddUAParser(o => o.CacheCapacity = 0)` left the earlier cache on, and `ClientInfo` was
+  registered twice.
+- `ClientInfoCache.Count` counted a user agent twice after it moved back from the previous
+  generation; it is now removed from there.
+- README: the ASP.NET Core example lacked its `using` lines; the Blazor section now says when
+  the prerendering pattern works, and not to inject `ClientInfo` into interactive components or
+  SignalR hubs (the XML documentation of `AddUAParser` says so too).
+- The XML documentation of every `ToString()` showed the browser's example.
+
 ## 2.0.0 (2026-10-07)
 
 A rewrite. The rules are now generated from ua-parser-js 1.0.41 and give the same results as

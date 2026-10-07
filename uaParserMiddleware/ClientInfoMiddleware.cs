@@ -18,13 +18,21 @@ public class ClientInfoMiddleware
         _next = next;
     }
 
-    /// <summary>Parses the request's User-Agent header, then runs the rest of the pipeline.</summary>
+    /// <summary>
+    /// Parses the request's User-Agent header, then runs the rest of the pipeline. With
+    /// <see cref="UAParserOptions.RequestClientHints"/> it also asks for the high-entropy client hints.
+    /// </summary>
     /// <param name="context">The request.</param>
     public Task InvokeAsync(HttpContext context)
     {
+        if (context.RequestServices?.GetService(typeof(UAParserSettings)) is UAParserSettings { RequestClientHints: true })
+            context.Response.Headers.Append("Accept-CH", AcceptClientHints);
+
         context.GetClientInfo();
         return _next(context);
     }
+
+    private static readonly string AcceptClientHints = string.Join(", ", uaParserLibrary.Models.ClientHints.HighEntropyHeaders);
 }
 
 /// <summary>Adds <see cref="ClientInfoMiddleware"/> to a pipeline.</summary>

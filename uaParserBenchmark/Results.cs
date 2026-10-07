@@ -16,7 +16,7 @@ public static class Results
 
         for (var dir = new DirectoryInfo(Environment.CurrentDirectory); dir is not null; dir = dir.Parent)
         {
-            if (File.Exists(Path.Combine(dir.FullName, "uaParser.sln")))
+            if (File.Exists(Path.Combine(dir.FullName, "uaParser.slnx")))
                 return Path.Combine(dir.FullName, "benchmark-results");
         }
         return Path.Combine(Environment.CurrentDirectory, "benchmark-results");

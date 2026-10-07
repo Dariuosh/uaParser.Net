@@ -77,7 +77,7 @@ function resultsFolder() {
     const i = process.argv.indexOf('--out');
     if (i >= 0 && process.argv[i + 1]) return path.resolve(process.argv[i + 1]);
     for (let dir = process.cwd(); ; dir = path.dirname(dir)) {
-        if (fs.existsSync(path.join(dir, 'uaParser.sln'))) return path.join(dir, 'benchmark-results');
+        if (fs.existsSync(path.join(dir, 'uaParser.slnx'))) return path.join(dir, 'benchmark-results');
         if (path.dirname(dir) === dir) return path.join(process.cwd(), 'benchmark-results');
     }
 }

@@ -19,11 +19,11 @@ public sealed class DemoJs(IJSRuntime js) : IAsyncDisposable
         await (await Module).InvokeAsync<int>("maxTouchPoints");
 
     /// <summary>The browser's User-Agent Client Hints, or null when it has none (Firefox, Safari).</summary>
-    public async ValueTask<ClientHints?> ClientHintsAsync()
+    public async ValueTask<JsClientHints?> ClientHintsAsync()
     {
         // Passed as JSON and read with the source-generated serializer, which trimming keeps intact.
         var json = await (await Module).InvokeAsync<string?>("clientHints");
-        return json is null ? null : JsonSerializer.Deserialize(json, DemoJson.Default.ClientHints);
+        return json is null ? null : JsonSerializer.Deserialize(json, DemoJson.Default.JsClientHints);
     }
 
     public async ValueTask<string?> WebGLRendererAsync() =>
@@ -55,8 +55,8 @@ public sealed class DemoJs(IJSRuntime js) : IAsyncDisposable
 }
 
 /// <summary>What navigator.userAgentData reports. High-entropy values are null when the browser withholds them.</summary>
-public sealed record ClientHints(
-    IReadOnlyList<BrandVersion> Brands,
+public sealed record JsClientHints(
+    IReadOnlyList<JsBrandVersion> Brands,
     bool Mobile,
     string Platform,
     string? PlatformVersion,
@@ -64,8 +64,29 @@ public sealed record ClientHints(
     string? Bitness,
     string? Model,
     bool? Wow64,
-    IReadOnlyList<BrandVersion>? FullVersionList,
-    IReadOnlyList<string>? FormFactors);
+    IReadOnlyList<JsBrandVersion>? FullVersionList,
+    IReadOnlyList<string>? FormFactors)
+{
+    /// <summary>The same values as uaParser.Net's <see cref="uaParserLibrary.Models.ClientHints"/>.</summary>
+    public uaParserLibrary.Models.ClientHints ToClientHints() => new()
+    {
+        Brands = [.. Brands.Select(b => b.ToBrandVersion())],
+        FullVersionList = [.. (FullVersionList ?? []).Select(b => b.ToBrandVersion())],
+        Mobile = Mobile,
+        Platform = NullIfEmpty(Platform),
+        PlatformVersion = NullIfEmpty(PlatformVersion),
+        Architecture = NullIfEmpty(Architecture),
+        Bitness = NullIfEmpty(Bitness),
+        Model = NullIfEmpty(Model),
+        FormFactors = FormFactors ?? [],
+        Wow64 = Wow64,
+    };
+
+    private static string? NullIfEmpty(string? value) => string.IsNullOrEmpty(value) ? null : value;
+}
 
 /// <summary>One entry of a brand list, such as "Google Chrome" "131".</summary>
-public sealed record BrandVersion(string Brand, string Version);
+public sealed record JsBrandVersion(string Brand, string Version)
+{
+    public uaParserLibrary.Models.BrandVersion ToBrandVersion() => new(Brand, Version);
+}
